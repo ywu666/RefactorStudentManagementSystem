@@ -1,8 +1,8 @@
-package com.softeng306;
+package com.softeng306.FILEMgr;
 
 import java.util.List;
 
-public interface FILEMgr {
+public interface FILEMgr<T> {
     /**
      * The string of {@code COMMA_DELIMITER}.
      */
@@ -33,7 +33,7 @@ public interface FILEMgr {
      */
     public static final String SLASH = "/";
 
-    public void writeIntoFile();
+    public void writeIntoFile(T object);
 
-    public  <T> List<T> loadFromFile();
+    public List<T> loadFromFile();
 }
