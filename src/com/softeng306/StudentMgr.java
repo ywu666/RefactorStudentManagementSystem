@@ -1,7 +1,9 @@
 package com.softeng306;
 
 
-import java.util.Scanner;
+import com.softeng306.Enum.Gender;
+
+import java.util.*;
 
 /**
  * Manages the student related operations.
@@ -79,7 +81,7 @@ public class StudentMgr {
             System.out.println("Enter -h to print all the schools.");
             studentSchool = scanner.nextLine();
             while ("-h".equals(studentSchool)) {
-                HelpInfoMgr.printAllDepartment();
+                CourseMgr.printAllDepartment();
                 studentSchool = scanner.nextLine();
             }
 
@@ -97,7 +99,7 @@ public class StudentMgr {
             System.out.println("Enter -h to print all the genders.");
             studentGender = scanner.nextLine();
             while ("-h".equals(studentGender)) {
-                HelpInfoMgr.printAllGender();
+                StudentMgr.printAllGender();
                 studentGender = scanner.nextLine();
             }
 
@@ -143,4 +145,44 @@ public class StudentMgr {
         }
 
     }
+
+
+
+    /**
+     * Displays a list of all the genders.
+     */
+    public static void printAllGender() {
+        int index = 1;
+        for (Gender gender : Gender.values()) {
+            System.out.println(index + ": " + gender);
+            index++;
+        }
+
+    }
+
+
+    /**
+     * Gets all the genders as an array list.
+     *
+     * @return an array list of all the genders.
+     */
+    public static ArrayList<String> getAllGender() {
+        Set<Gender> genderEnumSet = EnumSet.allOf(Gender.class);
+        ArrayList<String> genderStringList = new ArrayList<String>(0);
+        Iterator iter = genderEnumSet.iterator();
+        while (iter.hasNext()) {
+            genderStringList.add(iter.next().toString());
+        }
+        return genderStringList;
+    }
+
+
+    /**
+     * Displays a list of IDs of all the students.
+     */
+    public static void printAllStudents() {
+        Main.students.stream().map(s -> s.getStudentID()).forEach(System.out::println);
+    }
+
+
 }

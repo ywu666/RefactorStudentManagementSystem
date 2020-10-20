@@ -42,7 +42,7 @@ public class ProfessorMgr {
             System.out.println("Enter -h to print all the departments.");
             department = scanner.nextLine();
             while (department.equals("-h")) {
-                HelpInfoMgr.getAllDepartment();
+                CourseMgr.getAllDepartment();
                 department = scanner.nextLine();
             }
 

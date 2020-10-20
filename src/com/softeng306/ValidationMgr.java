@@ -28,7 +28,7 @@ public class ValidationMgr {
      * @return boolean indicates whether the inputted department is valid.
      */
     public static boolean checkDepartmentValidation(String department){
-        if(HelpInfoMgr.getAllDepartment().contains(department)){
+        if(CourseMgr.getAllDepartment().contains(department)){
             return true;
         }
         System.out.println("The department is invalid. Please re-enter.");
@@ -41,7 +41,7 @@ public class ValidationMgr {
      * @return boolean indicates whether the inputted gender is valid.
      */
     public static boolean checkGenderValidation(String gender){
-        if(HelpInfoMgr.getAllGender().contains(gender)){
+        if(StudentMgr.getAllGender().contains(gender)){
             return true;
         }
         System.out.println("The gender is invalid. Please re-enter.");
@@ -54,7 +54,7 @@ public class ValidationMgr {
      * @return boolean indicates whether the inputted course type is valid.
      */
     public static boolean checkCourseTypeValidation(String courseType){
-        if(HelpInfoMgr.getAllCourseType().contains(courseType)){
+        if(CourseMgr.getAllCourseType().contains(courseType)){
             return true;
         }
         System.out.println("The course type is invalid. Please re-enter.");
@@ -162,7 +162,7 @@ public class ValidationMgr {
             System.out.println("Enter Student ID (-h to print all the student ID):");
             studentID = scanner.nextLine();
             while("-h".equals(studentID)){
-                HelpInfoMgr.printAllStudents();
+                StudentMgr.printAllStudents();
                 studentID = scanner.nextLine();
             }
 
@@ -190,7 +190,7 @@ public class ValidationMgr {
             System.out.println("Enter course ID (-h to print all the course ID):");
             courseID = scanner.nextLine();
             while("-h".equals(courseID)){
-                HelpInfoMgr.printAllCourses();
+                CourseMgr.printAllCourses();
                 courseID = scanner.nextLine();
             }
 
@@ -217,13 +217,19 @@ public class ValidationMgr {
             System.out.println("Which department's courses are you interested? (-h to print all the departments)");
             courseDepartment = scanner.nextLine();
             while("-h".equals(courseDepartment)){
-                HelpInfoMgr.printAllDepartment();
+                CourseMgr.printAllDepartment();
                 courseDepartment = scanner.nextLine();
             }
+
             if(ValidationMgr.checkDepartmentValidation(courseDepartment)){
+
                 List<String> validCourseString;
                 System.setOut(dummyStream);
-                validCourseString = HelpInfoMgr.printCourseInDepartment(courseDepartment);
+                validCourseString = CourseMgr.printCourseInDepartment(courseDepartment);
+
+                System.out.println("validCourseString = " + validCourseString );
+                System.out.println("validCourseString size = " + validCourseString.size() );
+
                 System.setOut(originalStream);
                 if(validCourseString.size() == 0){
                     System.out.println("Invalid choice of department.");

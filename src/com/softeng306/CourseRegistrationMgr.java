@@ -48,17 +48,17 @@ public class CourseRegistrationMgr {
         ArrayList<Group> lecGroups = new ArrayList<>(0);
         lecGroups.addAll(currentCourse.getLectureGroups());
 
-        selectedLectureGroupName = HelpInfoMgr.printGroupWithVacancyInfo("lecture", lecGroups);
+        selectedLectureGroupName = CourseRegistrationMgr.printGroupWithVacancyInfo("lecture", lecGroups);
 
         ArrayList<Group> tutGroups = new ArrayList<>(0);
         tutGroups.addAll(currentCourse.getTutorialGroups());
 
-        selectedTutorialGroupName = HelpInfoMgr.printGroupWithVacancyInfo("tutorial", tutGroups);
+        selectedTutorialGroupName = CourseRegistrationMgr.printGroupWithVacancyInfo("tutorial", tutGroups);
 
         ArrayList<Group> labGroups = new ArrayList<>(0);
         labGroups.addAll(currentCourse.getLabGroups());
 
-        selectedLabGroupName = HelpInfoMgr.printGroupWithVacancyInfo("lab", labGroups);
+        selectedLabGroupName = CourseRegistrationMgr.printGroupWithVacancyInfo("lab", labGroups);
 
         currentCourse.enrolledIn();
         CourseRegistration courseRegistration = new CourseRegistration(currentStudent, currentCourse, selectedLectureGroupName, selectedTutorialGroupName, selectedLabGroupName);
@@ -172,6 +172,61 @@ public class CourseRegistrationMgr {
         } while (opt < 1 || opt > 3);
 
 
+    }
+
+
+    /**
+     * Checks whether the inputted department is valid.
+     *
+     * @param groupType The type of this group.
+     * @param groups    An array list of a certain type of groups in a course.
+     * @return the name of the group chosen by the user.
+     */
+    public static String printGroupWithVacancyInfo(String groupType, ArrayList<Group> groups) {
+        int index;
+        HashMap<String, Integer> groupAssign = new HashMap<String, Integer>(0);
+        int selectedGroupNum;
+        String selectedGroupName = null;
+
+        if (groups.size() != 0) {
+            System.out.println("Here is a list of all the " + groupType + " groups with available slots:");
+            do {
+                index = 0;
+                for (Group group : groups) {
+                    if (group.getAvailableVacancies() == 0) {
+                        continue;
+                    }
+                    index++;
+                    System.out.println(index + ": " + group.getGroupName() + " (" + group.getAvailableVacancies() + " vacancies)");
+                    groupAssign.put(group.getGroupName(), index);
+                }
+                System.out.println("Please enter an integer for your choice:");
+                selectedGroupNum = scanner.nextInt();
+                scanner.nextLine();
+                if (selectedGroupNum < 1 || selectedGroupNum > index) {
+                    System.out.println("Invalid choice. Please re-enter.");
+                } else {
+                    break;
+                }
+            } while (true);
+
+            for (HashMap.Entry<String, Integer> entry : groupAssign.entrySet()) {
+                String groupName = entry.getKey();
+                int num = entry.getValue();
+                if (num == selectedGroupNum) {
+                    selectedGroupName = groupName;
+                    break;
+                }
+            }
+
+            for (Group group : groups) {
+                if (group.getGroupName().equals(selectedGroupName)) {
+                    group.enrolledIn();
+                    break;
+                }
+            }
+        }
+        return selectedGroupName;
     }
 
 

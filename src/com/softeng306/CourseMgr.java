@@ -1,9 +1,13 @@
 package com.softeng306;
 
 
+import com.softeng306.Enum.CourseType;
+import com.softeng306.Enum.Department;
+
 import java.util.*;
 import java.io.PrintStream;
 import java.io.OutputStream;
+import java.util.stream.Collectors;
 
 
 public class CourseMgr {
@@ -77,7 +81,7 @@ public class CourseMgr {
             System.out.println("Enter -h to print all the departments.");
             courseDepartment = scanner.nextLine();
             while ("-h".equals(courseDepartment)) {
-                HelpInfoMgr.printAllDepartment();
+                CourseMgr.printAllDepartment();
                 courseDepartment = scanner.nextLine();
             }
             if (ValidationMgr.checkDepartmentValidation(courseDepartment)) {
@@ -91,7 +95,7 @@ public class CourseMgr {
             System.out.println("Enter -h to print all the course types.");
             courseType = scanner.nextLine();
             while (courseType.equals("-h")) {
-                HelpInfoMgr.printAllCourseType();
+                CourseMgr.printAllCourseType();
                 courseType = scanner.nextLine();
             }
             if (ValidationMgr.checkCourseTypeValidation(courseType)) {
@@ -354,13 +358,13 @@ public class CourseMgr {
 
         Professor profInCharge;
         List<String> professorsInDepartment = new ArrayList<String>(0);
-        professorsInDepartment = HelpInfoMgr.printProfInDepartment(courseDepartment, false);
+        professorsInDepartment = CourseMgr.printProfInDepartment(courseDepartment, false);
         while (true) {
             System.out.println("Enter the ID for the professor in charge please:");
             System.out.println("Enter -h to print all the professors in " + courseDepartment + ".");
             profID = scanner.nextLine();
             while ("-h".equals(profID)) {
-                professorsInDepartment = HelpInfoMgr.printProfInDepartment(courseDepartment, true);
+                professorsInDepartment = CourseMgr.printProfInDepartment(courseDepartment, true);
                 profID = scanner.nextLine();
             }
 
@@ -688,4 +692,113 @@ public class CourseMgr {
         }
         System.out.println();
     }
+
+
+    /**
+     * Displays all the professors in the inputted department.
+     *
+     * @param department The inputted department.
+     * @param printOut Represents whether print out the professor information or not
+     * @return A list of all the names of professors in the inputted department or else null.
+     */
+    public static List<String> printProfInDepartment(String department, boolean printOut) {
+        if (ValidationMgr.checkDepartmentValidation(department)) {
+            List<String> validProfString = Main.professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
+            if (printOut) {
+                validProfString.forEach(System.out::println);
+            }
+            return validProfString;
+        }
+        System.out.println("None.");
+        return null;
+    }
+
+
+    /**
+     * Displays a list of all the departments.
+     */
+    public static void printAllDepartment() {
+        int index = 1;
+        for (Department department : Department.values()) {
+            System.out.println(index + ": " + department);
+            index++;
+        }
+
+    }
+
+
+
+    /**
+     * Displays a list of all the course types.
+     */
+    public static void printAllCourseType() {
+        int index = 1;
+        for (CourseType courseType : CourseType.values()) {
+            System.out.println(index + ": " + courseType);
+            index++;
+        }
+    }
+
+
+
+
+    /**
+     * Gets all the departments as an array list.
+     *
+     * @return an array list of all the departments.
+     */
+    public static ArrayList<String> getAllDepartment() {
+        Set<Department> departmentEnumSet = EnumSet.allOf(Department.class);
+        ArrayList<String> departmentStringList = new ArrayList<String>(0);
+        Iterator iter = departmentEnumSet.iterator();
+        while (iter.hasNext()) {
+            departmentStringList.add(iter.next().toString());
+        }
+        return departmentStringList;
+
+    }
+
+
+
+    /**
+     * Gets all the course types as an array list.
+     *
+     * @return an array list of all the course types.
+     */
+    public static ArrayList<String> getAllCourseType() {
+        Set<CourseType> courseTypeEnumSet = EnumSet.allOf(CourseType.class);
+        ArrayList<String> courseTypeStringSet = new ArrayList<String>(0);
+        Iterator iter = courseTypeEnumSet.iterator();
+        while (iter.hasNext()) {
+            courseTypeStringSet.add(iter.next().toString());
+        }
+        return courseTypeStringSet;
+    }
+
+
+    /**
+     * Displays a list of all the courses in the inputted department.
+     *
+     * @param department The inputted department.
+     * @return a list of all the department values.
+     */
+    public static List<String> printCourseInDepartment(String department) {
+        List<Course> validCourses = Main.courses.stream().filter(c -> department.equals(c.getCourseDepartment())).collect(Collectors.toList());
+        List<String> validCourseString = validCourses.stream().map(c -> c.getCourseID()).collect(Collectors.toList());
+        validCourseString.forEach(System.out::println);
+        if (validCourseString.size() == 0) {
+            System.out.println("None.");
+        }
+        return validCourseString;
+    }
+
+
+    /**
+     * Displays a list of IDs of all the courses.
+     */
+    public static void printAllCourses() {
+        Main.courses.stream().map(c -> c.getCourseID()).forEach(System.out::println);
+
+    }
+
 }
