@@ -216,7 +216,7 @@ public class MarkFILEMgr implements FILEMgr<Mark> {
      *
      * @param marks marks to be backed up into file
      */
-    public static void backUpMarks(ArrayList<Mark> marks) {
+    public static void backUpMarks(List<Mark> marks) {
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(markFileName);
