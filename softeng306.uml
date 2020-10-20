@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.softeng306</OriginalElement>
+  <nodes>
+    <node x="0.0" y="0.0">com.softeng306.FILEMgr</node>
+    <node x="1594.0" y="1419.0">com.softeng306.Mark</node>
+    <node x="720.0" y="1611.0">com.softeng306.MainComponent</node>
+    <node x="456.0" y="0.0">com.softeng306.Course</node>
+    <node x="478.0" y="1633.5">com.softeng306.SubComponent</node>
+    <node x="1779.0" y="1760.0">com.softeng306.ProfessorMgr</node>
+    <node x="628.75" y="1419.0">com.softeng306.CourseworkComponent</node>
+    <node x="851.0" y="1760.0">com.softeng306.MarkMgr</node>
+    <node x="1281.0" y="1655.0">com.softeng306.LabGroup</node>
+    <node x="0.0" y="2057.0">com.softeng306.StudentMgr</node>
+    <node x="420.0" y="1760.0">com.softeng306.CourseMgr</node>
+    <node x="1534.0" y="1760.0">com.softeng306.CourseRegistrationMgr</node>
+    <node x="1694.0" y="0.0">com.softeng306.CourseRegistration</node>
+    <node x="1223.5" y="1419.0">com.softeng306.Group</node>
+    <node x="1407.0" y="1655.0">com.softeng306.TutorialGroup</node>
+    <node x="209.0" y="2057.0">com.softeng306.Enum</node>
+    <node x="0.0" y="1419.0">com.softeng306.HelpInfoMgr</node>
+    <node x="1126.0" y="1655.0">com.softeng306.LectureGroup</node>
+    <node x="0.0" y="1760.0">com.softeng306.Main</node>
+    <node x="898.0" y="0.0">com.softeng306.Student</node>
+    <node x="1240.0" y="1760.0">com.softeng306.Professor</node>
+    <node x="1184.0" y="0.0">com.softeng306.ValidationMgr</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.softeng306.SubComponent" target="com.softeng306.CourseworkComponent">
+      <point x="0.0" y="-26.5" />
+      <point x="589.0" y="1586.0" />
+      <point x="686.75" y="1586.0" />
+      <point x="-58.0" y="71.0" />
+    </edge>
+    <edge source="com.softeng306.MainComponent" target="com.softeng306.CourseworkComponent">
+      <point x="0.0" y="-49.0" />
+      <point x="900.5" y="1586.0" />
+      <point x="802.75" y="1586.0" />
+      <point x="58.0" y="71.0" />
+    </edge>
+    <edge source="com.softeng306.LectureGroup" target="com.softeng306.Group">
+      <point x="0.0" y="-14.5" />
+      <point x="1193.5" y="1630.0" />
+      <point x="1260.3333333333333" y="1630.0" />
+      <point x="-73.66666666666674" y="93.0" />
+    </edge>
+    <edge source="com.softeng306.LabGroup" target="com.softeng306.Group">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="93.0" />
+    </edge>
+    <edge source="com.softeng306.TutorialGroup" target="com.softeng306.Group">
+      <point x="0.0" y="-14.5" />
+      <point x="1478.0" y="1630.0" />
+      <point x="1407.6666666666667" y="1630.0" />
+      <point x="73.66666666666674" y="93.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.8227397170189297" x="645.9893796200865" y="1390.1197745025188" />
+  <SelectedNodes>
+    <node>com.softeng306.CourseMgr</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
