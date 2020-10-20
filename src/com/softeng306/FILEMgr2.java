@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 
 
-public class FILEMgr {
+public class FILEMgr2 {
 
     /**
      * The string of {@code COMMA_DELIMITER}.
