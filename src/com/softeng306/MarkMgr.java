@@ -1,7 +1,6 @@
 package com.softeng306;
 
-
-import com.softeng306.FILEMgr.FILEMgr;
+import com.softeng306.FILEMgr.MarkFILEMgr;
 
 import java.util.*;
 
@@ -33,7 +32,12 @@ public class MarkMgr {
             }
         }
         Mark mark = new Mark(student, course, courseWorkMarks, totalMark);
-        FILEMgr.updateStudentMarks(mark);
+        /**
+         * This patt is changed due to the refactor
+         */
+        MarkFILEMgr markFILEMgr = new MarkFILEMgr();
+        markFILEMgr.writeIntoFile(mark);
+
         return mark;
     }
 

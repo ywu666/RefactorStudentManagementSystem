@@ -1,6 +1,9 @@
 package com.softeng306;
 
 
+import com.softeng306.FILEMgr.CourseFILEMgr;
+import com.softeng306.FILEMgr.FILEMgr;
+
 import java.util.*;
 import java.io.PrintStream;
 import java.io.OutputStream;
@@ -399,7 +402,13 @@ public class CourseMgr {
         }
         if (addCourseComponentChoice == 2) {
             //add course into file
-            FILEMgr.writeCourseIntoFile(course);
+
+            /**
+             * This is the part changed due to the reafactor
+             */
+            CourseFILEMgr  courseFILEMgr = new CourseFILEMgr();
+            courseFILEMgr.writeIntoFile(course);
+
             Main.courses.add(course);
             System.out.println("Course " + courseID + " is added, but assessment components are not initialized.");
             printCourses();
@@ -408,7 +417,12 @@ public class CourseMgr {
 
         enterCourseWorkComponentWeightage(course);
 
-        FILEMgr.writeCourseIntoFile(course);
+        /**
+         * This part is changed due to the refactor
+         */
+        CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
+        courseFILEMgr.writeIntoFile(course);
+
         Main.courses.add(course);
         System.out.println("Course " + courseID + " is added");
         printCourses();
