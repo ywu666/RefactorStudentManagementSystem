@@ -23,7 +23,7 @@ public class CourseMgr {
         String courseID;
         String courseName;
         String profID;
-        boolean groupNameExists;
+
         int seatsLeft;
         // Can make the sameCourseID as boolean, set to false.
         do {
@@ -34,147 +34,35 @@ public class CourseMgr {
         System.out.println("Enter course Name: ");
         courseName = scanner.nextLine();
 
-        int totalSeats;
-        while (true) {
-            System.out.println("Enter the total vacancy of this course: ");
-            if (scanner.hasNextInt()) {
-                totalSeats = scanner.nextInt();
-                if (totalSeats <= 0) {
-                    System.out.println("Please enter a valid vacancy (greater than 0)");
-                } else {
-                    break;
-                }
-            } else {
-                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
-                System.out.println("Please re-enter");
-            }
-        }
+//        set total seats
+        int totalSeats = setTotalSeats();
+//        set total AU
+        int AU = setAU();
+//        set department
+        String courseDepartment = setDepartment();
+//        set courseType
+        String courseType = setCourseType();
 
-        int AU;
-        while (true) {
-            System.out.println("Enter number of academic unit(s): ");
-            if (scanner.hasNextInt()) {
-                AU = scanner.nextInt();
-                scanner.nextLine();
-                if (AU < 0 || AU > 10) {
-                    System.out.println("AU out of bound. Please re-enter.");
-                } else {
-                    break;
-                }
-            } else {
-                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
-            }
-        }
-
-        String courseDepartment;
-        while (true) {
-            System.out.println("Enter course's department (uppercase): ");
-            System.out.println("Enter -h to print all the departments.");
-            courseDepartment = scanner.nextLine();
-            while ("-h".equals(courseDepartment)) {
-                HelpInfoMgr.printAllDepartment();
-                courseDepartment = scanner.nextLine();
-            }
-            if (ValidationMgr.checkDepartmentValidation(courseDepartment)) {
-                break;
-            }
-        }
-
-        String courseType;
-        while (true) {
-            System.out.println("Enter course type (uppercase): ");
-            System.out.println("Enter -h to print all the course types.");
-            courseType = scanner.nextLine();
-            while (courseType.equals("-h")) {
-                HelpInfoMgr.printAllCourseType();
-                courseType = scanner.nextLine();
-            }
-            if (ValidationMgr.checkCourseTypeValidation(courseType)) {
-                break;
-            }
-        }
-
-
-        int noOfLectureGroups;
-        do {
-            System.out.println("Enter the number of lecture groups: ");
-            // lecture group number cannot be 0 and also cannot be larger than totalSeats
-            if (scanner.hasNextInt()) {
-                noOfLectureGroups = scanner.nextInt();
-                scanner.nextLine();
-                if (noOfLectureGroups > 0 && noOfLectureGroups <= totalSeats) {
-                    break;
-                }
-                System.out.println("Invalid input.");
-                System.out.println("Number of lecture group must be positive but less than total seats in this course.");
-                System.out.println("Please re-enter");
-            } else {
-                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
-            }
-        } while (true);
-
-        int lecWeeklyHour = 0;
-        while (true) {
-            System.out.println("Enter the weekly lecture hour for this course: ");
-            if (scanner.hasNextInt()) {
-                lecWeeklyHour = scanner.nextInt();
-                scanner.nextLine();
-                if (lecWeeklyHour < 0 || lecWeeklyHour > AU) {
-                    System.out.println("Weekly lecture hour out of bound. Please re-enter.");
-                } else {
-                    break;
-                }
-            } else {
-                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
-            }
-        }
-
-
-        ArrayList<LectureGroup> lectureGroups = new ArrayList<LectureGroup>();
+//        set number of lecture groups
+        int noOfLectureGroups = setNoOfLectureGroups(totalSeats);
+//        set number of weekly lecture hours
+        int lecWeeklyHour = setLecWeeklyHour(AU);
+/*                        Lecture groups                                  */
+//      set LectureGroups
+        ArrayList<LectureGroup> lectureGroups = new ArrayList<>();
         String lectureGroupName;
         int lectureGroupCapacity;
         seatsLeft = totalSeats;
         for (int i = 0; i < noOfLectureGroups; i++) {
-            System.out.println("Give a name to the lecture group");
+//            set lecture group name
+            lectureGroupName = setLectureGroupName(lectureGroups);
             do {
-                groupNameExists = false;
-                System.out.println("Enter a group Name: ");
-                lectureGroupName = scanner.nextLine();
-                if (!ValidationMgr.checkValidGroupNameInput(lectureGroupName)) {
-                    groupNameExists = true;
-                    continue;
-                }
-                if (lectureGroups.size() == 0) {
-                    break;
-                }
-                for (LectureGroup lectureGroup : lectureGroups) {
-                    if (lectureGroup.getGroupName().equals(lectureGroupName)) {
-                        groupNameExists = true;
-                        System.out.println("This lecture group already exist for this course.");
-                        break;
-                    }
-                }
-            } while (groupNameExists);
-
-
-            do {
-                System.out.println("Enter this lecture group's capacity: ");
-                do {
-                    if (scanner.hasNextInt()) {
-                        lectureGroupCapacity = scanner.nextInt();
-                        scanner.nextLine();
-                        if (lectureGroupCapacity > 0) {
-                            break;
-                        }
-                        System.out.println("Capacity must be positive. Please re-enter.");
-                    } else {
-                        System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
-                    }
-                } while (true);
+//                set lecture group capacity
+                lectureGroupCapacity = setLectureGroupCapacity();
+//                check if valid, if yes create new lecture group and add to array
                 seatsLeft -= lectureGroupCapacity;
                 if ((seatsLeft > 0 && i != (noOfLectureGroups - 1)) || (seatsLeft == 0 && i == noOfLectureGroups - 1)) {
                     LectureGroup lectureGroup = new LectureGroup(lectureGroupName, lectureGroupCapacity, lectureGroupCapacity);
-
                     lectureGroups.add(lectureGroup);
                     break;
                 } else {
@@ -185,108 +73,191 @@ public class CourseMgr {
             } while (true);
         }
 
-        int noOfTutorialGroups;
+        /*                        Tutorial groups                                  */
         int totalTutorialSeats = 0;
+//        set number of tutorial groups
+        int noOfTutorialGroups = setNoOfTutorialGroups(totalSeats, noOfLectureGroups);
+//        set tutorial weekly hours
+        int tutWeeklyHour = setTutWeeklyHour(AU, noOfTutorialGroups);
 
-        do {
-            System.out.println("Enter the number of tutorial groups:");
-            if (scanner.hasNextInt()) {
-                noOfTutorialGroups = scanner.nextInt();
-                scanner.nextLine();
-                if (noOfTutorialGroups >= 0 && noOfLectureGroups <= totalSeats) {
-                    break;
-                }
-                System.out.println("Invalid input.");
-                System.out.println("Number of tutorial group must be non-negative.");
-                System.out.println("Please re-enter");
-            } else {
-                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
-            }
-        } while (true);
-
-        int tutWeeklyHour = 0;
-        if (noOfTutorialGroups != 0) {
-            while (true) {
-                System.out.println("Enter the weekly tutorial hour for this course: ");
-                if (scanner.hasNextInt()) {
-                    tutWeeklyHour = scanner.nextInt();
-                    scanner.nextLine();
-                    if (tutWeeklyHour < 0 || tutWeeklyHour > AU) {
-                        System.out.println("Weekly tutorial hour out of bound. Please re-enter.");
-                    } else {
-                        break;
-                    }
-                } else {
-                    System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
-                }
-            }
-        }
-
-        ArrayList<TutorialGroup> tutorialGroups = new ArrayList<TutorialGroup>();
+        ArrayList<TutorialGroup> tutorialGroups = new ArrayList<>();
         String tutorialGroupName;
-        int tutorialGroupCapacity;
-        for (int i = 0; i < noOfTutorialGroups; i++) {
-            System.out.println("Give a name to the tutorial group");
-            do {
-                groupNameExists = false;
-                System.out.println("Enter a group Name: ");
-                tutorialGroupName = scanner.nextLine();
-                if (!ValidationMgr.checkValidGroupNameInput(tutorialGroupName)) {
-                    groupNameExists = true;
-                    continue;
-                }
-                if (tutorialGroups.size() == 0) {
-                    break;
-                }
-                for (TutorialGroup tutorialGroup : tutorialGroups) {
-                    if (tutorialGroup.getGroupName().equals(tutorialGroupName)) {
-                        groupNameExists = true;
-                        System.out.println("This tutorial group already exist for this course.");
-                        break;
-                    }
-                }
-            } while (groupNameExists);
 
-            do {
-                System.out.println("Enter this tutorial group's capacity: ");
-                if (scanner.hasNextInt()) {
-                    tutorialGroupCapacity = scanner.nextInt();
-                    scanner.nextLine();
-                    totalTutorialSeats += tutorialGroupCapacity;
-                    if ((i != noOfTutorialGroups - 1) || (totalTutorialSeats >= totalSeats)) {
-                        TutorialGroup tutorialGroup = new TutorialGroup(tutorialGroupName, tutorialGroupCapacity, tutorialGroupCapacity);
-                        tutorialGroups.add(tutorialGroup);
-                        break;
-                    } else {
-                        System.out.println("Sorry, the total capacity you allocated for all the tutorial groups is not enough for this course.");
-                        System.out.println("Please re-enter the capacity for the last tutorial group " + tutorialGroupName + " you have entered.");
-                        totalTutorialSeats -= tutorialGroupCapacity;
-                    }
-                } else {
-                    System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
-                }
-            } while (true);
+        for (int i = 0; i < noOfTutorialGroups; i++) {
+//            set tutorial group name
+            tutorialGroupName = setTutorialGroupName(tutorialGroups);
+//            set group tutorial seats
+            totalTutorialSeats = getTotalTutorialSeats(totalSeats, totalTutorialSeats, noOfTutorialGroups, tutorialGroups, tutorialGroupName, i);
         }
 
-        int noOfLabGroups;
+        /*                        lab groups                                  */
         int totalLabSeats = 0;
+//      set number of lab groups
+        int noOfLabGroups = setNoOfLabGroups(totalSeats, noOfLectureGroups);
+//        set lab weekly hours
+        int labWeeklyHour = setLabWeeklyHour(AU, noOfLabGroups);
 
-        do {
-            System.out.println("Enter the number of lab groups: ");
-            if (scanner.hasNextInt()) {
-                noOfLabGroups = scanner.nextInt();
-                scanner.nextLine();
-                if (noOfLabGroups >= 0 && noOfLectureGroups <= totalSeats) {
+        ArrayList<LabGroup> labGroups = new ArrayList<>();
+        String labGroupName;
+
+        for (int i = 0; i < noOfLabGroups; i++) {
+//            set lab group name
+            labGroupName = setLabGroupName(labGroups);
+//            set lab seats
+            totalLabSeats = getTotalLabSeats(totalSeats, totalLabSeats, noOfLabGroups, labGroups, labGroupName, i);
+        }
+
+//        set professor in charge
+        Professor profInCharge = setProfessorInCharge(courseDepartment);
+
+//        setup course
+        Course course = new Course(courseID, courseName, profInCharge, totalSeats, totalSeats, lectureGroups, tutorialGroups, labGroups, AU, courseDepartment, courseType, lecWeeklyHour, tutWeeklyHour, labWeeklyHour);
+//        ask user to input course component
+        int addCourseComponentChoice = promptUserToAddCourseComponent();
+
+        if (addCourseComponentChoice == 2) {
+            //add course into file
+            FILEMgr.writeCourseIntoFile(course);
+            Main.courses.add(course);
+            System.out.println("Course " + courseID + " is added, but assessment components are not initialized.");
+            printCourses();
+            return;
+        }
+//        if 1: yes enter now
+        enterCourseWorkComponentWeightage(course);
+
+        FILEMgr.writeCourseIntoFile(course);
+        Main.courses.add(course);
+        System.out.println("Course " + courseID + " is added");
+        printCourses();
+    }
+    /**
+     * Ask user to add coursework component?
+     * @return 1 if Yes or 2 if no
+     */
+    private static int promptUserToAddCourseComponent() {
+        System.out.println("Create course components and set component weightage now?");
+        System.out.println("1. Yes");
+        System.out.println("2. Not yet");
+        int addCourseComponentChoice;
+        addCourseComponentChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        while (addCourseComponentChoice > 2 || addCourseComponentChoice < 0) {
+            System.out.println("Invalid choice, please choose again.");
+            System.out.println("1. Yes");
+            System.out.println("2. Not yet");
+            addCourseComponentChoice = scanner.nextInt();
+            scanner.nextLine();
+        }
+        return addCourseComponentChoice;
+    }
+
+    /**
+     * Set professor in charge of course
+     * @param courseDepartment The department of current course
+     * @return Professor in charge of course
+     */
+    private static Professor setProfessorInCharge(String courseDepartment) {
+        String profID;
+        Professor profInCharge;
+        List<String> professorsInDepartment;
+        professorsInDepartment = HelpInfoMgr.printProfInDepartment(courseDepartment, false);
+        while (true) {
+            System.out.println("Enter the ID for the professor in charge please:");
+            System.out.println("Enter -h to print all the professors in " + courseDepartment + ".");
+            profID = scanner.nextLine();
+            while ("-h".equals(profID)) {
+                professorsInDepartment = HelpInfoMgr.printProfInDepartment(courseDepartment, true);
+                profID = scanner.nextLine();
+            }
+
+            System.setOut(dummyStream);
+            profInCharge = ValidationMgr.checkProfExists(profID);
+            System.setOut(originalStream);
+            if (profInCharge != null) {
+                assert professorsInDepartment != null;
+                if (professorsInDepartment.contains(profID)) {
                     break;
+                } else {
+                    System.out.println("This prof is not in " + courseDepartment + ".");
+                    System.out.println("Thus he/she cannot teach this course.");
                 }
-                System.out.println("Invalid input.");
-                System.out.println("Number of lab group must be non-negative.");
-                System.out.println("Please re-enter");
             } else {
-                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
+                System.out.println("Invalid input. Please re-enter.");
+            }
+        }
+        return profInCharge;
+    }
+
+    /**
+     * Set total lab seats
+     * @param totalSeats The total seats in course
+     * @param totalLabSeats The total lab seats in course
+     * @param noOfLabGroups Number of lab groups in course
+     * @param labGroups Array containing labGroups
+     * @param labGroupName Current labGroup
+     * @param i index of lab group being added
+     * @return The total number of lab seats
+     */
+    private static int getTotalLabSeats(int totalSeats, int totalLabSeats, int noOfLabGroups, ArrayList<LabGroup> labGroups, String labGroupName, int i) {
+        int labGroupCapacity;
+        do {
+            System.out.println("Enter this lab group's capacity: ");
+            labGroupCapacity = scanner.nextInt();
+            scanner.nextLine();
+            totalLabSeats += labGroupCapacity;
+            if ((i != noOfLabGroups - 1) || (totalLabSeats >= totalSeats)) {
+                LabGroup labGroup = new LabGroup(labGroupName, labGroupCapacity, labGroupCapacity);
+                labGroups.add(labGroup);
+                break;
+            } else {
+                System.out.println("Sorry, the total capacity you allocated for all the lab groups is not enough for this course.");
+                System.out.println("Please re-enter the capacity for the last lab group " + labGroupName + " you have entered.");
+                totalLabSeats -= labGroupCapacity;
             }
         } while (true);
+        return totalLabSeats;
+    }
 
+    /**
+     * Set lab group name
+     * @param labGroups The list of LabGroups in course
+     * @return Name of lab group
+     */
+    private static String setLabGroupName(ArrayList<LabGroup> labGroups) {
+        boolean groupNameExists;
+        String labGroupName;
+        System.out.println("Give a name to this lab group");
+        do {
+            groupNameExists = false;
+            System.out.println("Enter a group Name: ");
+            labGroupName = scanner.nextLine();
+            if (!ValidationMgr.checkValidGroupNameInput(labGroupName)) {
+                groupNameExists = true;
+                continue;
+            }
+            if (labGroups.size() == 0) {
+                break;
+            }
+            for (LabGroup labGroup : labGroups) {
+                if (labGroup.getGroupName().equals(labGroupName)) {
+                    groupNameExists = true;
+                    System.out.println("This lab group already exist for this course.");
+                    break;
+                }
+            }
+        } while (groupNameExists);
+        return labGroupName;
+    }
+
+    /**
+     * Set weekly hours for labs
+     * @param AU Number of Academic units in course
+     * @param noOfLabGroups number of lab groups in course
+     * @return The number of weekly hours of labs
+     */
+    private static int setLabWeeklyHour(int AU, int noOfLabGroups) {
         int labWeeklyHour = 0;
         if (noOfLabGroups != 0) {
             while (true) {
@@ -304,109 +275,336 @@ public class CourseMgr {
                 }
             }
         }
+        return labWeeklyHour;
+    }
 
-        ArrayList<LabGroup> labGroups = new ArrayList<LabGroup>();
-        String labGroupName;
-        int labGroupCapacity;
-        for (int i = 0; i < noOfLabGroups; i++) {
-            System.out.println("Give a name to this lab group");
-            do {
-                groupNameExists = false;
-                System.out.println("Enter a group Name: ");
-                labGroupName = scanner.nextLine();
-                if (!ValidationMgr.checkValidGroupNameInput(labGroupName)) {
-                    groupNameExists = true;
-                    continue;
-                }
-                if (labGroups.size() == 0) {
-                    break;
-                }
-                for (LabGroup labGroup : labGroups) {
-                    if (labGroup.getGroupName().equals(labGroupName)) {
-                        groupNameExists = true;
-                        System.out.println("This lab group already exist for this course.");
-                        break;
-                    }
-                }
-            } while (groupNameExists);
-
-            do {
-                System.out.println("Enter this lab group's capacity: ");
-                labGroupCapacity = scanner.nextInt();
+    /**
+     * Set number of lab groups
+     * @param totalSeats Total seats in course
+     * @param noOfLectureGroups Number of lecture groups in course
+     * @return Number of lab groups
+     */
+    private static int setNoOfLabGroups(int totalSeats, int noOfLectureGroups) {
+        int noOfLabGroups;
+        do {
+            System.out.println("Enter the number of lab groups: ");
+            if (scanner.hasNextInt()) {
+                noOfLabGroups = scanner.nextInt();
                 scanner.nextLine();
-                totalLabSeats += labGroupCapacity;
-                if ((i != noOfLabGroups - 1) || (totalLabSeats >= totalSeats)) {
-                    LabGroup labGroup = new LabGroup(labGroupName, labGroupCapacity, labGroupCapacity);
-                    labGroups.add(labGroup);
+                if (noOfLabGroups >= 0 && noOfLectureGroups <= totalSeats) {
                     break;
-                } else {
-                    System.out.println("Sorry, the total capacity you allocated for all the lab groups is not enough for this course.");
-                    System.out.println("Please re-enter the capacity for the last lab group " + labGroupName + " you have entered.");
-                    totalLabSeats -= labGroupCapacity;
                 }
-            } while (true);
-        }
-
-        Professor profInCharge;
-        List<String> professorsInDepartment = new ArrayList<String>(0);
-        professorsInDepartment = HelpInfoMgr.printProfInDepartment(courseDepartment, false);
-        while (true) {
-            System.out.println("Enter the ID for the professor in charge please:");
-            System.out.println("Enter -h to print all the professors in " + courseDepartment + ".");
-            profID = scanner.nextLine();
-            while ("-h".equals(profID)) {
-                professorsInDepartment = HelpInfoMgr.printProfInDepartment(courseDepartment, true);
-                profID = scanner.nextLine();
+                System.out.println("Invalid input.");
+                System.out.println("Number of lab group must be non-negative.");
+                System.out.println("Please re-enter");
+            } else {
+                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
             }
+        } while (true);
+        return noOfLabGroups;
+    }
 
-            System.setOut(dummyStream);
-            profInCharge = ValidationMgr.checkProfExists(profID);
-            System.setOut(originalStream);
-            if (profInCharge != null) {
-                if (professorsInDepartment.contains(profID)) {
+    /**
+     * Set tutorial groups for course
+     * @param totalSeats The total seats in course
+     * @param totalTutorialSeats The total tutorial seats in lab group
+     * @param noOfTutorialGroups The total number of tutorial groups
+     * @param tutorialGroups The list of tutorial groups
+     * @param tutorialGroupName The current name of the tutorial group
+     * @param i The index of current tutorial group
+     * @return The total tutorial seats in lab group
+     */
+    private static int getTotalTutorialSeats(int totalSeats, int totalTutorialSeats, int noOfTutorialGroups, ArrayList<TutorialGroup> tutorialGroups, String tutorialGroupName, int i) {
+        int tutorialGroupCapacity;
+        do {
+            System.out.println("Enter this tutorial group's capacity: ");
+            if (scanner.hasNextInt()) {
+                tutorialGroupCapacity = scanner.nextInt();
+                scanner.nextLine();
+                totalTutorialSeats += tutorialGroupCapacity;
+                if ((i != noOfTutorialGroups - 1) || (totalTutorialSeats >= totalSeats)) {
+                    TutorialGroup tutorialGroup = new TutorialGroup(tutorialGroupName, tutorialGroupCapacity, tutorialGroupCapacity);
+                    tutorialGroups.add(tutorialGroup);
                     break;
                 } else {
-                    System.out.println("This prof is not in " + courseDepartment + ".");
-                    System.out.println("Thus he/she cannot teach this course.");
+                    System.out.println("Sorry, the total capacity you allocated for all the tutorial groups is not enough for this course.");
+                    System.out.println("Please re-enter the capacity for the last tutorial group " + tutorialGroupName + " you have entered.");
+                    totalTutorialSeats -= tutorialGroupCapacity;
                 }
             } else {
-                System.out.println("Invalid input. Please re-enter.");
+                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
+            }
+        } while (true);
+        return totalTutorialSeats;
+    }
+
+    /**
+     * Set the tutorial group name
+     * @param tutorialGroups The list of tutorial groups
+     * @return The name of the tutorial groups
+     */
+    private static String setTutorialGroupName(ArrayList<TutorialGroup> tutorialGroups) {
+        String tutorialGroupName;
+        boolean groupNameExists;
+        System.out.println("Give a name to the tutorial group");
+        do {
+            groupNameExists = false;
+            System.out.println("Enter a group Name: ");
+            tutorialGroupName = scanner.nextLine();
+            if (!ValidationMgr.checkValidGroupNameInput(tutorialGroupName)) {
+                groupNameExists = true;
+                continue;
+            }
+            if (tutorialGroups.size() == 0) {
+                break;
+            }
+            for (TutorialGroup tutorialGroup : tutorialGroups) {
+                if (tutorialGroup.getGroupName().equals(tutorialGroupName)) {
+                    groupNameExists = true;
+                    System.out.println("This tutorial group already exist for this course.");
+                    break;
+                }
+            }
+        } while (groupNameExists);
+        return tutorialGroupName;
+    }
+
+    /**
+     * Set Weekly tutorial hours
+     * @param AU The number of AU in course
+     * @param noOfTutorialGroups Number of tutorial groups
+     * @return The total tutorial hours per week
+     */
+    private static int setTutWeeklyHour(int AU, int noOfTutorialGroups) {
+        int tutWeeklyHour = 0;
+        if (noOfTutorialGroups != 0) {
+            while (true) {
+                System.out.println("Enter the weekly tutorial hour for this course: ");
+                if (scanner.hasNextInt()) {
+                    tutWeeklyHour = scanner.nextInt();
+                    scanner.nextLine();
+                    if (tutWeeklyHour < 0 || tutWeeklyHour > AU) {
+                        System.out.println("Weekly tutorial hour out of bound. Please re-enter.");
+                    } else {
+                        break;
+                    }
+                } else {
+                    System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
+                }
             }
         }
+        return tutWeeklyHour;
+    }
 
+    /**
+     * Set Number of tutorial groups
+     * @param totalSeats The total seats in course
+     * @param noOfLectureGroups The number of lecture groups in course
+     * @return The number of tutorial groups in course
+     */
+    private static int setNoOfTutorialGroups(int totalSeats, int noOfLectureGroups) {
+        int noOfTutorialGroups;
+        do {
+            System.out.println("Enter the number of tutorial groups:");
+            if (scanner.hasNextInt()) {
+                noOfTutorialGroups = scanner.nextInt();
+                scanner.nextLine();
+                if (noOfTutorialGroups >= 0 && noOfLectureGroups <= totalSeats) {
+                    break;
+                }
+                System.out.println("Invalid input.");
+                System.out.println("Number of tutorial group must be non-negative.");
+                System.out.println("Please re-enter");
+            } else {
+                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
+            }
+        } while (true);
+        return noOfTutorialGroups;
+    }
 
-        Course course = new Course(courseID, courseName, profInCharge, totalSeats, totalSeats, lectureGroups, tutorialGroups, labGroups, AU, courseDepartment, courseType, lecWeeklyHour, tutWeeklyHour, labWeeklyHour);
+    /**
+     * Set the capacity of lecture groups
+     * @return The lecture group capacity
+     */
+    private static int setLectureGroupCapacity() {
+        int lectureGroupCapacity;
+        System.out.println("Enter this lecture group's capacity: ");
+        do {
+            if (scanner.hasNextInt()) {
+                lectureGroupCapacity = scanner.nextInt();
+                scanner.nextLine();
+                if (lectureGroupCapacity > 0) {
+                    break;
+                }
+                System.out.println("Capacity must be positive. Please re-enter.");
+            } else {
+                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
+            }
+        } while (true);
+        return lectureGroupCapacity;
+    }
 
+    /**
+     * Set the lecture group name
+     * @param lectureGroups The list of all lecture groups
+     * @return The name of lecture group
+     */
+    private static String setLectureGroupName(ArrayList<LectureGroup> lectureGroups) {
+        boolean groupNameExists;
+        String lectureGroupName;
+        System.out.println("Give a name to the lecture group");
+        do {
+            groupNameExists = false;
+            System.out.println("Enter a group Name: ");
+            lectureGroupName = scanner.nextLine();
+            if (!ValidationMgr.checkValidGroupNameInput(lectureGroupName)) {
+                groupNameExists = true;
+                continue;
+            }
+            if (lectureGroups.size() == 0) {
+                break;
+            }
+            for (LectureGroup lectureGroup : lectureGroups) {
+                if (lectureGroup.getGroupName().equals(lectureGroupName)) {
+                    groupNameExists = true;
+                    System.out.println("This lecture group already exist for this course.");
+                    break;
+                }
+            }
+        } while (groupNameExists);
+        return lectureGroupName;
+    }
 
-        System.out.println("Create course components and set component weightage now?");
-        System.out.println("1. Yes");
-        System.out.println("2. Not yet");
-        int addCourseComponentChoice;
-        addCourseComponentChoice = scanner.nextInt();
-        scanner.nextLine();
-
-        while (addCourseComponentChoice > 2 || addCourseComponentChoice < 0) {
-            System.out.println("Invalid choice, please choose again.");
-            System.out.println("1. Yes");
-            System.out.println("2. Not yet");
-            addCourseComponentChoice = scanner.nextInt();
-            scanner.nextLine();
+    /**
+     * Set the weekly lecture hours
+     * @param AU The AU of course
+     * @return The weekly lecture hours for course
+     */
+    private static int setLecWeeklyHour(int AU) {
+        int lecWeeklyHour;
+        while (true) {
+            System.out.println("Enter the weekly lecture hour for this course: ");
+            if (scanner.hasNextInt()) {
+                lecWeeklyHour = scanner.nextInt();
+                scanner.nextLine();
+                if (lecWeeklyHour < 0 || lecWeeklyHour > AU) {
+                    System.out.println("Weekly lecture hour out of bound. Please re-enter.");
+                } else {
+                    break;
+                }
+            } else {
+                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
+            }
         }
-        if (addCourseComponentChoice == 2) {
-            //add course into file
-            FILEMgr.writeCourseIntoFile(course);
-            Main.courses.add(course);
-            System.out.println("Course " + courseID + " is added, but assessment components are not initialized.");
-            printCourses();
-            return;
+        return lecWeeklyHour;
+    }
+
+    /**
+     * Set the number of lecture groups in course
+     * @param totalSeats The total seats in lecture groups
+     * @return The number of lecture groups in course
+     */
+    private static int setNoOfLectureGroups(int totalSeats) {
+        int noOfLectureGroups;
+        do {
+            System.out.println("Enter the number of lecture groups: ");
+            // lecture group number cannot be 0 and also cannot be larger than totalSeats
+            if (scanner.hasNextInt()) {
+                noOfLectureGroups = scanner.nextInt();
+                scanner.nextLine();
+                if (noOfLectureGroups > 0 && noOfLectureGroups <= totalSeats) {
+                    break;
+                }
+                System.out.println("Invalid input.");
+                System.out.println("Number of lecture group must be positive but less than total seats in this course.");
+                System.out.println("Please re-enter");
+            } else {
+                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
+            }
+        } while (true);
+        return noOfLectureGroups;
+    }
+
+    /**
+     * Set course type of course
+     * @return The course type of course
+     */
+    private static String setCourseType() {
+        String courseType;
+        do {
+            System.out.println("Enter course type (uppercase): ");
+            System.out.println("Enter -h to print all the course types.");
+            courseType = scanner.nextLine();
+            while (courseType.equals("-h")) {
+                HelpInfoMgr.printAllCourseType();
+                courseType = scanner.nextLine();
+            }
+        } while (!ValidationMgr.checkCourseTypeValidation(courseType));
+        return courseType;
+    }
+
+    /**
+     * Set department of course
+     * @return The department of course
+     */
+    private static String setDepartment() {
+        String courseDepartment;
+        do {
+            System.out.println("Enter course's department (uppercase): ");
+            System.out.println("Enter -h to print all the departments.");
+            courseDepartment = scanner.nextLine();
+            while ("-h".equals(courseDepartment)) {
+                HelpInfoMgr.printAllDepartment();
+                courseDepartment = scanner.nextLine();
+            }
+        } while (!ValidationMgr.checkDepartmentValidation(courseDepartment));
+        return courseDepartment;
+    }
+
+    /**
+     * Set AU of course
+     * @return The AU of course
+     */
+    private static int setAU() {
+        int AU;
+        while (true) {
+            System.out.println("Enter number of academic unit(s): ");
+            if (scanner.hasNextInt()) {
+                AU = scanner.nextInt();
+                scanner.nextLine();
+                if (AU < 0 || AU > 10) {
+                    System.out.println("AU out of bound. Please re-enter.");
+                } else {
+                    break;
+                }
+            } else {
+                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
+            }
         }
+        return AU;
+    }
 
-        enterCourseWorkComponentWeightage(course);
-
-        FILEMgr.writeCourseIntoFile(course);
-        Main.courses.add(course);
-        System.out.println("Course " + courseID + " is added");
-        printCourses();
+    /**
+     * Set total seats in course
+     * @return The total seats in course
+     */
+    private static int setTotalSeats() {
+        int totalSeats;
+        while (true) {
+            System.out.println("Enter the total vacancy of this course: ");
+            if (scanner.hasNextInt()) {
+                totalSeats = scanner.nextInt();
+                if (totalSeats <= 0) {
+                    System.out.println("Please enter a valid vacancy (greater than 0)");
+                } else {
+                    break;
+                }
+            } else {
+                System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
+                System.out.println("Please re-enter");
+            }
+        }
+        return totalSeats;
     }
 
     /**
@@ -445,7 +643,37 @@ public class CourseMgr {
         } while (true);
 
     }
-
+    private  static int setExamWeight(ArrayList<MainComponent> mainComponents) {
+        int hasFinalExamChoice;
+        int examWeight = 0;
+        while (true) {
+            System.out.println("Does this course have a final exam? Enter your choice:");
+            System.out.println("1. Yes! ");
+            System.out.println("2. No, all CAs.");
+            hasFinalExamChoice = scanner.nextInt();
+            scanner.nextLine();
+            if (hasFinalExamChoice == 1) {
+                System.out.println("Please enter weight of the exam: ");
+                examWeight = scanner.nextInt();
+                scanner.nextLine();
+                while (examWeight > 80 || examWeight <= 0) {
+                    if (examWeight > 80 && examWeight <= 100) {
+                        System.out.println("According to the course assessment policy, final exam cannot take up more than 80%...");
+                    }
+                    System.out.println("Weight entered is invalid, please enter again: ");
+                    examWeight = scanner.nextInt();
+                    scanner.nextLine();
+                }
+                MainComponent exam = new MainComponent("Exam", examWeight, new ArrayList<SubComponent>(0));
+                mainComponents.add(exam);
+                break;
+            } else if (hasFinalExamChoice == 2) {
+                System.out.println("Okay, please enter some continuous assessments");
+                break;
+            }
+        }
+        return examWeight;
+    }
     /**
      * Sets the course work component weightage of a course.
      *
@@ -460,60 +688,21 @@ public class CourseMgr {
         int sub_weight;
 
         System.out.println("enterCourseWorkComponentWeightage is called");
+//        if entered from main -- get user to input current course
         if (currentCourse == null) {
             currentCourse = ValidationMgr.checkCourseExists();
         }
 
-
-        ArrayList<MainComponent> mainComponents = new ArrayList<MainComponent>(0);
+        ArrayList<MainComponent> mainComponents = new ArrayList<>(0);
         // Check if mainComponent is empty
         if (currentCourse.getMainComponents().size() == 0) {
             // empty course
             System.out.println("Currently course " + currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " does not have any assessment component.");
 
-            int hasFinalExamChoice;
-            int examWeight = 0;
-            while (true) {
-                System.out.println("Does this course have a final exam? Enter your choice:");
-                System.out.println("1. Yes! ");
-                System.out.println("2. No, all CAs.");
-                hasFinalExamChoice = scanner.nextInt();
-                scanner.nextLine();
-                if (hasFinalExamChoice == 1) {
-                    System.out.println("Please enter weight of the exam: ");
-                    examWeight = scanner.nextInt();
-                    scanner.nextLine();
-                    while (examWeight > 80 || examWeight <= 0) {
-                        if (examWeight > 80 && examWeight <= 100) {
-                            System.out.println("According to the course assessment policy, final exam cannot take up more than 80%...");
-                        }
-                        System.out.println("Weight entered is invalid, please enter again: ");
-                        examWeight = scanner.nextInt();
-                        scanner.nextLine();
-                    }
-                    MainComponent exam = new MainComponent("Exam", examWeight, new ArrayList<SubComponent>(0));
-                    mainComponents.add(exam);
-                    break;
-                } else if (hasFinalExamChoice == 2) {
-                    System.out.println("Okay, please enter some continuous assessments");
-                    break;
-                }
-            }
-
-            do {
-                System.out.println("Enter number of main component(s) to add:");
-                while (!scanner.hasNextInt()) {
-                    String input = scanner.next();
-                    System.out.println("Sorry. " + input + " is not an integer.");
-                    System.out.println("Enter number of main component(s) to add:");
-                }
-                numberOfMain = scanner.nextInt();
-                if (numberOfMain < 0) {
-                    System.out.println("Please enter a valid positive integer:");
-                    continue;
-                }
-                break;
-            } while (true);
+//          set exam weight if there is a exam
+            int examWeight = setExamWeight(mainComponents);
+//            set number of main components
+            numberOfMain = setNumberOfMainComponents();
             scanner.nextLine();
 
             boolean componentExist;
@@ -521,8 +710,9 @@ public class CourseMgr {
             String subComponentName;
             do {
                 int totalWeightage = 100 - examWeight;
+//                loop through each main component and add sub componenets
                 for (int i = 0; i < numberOfMain; i++) {
-                    ArrayList<SubComponent> subComponents = new ArrayList<SubComponent>(0);
+                    ArrayList<SubComponent> subComponents = new ArrayList<>(0);
                     do {
                         componentExist = false;
                         System.out.println("Total weightage left to assign: " + totalWeightage);
@@ -656,7 +846,7 @@ public class CourseMgr {
             } while (true);
 
 
-            //set maincomponent to course
+            //set main component to course
             currentCourse.setMainComponents(mainComponents);
 
         } else {
@@ -670,6 +860,25 @@ public class CourseMgr {
             }
         }
         // Update course into course.csv
+    }
+
+    private static int setNumberOfMainComponents() {
+        int numberOfMain;
+        do {
+            System.out.println("Enter number of main component(s) to add:");
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.println("Sorry. " + input + " is not an integer.");
+                System.out.println("Enter number of main component(s) to add:");
+            }
+            numberOfMain = scanner.nextInt();
+            if (numberOfMain < 0) {
+                System.out.println("Please enter a valid positive integer:");
+                continue;
+            }
+            break;
+        } while (true);
+        return numberOfMain;
     }
 
     /**
