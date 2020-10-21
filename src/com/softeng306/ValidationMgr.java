@@ -167,7 +167,7 @@ public class ValidationMgr {
             }
 
             System.setOut(dummyStream);
-            currentStudent = checkStudentExists(studentID);
+            currentStudent = StudentMgr.checkStudentExists(studentID);
             System.setOut(originalStream);
             if (currentStudent == null) {
                 System.out.println("Invalid Student ID. Please re-enter.");
@@ -195,7 +195,7 @@ public class ValidationMgr {
             }
 
             System.setOut(dummyStream);
-            currentCourse = ValidationMgr.checkCourseExists(courseID);
+            currentCourse = CourseMgr.checkCourseExists(courseID);
             if (currentCourse == null) {
                 System.setOut(originalStream);
                 System.out.println("Invalid Course ID. Please re-enter.");
@@ -221,7 +221,7 @@ public class ValidationMgr {
                 courseDepartment = scanner.nextLine();
             }
 
-            if(ValidationMgr.checkDepartmentValidation(courseDepartment)){
+            if(CourseMgr.checkDepartmentValidation(courseDepartment)){
 
                 List<String> validCourseString;
                 System.setOut(dummyStream);

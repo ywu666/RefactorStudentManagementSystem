@@ -21,7 +21,7 @@ public class HelpInfoMgr {
      * @return A list of all the names of professors in the inputted department or else null.
      */
     public static List<String> printProfInDepartment(String department, boolean printOut) {
-        if (ValidationMgr.checkDepartmentValidation(department)) {
+        if (CourseMgr.checkDepartmentValidation(department)) {
             List<String> validProfString = Main.professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
             if (printOut) {
                 validProfString.forEach(System.out::println);
