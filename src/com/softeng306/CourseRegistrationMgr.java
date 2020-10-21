@@ -1,6 +1,7 @@
 package com.softeng306;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.softeng306.CourseRegistration.LabComparator;
 import static com.softeng306.CourseRegistration.LecComparator;
@@ -19,16 +20,16 @@ public class CourseRegistrationMgr {
         String selectedTutorialGroupName = null;
         String selectedLabGroupName = null;
 
-        Student currentStudent = ValidationMgr.checkStudentExists();
+        Student currentStudent = StudentMgr.checkStudentExists();
         String studentID = currentStudent.getStudentID();
 
-        ValidationMgr.checkCourseDepartmentExists();
+        CourseMgr.checkCourseDepartmentExists();
 
-        Course currentCourse = ValidationMgr.checkCourseExists();
+        Course currentCourse = CourseMgr.checkCourseExists();
         String courseID = currentCourse.getCourseID();
 
 
-        if (ValidationMgr.checkCourseRegistrationExists(studentID, courseID) != null) {
+        if (CourseRegistrationMgr.checkCourseRegistrationExists(studentID, courseID) != null) {
             return;
         }
 
@@ -48,17 +49,17 @@ public class CourseRegistrationMgr {
         ArrayList<Group> lecGroups = new ArrayList<>(0);
         lecGroups.addAll(currentCourse.getLectureGroups());
 
-        selectedLectureGroupName = HelpInfoMgr.printGroupWithVacancyInfo("lecture", lecGroups);
+        selectedLectureGroupName = CourseRegistrationMgr.printGroupWithVacancyInfo("lecture", lecGroups);
 
         ArrayList<Group> tutGroups = new ArrayList<>(0);
         tutGroups.addAll(currentCourse.getTutorialGroups());
 
-        selectedTutorialGroupName = HelpInfoMgr.printGroupWithVacancyInfo("tutorial", tutGroups);
+        selectedTutorialGroupName = CourseRegistrationMgr.printGroupWithVacancyInfo("tutorial", tutGroups);
 
         ArrayList<Group> labGroups = new ArrayList<>(0);
         labGroups.addAll(currentCourse.getLabGroups());
 
-        selectedLabGroupName = HelpInfoMgr.printGroupWithVacancyInfo("lab", labGroups);
+        selectedLabGroupName = CourseRegistrationMgr.printGroupWithVacancyInfo("lab", labGroups);
 
         currentCourse.enrolledIn();
         CourseRegistration courseRegistration = new CourseRegistration(currentStudent, currentCourse, selectedLectureGroupName, selectedTutorialGroupName, selectedLabGroupName);
@@ -85,7 +86,7 @@ public class CourseRegistrationMgr {
      */
     public static void printStudents() {
         System.out.println("printStudent is called");
-        Course currentCourse = ValidationMgr.checkCourseExists();
+        Course currentCourse = CourseMgr.checkCourseExists();
 
         System.out.println("Print student by: ");
         System.out.println("(1) Lecture group");
@@ -173,6 +174,81 @@ public class CourseRegistrationMgr {
 
 
     }
+
+
+    /**
+     * Checks whether the inputted department is valid.
+     *
+     * @param groupType The type of this group.
+     * @param groups    An array list of a certain type of groups in a course.
+     * @return the name of the group chosen by the user.
+     */
+    public static String printGroupWithVacancyInfo(String groupType, ArrayList<Group> groups) {
+        int index;
+        HashMap<String, Integer> groupAssign = new HashMap<String, Integer>(0);
+        int selectedGroupNum;
+        String selectedGroupName = null;
+
+        if (groups.size() != 0) {
+            System.out.println("Here is a list of all the " + groupType + " groups with available slots:");
+            do {
+                index = 0;
+                for (Group group : groups) {
+                    if (group.getAvailableVacancies() == 0) {
+                        continue;
+                    }
+                    index++;
+                    System.out.println(index + ": " + group.getGroupName() + " (" + group.getAvailableVacancies() + " vacancies)");
+                    groupAssign.put(group.getGroupName(), index);
+                }
+                System.out.println("Please enter an integer for your choice:");
+                selectedGroupNum = scanner.nextInt();
+                scanner.nextLine();
+                if (selectedGroupNum < 1 || selectedGroupNum > index) {
+                    System.out.println("Invalid choice. Please re-enter.");
+                } else {
+                    break;
+                }
+            } while (true);
+
+            for (HashMap.Entry<String, Integer> entry : groupAssign.entrySet()) {
+                String groupName = entry.getKey();
+                int num = entry.getValue();
+                if (num == selectedGroupNum) {
+                    selectedGroupName = groupName;
+                    break;
+                }
+            }
+
+            for (Group group : groups) {
+                if (group.getGroupName().equals(selectedGroupName)) {
+                    group.enrolledIn();
+                    break;
+                }
+            }
+        }
+        return selectedGroupName;
+    }
+
+
+
+
+    /**
+     * Checks whether this course registration record exists.
+     * @param studentID The inputted student ID.
+     * @param courseID The inputted course ID.
+     * @return the existing course registration record or else null.
+     */
+    public static CourseRegistration checkCourseRegistrationExists(String studentID, String courseID){
+        List<CourseRegistration> courseRegistrations = Main.courseRegistrations.stream().filter(cr->studentID.equals(cr.getStudent().getStudentID())).filter(cr->courseID.equals(cr.getCourse().getCourseID())).collect(Collectors.toList());
+        if(courseRegistrations.size() == 0){
+            return null;
+        }
+        System.out.println("Sorry. This student already registers this course.");
+        return courseRegistrations.get(0);
+
+    }
+
 
 
 }

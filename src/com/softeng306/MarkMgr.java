@@ -42,8 +42,8 @@ public class MarkMgr {
     public static void setCourseWorkMark(boolean isExam) {
         System.out.println("enterCourseWorkMark is called");
 
-        String studentID = ValidationMgr.checkStudentExists().getStudentID();
-        String courseID = ValidationMgr.checkCourseExists().getCourseID();
+        String studentID = StudentMgr.checkStudentExists().getStudentID();
+        String courseID = CourseMgr.checkCourseExists().getCourseID();
 
         for(Mark mark: Main.marks) {
             if (mark.getCourse().getCourseID().equals(courseID) && mark.getStudent().getStudentID().equals(studentID)) {
@@ -161,7 +161,7 @@ public class MarkMgr {
     public static void printCourseStatistics() {
         System.out.println("printCourseStatistics is called");
 
-        Course currentCourse = ValidationMgr.checkCourseExists();
+        Course currentCourse = CourseMgr.checkCourseExists();
         String courseID = currentCourse.getCourseID();
 
         ArrayList<Mark> thisCourseMark = new ArrayList<Mark>(0);
@@ -267,7 +267,7 @@ public class MarkMgr {
      * Prints transcript (Results of course taken) for a particular student
      */
     public static void  printStudentTranscript() {
-        String studentID = ValidationMgr.checkStudentExists().getStudentID();
+        String studentID = StudentMgr.checkStudentExists().getStudentID();
 
         double studentGPA = 0d;
         int thisStudentAU = 0;
