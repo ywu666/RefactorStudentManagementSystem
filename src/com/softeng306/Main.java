@@ -34,6 +34,7 @@ public class Main {
     public static void main(String[] args) {
 
         students = FILEMgr.loadStudents();
+        System.out.println(students);
         courses = FILEMgr.loadCourses();
         courseRegistrations = FILEMgr.loadCourseRegistration();
         marks = FILEMgr.loadStudentMarks();

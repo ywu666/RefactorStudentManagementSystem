@@ -26,15 +26,10 @@ public class CourseMgr {
         boolean groupNameExists;
         int seatsLeft;
         // Can make the sameCourseID as boolean, set to false.
-        while (true) {
+        do {
             System.out.println("Give this course an ID: ");
             courseID = scanner.nextLine();
-            if (ValidationMgr.checkValidCourseIDInput(courseID)) {
-                if (ValidationMgr.checkCourseExists(courseID) == null) {
-                    break;
-                }
-            }
-        }
+        } while (!ValidationMgr.checkValidCourseIDInput(courseID) || ValidationMgr.checkCourseExists(courseID) != null);
 
         System.out.println("Enter course Name: ");
         courseName = scanner.nextLine();

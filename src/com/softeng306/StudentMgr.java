@@ -6,12 +6,20 @@ import java.util.Scanner;
 /**
  * Manages the student related operations.
  * Contains addStudent.
-
  */
 
 public class StudentMgr {
     private static Scanner scanner = new Scanner(System.in);
+    public static int lastGeneratedIDNum = 1800000;
 
+    /**
+     * Sets the lastGeneratedID variable of this  class. USed for generating new ID.
+     *
+     * @param lastGeneratedIDNum static variable idNumber of this class.
+     */
+    public static void setLastGeneratedIDNum(int lastGeneratedIDNum) {
+        StudentMgr.lastGeneratedIDNum = lastGeneratedIDNum;
+    }
 
     /**
      * Adds a student and put the student into file
@@ -19,9 +27,7 @@ public class StudentMgr {
     public static void addStudent() {
         String studentName;
         String studentID;
-        int choice ;
-
-        String GPA = "not available";
+        int choice;
         Student currentStudent;
         System.out.println("addStudent is called");
         System.out.println("Choose the way you want to add a student:");
@@ -42,23 +48,24 @@ public class StudentMgr {
             }
         } while (true);
         if (choice == 1) {
+//            if valid ID and student does not exists then break from while loop
             do {
 //                prompt user for with instructions for manual ID input
                 studentID = manualPromptUserID();
-//                if valid ID and student does not exists then break
+//
             } while (!ValidationMgr.checkValidStudentIDInput(studentID) || ValidationMgr.checkStudentExists(studentID) != null);
         }
-//      if choice ==2 then generate automated student ID
+//      if choice == 2 then generate automated student ID
         else {
             studentID = generateStudentID();
         }
-//
+//      Set name
         do {
             System.out.println("Enter student Name: ");
             studentName = scanner.nextLine();
         } while (!ValidationMgr.checkValidPersonNameInput(studentName));
 //        create new student with name and student ID
-        currentStudent = new Student(studentID,studentName);
+        currentStudent = new Student(studentID, studentName);
 
         //set student department
         setStudentDepartment(currentStudent);
@@ -71,31 +78,26 @@ public class StudentMgr {
         FILEMgr.writeStudentsIntoFile(currentStudent);
 
         Main.students.add(currentStudent);
-        System.out.println("Student named: " + studentName + " is added, with ID: " + currentStudent.getStudentID());
-
-        System.out.println("Student List: ");
-        System.out.println("| Student ID | Student Name | Student School | Gender | Year | GPA |");
-        for (Student student : Main.students) {
-            if (Double.compare(student.getGPA(), 0.0) != 0) {
-                GPA = String.valueOf(student.getGPA());
-            }
-            System.out.println(" " + student.getStudentID() + " | " + student.getStudentName() + " | " + student.getStudentSchool() + " | " + student.getGender() + " | " + student.getStudentYear() + " | " + GPA);
-        }
+//        print out current students after added
+        printStudentsAfterAdd(currentStudent);
 
     }
+
     /**
      * Generates the ID of a new student.
+     *
      * @return the generated student ID.
      */
     private static String generateStudentID() {
         String generateStudentID;
         boolean studentIDUsed;
-        int idNumber = 1800000;
+
         do {
             int rand = (int) (Math.random() * ((76 - 65) + 1)) + 65;
             String lastPlace = Character.toString((char) rand);
-            idNumber += 1;
-            generateStudentID = "U" + idNumber + lastPlace;
+            lastGeneratedIDNum += 1;
+            generateStudentID = "U" + lastGeneratedIDNum + lastPlace;
+
             studentIDUsed = false;
             for (Student student : Main.students) {
                 if (generateStudentID.equals(student.getStudentID())) {
@@ -109,9 +111,10 @@ public class StudentMgr {
 
     /**
      * IF User enters student ID manually, this is the prompt given
+     *
      * @return the user inputted Student ID
      */
-    private static String manualPromptUserID(){
+    private static String manualPromptUserID() {
         System.out.println("The student ID should follow:");
         System.out.println("Length is exactly 9");
         System.out.println("Start with U (Undergraduate)");
@@ -121,7 +124,13 @@ public class StudentMgr {
         System.out.println("Give this student an ID: ");
         return scanner.nextLine();
     }
-    private static void setStudentDepartment(Student currentStudent){
+
+    /**
+     * Prompts user for department of  and assigns
+     *
+     * @param currentStudent Is the current student being assigned
+     */
+    private static void setStudentDepartment(Student currentStudent) {
         String studentSchool;
         while (true) {
             System.out.println("Enter student's school (uppercase): ");
@@ -137,6 +146,12 @@ public class StudentMgr {
             }
         }
     }
+
+    /**
+     * Prompts user for Gender  of student and assigns
+     *
+     * @param currentStudent Is the current student being assigned
+     */
     private static void setStudentGender(Student currentStudent) {
         String studentGender;
         while (true) {
@@ -154,6 +169,12 @@ public class StudentMgr {
             }
         }
     }
+
+    /**
+     * Prompts user for year of student  and assigns
+     *
+     * @param currentStudent Is the current student being assigned
+     */
     private static void setStudentYear(Student currentStudent) {
         int studentYear;
         do {
@@ -173,5 +194,24 @@ public class StudentMgr {
                 System.out.println("Please re-enter.");
             }
         } while (true);
+    }
+
+    /**
+     * Prints added Student and list of all student to console after student is added
+     *
+     * @param currentStudent Is the current student being assigned
+     */
+    private static void printStudentsAfterAdd(Student currentStudent) {
+        String GPA = "not available";
+        System.out.println("Student named: " + currentStudent.getStudentName() + " is added, with ID: " + currentStudent.getStudentID());
+
+        System.out.println("Student List: ");
+        System.out.println("| Student ID | Student Name | Student School | Gender | Year | GPA |");
+        for (Student student : Main.students) {
+            if (Double.compare(student.getGPA(), 0.0) != 0) {
+                GPA = String.valueOf(student.getGPA());
+            }
+            System.out.println(" " + student.getStudentID() + " | " + student.getStudentName() + " | " + student.getStudentSchool() + " | " + student.getGender() + " | " + student.getStudentYear() + " | " + GPA);
+        }
     }
 }
