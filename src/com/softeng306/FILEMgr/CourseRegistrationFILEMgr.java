@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseRestrictionFILEMgr implements FILEMgr<CourseRegistration>{
+public class CourseRegistrationFILEMgr implements FILEMgr<CourseRegistration>{
     /**
      * The index of studentID in courseRegistrationFile.csv.
      */

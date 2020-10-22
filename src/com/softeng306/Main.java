@@ -42,14 +42,14 @@ public class Main {
          * this part is changed due to the refactor
          */
         StudentFILEMgr studentFILEMgr = new StudentFILEMgr();
-        CourseRestrictionFILEMgr courseRestrictionFILEMgr = new CourseRestrictionFILEMgr();
+        CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
         ProfessorFILEMgr professorFILEMgr = new ProfessorFILEMgr();
         CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
         MarkFILEMgr markFILEMgr = new MarkFILEMgr();
 
         students = studentFILEMgr.loadFromFile();
         courses = courseFILEMgr.loadFromFile();
-        courseRegistrations = courseRestrictionFILEMgr.loadFromFile();
+        courseRegistrations = courseRegistrationFILEMgr.loadFromFile();
         marks = markFILEMgr.loadFromFile();
         professors = professorFILEMgr.loadFromFile();
 
