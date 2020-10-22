@@ -325,7 +325,7 @@ public class FILEMgr {
             // Set the recent student ID, let the newly added student have the ID onwards.
             // If there is no student in DB, set recentStudentID to 1800000 (2018 into Uni)
 
-            Student.setIdNumber(recentStudentID > 0 ? recentStudentID : 1800000);
+            StudentMgr.setLastGeneratedIDNum(recentStudentID > 0 ? recentStudentID : 1800000);
         } catch (Exception e) {
             System.out.println("Error occurs when loading students.");
             e.printStackTrace();
