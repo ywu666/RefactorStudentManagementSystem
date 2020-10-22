@@ -190,8 +190,25 @@ public class MarkMgr {
         System.out.printf("Enrollment Rate: %4.2f %%\n", ((double) enrolledNumber / (double) currentCourse.getTotalSeats() * 100d));
         System.out.println();
 
-        int examWeight = 0;
-        boolean hasExam = false;
+        printAssessmentComponent(currentCourse, thisCourseMark);
+
+        System.out.println();
+        System.out.print("Overall Performance: ");
+        double averageMark = 0;
+        for (Mark mark : thisCourseMark) {
+            averageMark += mark.getTotalMark();
+        }
+        averageMark = averageMark / thisCourseMark.size();
+        System.out.printf("%4.2f \n", averageMark);
+
+        System.out.println();
+        System.out.println("***********************************************");
+        System.out.println();
+
+    }
+
+    public static void printAssessmentComponent(Course currentCourse, ArrayList<Mark> thisCourseMark){
+
         double averageMark = 0;
 
         // Find marks for every assessment components
@@ -199,9 +216,9 @@ public class MarkMgr {
             String thisComponentName = courseworkComponent.getComponentName();
 
             if (thisComponentName.equals("Exam")) {
-                examWeight = courseworkComponent.getComponentWeight();
-                //Leave the exam report to the last
-                hasExam = true;
+
+                printExamComponent (courseworkComponent, thisCourseMark );
+
             } else {
                 averageMark = 0;
                 System.out.print("Main Component: " + courseworkComponent.getComponentName());
@@ -228,50 +245,27 @@ public class MarkMgr {
                     System.out.println("\t Average: " + averageMark);
                 }
                 System.out.println();
+                System.out.println("This course does not have final exam.");
             }
 
         }
 
-        if (hasExam) {
-            averageMark = 0;
-            System.out.print("Final Exam");
-            System.out.print("\tWeight: " + examWeight + "%");
-            for (Mark mark : thisCourseMark) {
-                HashMap<CourseworkComponent, Double> thisComponentMarks = mark.getCourseWorkMarks();
-                for (HashMap.Entry<CourseworkComponent, Double> entry : thisComponentMarks.entrySet()) {
-                    CourseworkComponent key = entry.getKey();
-                    double value = entry.getValue();
-                    if (key.getComponentName().equals("Exam")) {
-                        averageMark += value;
-                        break;
-                    }
-                }
-            }
-            averageMark = averageMark / thisCourseMark.size();
-            System.out.println("\t Average: " + averageMark);
-        } else {
-            System.out.println("This course does not have final exam.");
-        }
+    }
 
-        System.out.println();
-        System.out.print("Overall Performance: ");
-        averageMark = 0;
-        for (Mark mark : thisCourseMark) {
-            averageMark += mark.getTotalMark();
-        }
+    public static void printExamComponent (CourseworkComponent courseworkComponent, ArrayList<Mark> thisCourseMark ){
+
+        int examWeight = courseworkComponent.getComponentWeight();
+
+        double averageMark = 0 ;
+        System.out.print("Final Exam");
+        System.out.print("\tWeight: " + examWeight + "%");
+
+        String examComponentName = "Exam";
+        averageMark = computeMark(thisCourseMark, examComponentName);
+
         averageMark = averageMark / thisCourseMark.size();
-        System.out.printf("%4.2f \n", averageMark);
-
-        System.out.println();
-        System.out.println("***********************************************");
-        System.out.println();
-
+        System.out.println("\t Average: " + averageMark);
     }
-
-    public static void printAssessmentComponent(){
-
-    }
-
 
     /**
      * Prints transcript (Results of course taken) for a particular student
@@ -279,7 +273,6 @@ public class MarkMgr {
     public static void printStudentTranscript() {
         String studentID = ValidationMgr.checkStudentExists().getStudentID();
 
-        double studentGPA = 0d;
         int thisStudentAU = 0;
         ArrayList<Mark> thisStudentMark = new ArrayList<Mark>(0);
 
@@ -300,7 +293,7 @@ public class MarkMgr {
         System.out.println("AU for this semester: " + thisStudentAU);
         System.out.println();
 
-        printMarkForTranscript(thisStudentMark, studentGPA, thisStudentAU);
+        printMarkForTranscript(thisStudentMark, thisStudentAU);
 
         System.out.println("------------------ End of Transcript -------------------");
     }
@@ -310,11 +303,11 @@ public class MarkMgr {
      * print the marks for the student
      *
      * @param  thisStudentMark list of the student's mark
-     * @param  studentGPA student's gpa
      * @param  thisStudentAU
      *
      */
-    public static void printMarkForTranscript(ArrayList<Mark> thisStudentMark, double studentGPA, int thisStudentAU){
+    public static void printMarkForTranscript(ArrayList<Mark> thisStudentMark, int thisStudentAU){
+        double studentGPA = 0d;
         for (Mark mark : thisStudentMark) {
             System.out.print("Course ID: " + mark.getCourse().getCourseID());
             System.out.println("\tCourse Name: " + mark.getCourse().getCourseName());
@@ -364,6 +357,8 @@ public class MarkMgr {
         } else {
             System.out.println("Advice: Study hard");
         }
+
+
     }
 
     /**
