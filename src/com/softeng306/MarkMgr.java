@@ -27,15 +27,10 @@ public class MarkMgr {
             if (mainComponent.getSubComponents().size() <= 0) {
                 continue;
             }
+
             for (SubComponent subComponent : mainComponent.getSubComponents()) {
                 courseWorkMarks.put(subComponent, 0d);
             }
-
-//            if (mainComponent.getSubComponents().size() > 0) {
-//                for (SubComponent subComponent : mainComponent.getSubComponents()) {
-//                    courseWorkMarks.put(subComponent, 0d);
-//                }
-//            }
 
         }
         Mark mark = new Mark(student, course, courseWorkMarks, totalMark);
@@ -195,17 +190,17 @@ public class MarkMgr {
         System.out.printf("Enrollment Rate: %4.2f %%\n", ((double) enrolledNumber / (double) currentCourse.getTotalSeats() * 100d));
         System.out.println();
 
-
         int examWeight = 0;
         boolean hasExam = false;
         double averageMark = 0;
+
         // Find marks for every assessment components
         for (CourseworkComponent courseworkComponent : currentCourse.getMainComponents()) {
             String thisComponentName = courseworkComponent.getComponentName();
 
             if (thisComponentName.equals("Exam")) {
                 examWeight = courseworkComponent.getComponentWeight();
-//                Leave the exam report to the last
+                //Leave the exam report to the last
                 hasExam = true;
             } else {
                 averageMark = 0;
@@ -258,9 +253,7 @@ public class MarkMgr {
             System.out.println("This course does not have final exam.");
         }
 
-
         System.out.println();
-
         System.out.print("Overall Performance: ");
         averageMark = 0;
         for (Mark mark : thisCourseMark) {
@@ -273,6 +266,9 @@ public class MarkMgr {
         System.out.println("***********************************************");
         System.out.println();
 
+    }
+
+    public static void printAssessmentComponent(){
 
     }
 
@@ -286,6 +282,7 @@ public class MarkMgr {
         double studentGPA = 0d;
         int thisStudentAU = 0;
         ArrayList<Mark> thisStudentMark = new ArrayList<Mark>(0);
+
         for (Mark mark : Main.marks) {
             if (mark.getStudent().getStudentID().equals(studentID)) {
                 thisStudentMark.add(mark);
@@ -303,21 +300,8 @@ public class MarkMgr {
         System.out.println("AU for this semester: " + thisStudentAU);
         System.out.println();
 
-        printMarkForTranscript(thisStudentMark,studentGPA);
+        printMarkForTranscript(thisStudentMark, studentGPA, thisStudentAU);
 
-        studentGPA /= thisStudentAU;
-        System.out.println("GPA for this semester: " + studentGPA);
-        if (studentGPA >= 4.50) {
-            System.out.println("On track of First Class Honor!");
-        } else if (studentGPA >= 4.0) {
-            System.out.println("On track of Second Upper Class Honor!");
-        } else if (studentGPA >= 3.5) {
-            System.out.println("On track of Second Lower Class Honor!");
-        } else if (studentGPA >= 3) {
-            System.out.println("On track of Third Class Honor!");
-        } else {
-            System.out.println("Advice: Study hard");
-        }
         System.out.println("------------------ End of Transcript -------------------");
     }
 
@@ -327,9 +311,10 @@ public class MarkMgr {
      *
      * @param  thisStudentMark list of the student's mark
      * @param  studentGPA student's gpa
+     * @param  thisStudentAU
      *
      */
-    public static void printMarkForTranscript(ArrayList<Mark> thisStudentMark, double studentGPA){
+    public static void printMarkForTranscript(ArrayList<Mark> thisStudentMark, double studentGPA, int thisStudentAU){
         for (Mark mark : thisStudentMark) {
             System.out.print("Course ID: " + mark.getCourse().getCourseID());
             System.out.println("\tCourse Name: " + mark.getCourse().getCourseName());
@@ -345,6 +330,7 @@ public class MarkMgr {
                 System.out.println("Main Assessment: " + assessment.getComponentName() + " ----- (" + assessment.getComponentWeight() + "%)");
                 int mainAssessmentWeight = assessment.getComponentWeight();
                 ArrayList<SubComponent> subAssessments = ((MainComponent) assessment).getSubComponents();
+
                 for (SubComponent subAssessment : subAssessments) {
                     System.out.print("Sub Assessment: " + subAssessment.getComponentName() + " -- (" + subAssessment.getComponentWeight() + "% * " + mainAssessmentWeight + "%) --- ");
                     String subAssessmentName = subAssessment.getComponentName();
@@ -360,10 +346,23 @@ public class MarkMgr {
                 System.out.println("Main Assessment Total: " + result);
                 System.out.println();
             }
-
             System.out.println("Course Total: " + mark.getTotalMark());
             studentGPA += gpaCalcualtor(mark.getTotalMark()) * mark.getCourse().getAU();
             System.out.println();
+        }
+
+        studentGPA /= thisStudentAU;
+        System.out.println("GPA for this semester: " + studentGPA);
+        if (studentGPA >= 4.50) {
+            System.out.println("On track of First Class Honor!");
+        } else if (studentGPA >= 4.0) {
+            System.out.println("On track of Second Upper Class Honor!");
+        } else if (studentGPA >= 3.5) {
+            System.out.println("On track of Second Lower Class Honor!");
+        } else if (studentGPA >= 3) {
+            System.out.println("On track of Third Class Honor!");
+        } else {
+            System.out.println("Advice: Study hard");
         }
     }
 
