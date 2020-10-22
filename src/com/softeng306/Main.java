@@ -28,10 +28,7 @@ public class Main {
      * An array list of all the professors in this school.
      */
     public static List<Professor> professors = new ArrayList<Professor>(0);
-
-    public static CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
-    public static MarkFILEMgr markFILEMgr = new MarkFILEMgr();
-
+    
     /**
      * The main function of the system.
      * Command line interface.
