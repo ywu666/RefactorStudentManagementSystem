@@ -5,7 +5,6 @@ import java.util.HashMap;
 /**
  * Represents a student mark record associated with one student and a course.
  * Both students and courses can have multiple student mark record, but cannot be duplicate.
-
  */
 
 public class Mark {
@@ -28,11 +27,12 @@ public class Mark {
 
     /**
      * Creates a new student mark record with the student of this student mark record, the course of this student mark record.
-     *  the course work marks of this student mark record, the total mark of this student mark record.
-     * @param student The student of this student mark record.
-     * @param course The course of this student mark record.
+     * the course work marks of this student mark record, the total mark of this student mark record.
+     *
+     * @param student         The student of this student mark record.
+     * @param course          The course of this student mark record.
      * @param courseWorkMarks The course work marks of this student mark record.
-     * @param totalMark The total mark of this student mark record.
+     * @param totalMark       The total mark of this student mark record.
      */
     public Mark(Student student, Course course, HashMap<CourseworkComponent, Double> courseWorkMarks, double totalMark) {
         this.student = student;
@@ -43,6 +43,7 @@ public class Mark {
 
     /**
      * Gets the student of this student mark record.
+     *
      * @return the student of this student mark record.
      */
     public Student getStudent() {
@@ -51,6 +52,7 @@ public class Mark {
 
     /**
      * Gets the course of this student mark record.
+     *
      * @return the course of this student mark record.
      */
     public Course getCourse() {
@@ -59,6 +61,7 @@ public class Mark {
 
     /**
      * Gets the course work marks of this student mark record.
+     *
      * @return a hashmap contains the course work marks of this student mark record.
      */
     public HashMap<CourseworkComponent, Double> getCourseWorkMarks() {
@@ -67,6 +70,7 @@ public class Mark {
 
     /**
      * Gets the total mark of this student mark record.
+     *
      * @return the total mark of this student mark record.
      */
     public double getTotalMark() {
@@ -75,8 +79,9 @@ public class Mark {
 
     /**
      * Sets the main course work marks of this student mark record.
+     *
      * @param courseWorkName The name of this main course work.
-     * @param result The mark obtained in this main course work.
+     * @param result         The mark obtained in this main course work.
      */
     public void setMainCourseWorkMarks(String courseWorkName, double result) {
 
@@ -106,8 +111,9 @@ public class Mark {
 
     /**
      * Sets the sub course work marks of this student mark record.
+     *
      * @param courseWorkName The name of this sub course work.
-     * @param result The mark obtained in this sub course work.
+     * @param result         The mark obtained in this sub course work.
      */
     public void setSubCourseWorkMarks(String courseWorkName, double result) {
         double markIncInMain = 0d;
@@ -126,23 +132,49 @@ public class Mark {
                 System.out.println("The main course work component increase by: " + markIncInMain);
             }
         }
+
         // Find its main component and update
+
         for (HashMap.Entry<CourseworkComponent, Double> entry : courseWorkMarks.entrySet()) {
             CourseworkComponent courseworkComponent = entry.getKey();
             double previousResult = entry.getValue();
-            if ((courseworkComponent instanceof MainComponent) && ((MainComponent) courseworkComponent).getSubComponents().size() != 0) {
-                for (SubComponent subComponent : ((MainComponent) courseworkComponent).getSubComponents()) {
-                    if (subComponent.getComponentName().equals(courseWorkName)) {
-                        // We find the main component it is in
-                        this.totalMark += markIncInMain * courseworkComponent.getComponentWeight() / 100d;
-                        entry.setValue(previousResult + markIncInMain);
-                        System.out.println("The course total mark is updated to: " + this.totalMark);
-                        return;
-                    }
-                }
-
+            if (!(courseworkComponent instanceof MainComponent)) {
+                continue;
             }
-        }
+            if ( ((MainComponent) courseworkComponent).getSubComponents().size() == 0 ) {
+                continue;
+            }
 
+            for (SubComponent subComponent : ((MainComponent) courseworkComponent).getSubComponents()) {
+                if (subComponent.getComponentName().equals(courseWorkName)) {
+                    // We find the main component it is in
+                    this.totalMark += markIncInMain * courseworkComponent.getComponentWeight() / 100d;
+                    entry.setValue(previousResult + markIncInMain);
+                    System.out.println("The course total mark is updated to: " + this.totalMark);
+                    return;
+                }
+            }
+
+        }
     }
+
+//        for (HashMap.Entry<CourseworkComponent, Double> entry : courseWorkMarks.entrySet()) {
+//            CourseworkComponent courseworkComponent = entry.getKey();
+//            double previousResult = entry.getValue();
+//            if ((courseworkComponent instanceof MainComponent) && ((MainComponent) courseworkComponent).getSubComponents().size() != 0) {
+//                for (SubComponent subComponent : ((MainComponent) courseworkComponent).getSubComponents()) {
+//                    if (subComponent.getComponentName().equals(courseWorkName)) {
+//                        // We find the main component it is in
+//                        this.totalMark += markIncInMain * courseworkComponent.getComponentWeight() / 100d;
+//                        entry.setValue(previousResult + markIncInMain);
+//                        System.out.println("The course total mark is updated to: " + this.totalMark);
+//                        return;
+//                    }
+//                }
+//
+//            }
+//        }
+
 }
+
+
