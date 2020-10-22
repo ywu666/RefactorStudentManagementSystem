@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseRegistrationFILEMgr implements FILEMgr<CourseRegistration>{
+public class CourseRegistrationFILEMgr extends FILEMgr<CourseRegistration> {
     /**
      * The index of studentID in courseRegistrationFile.csv.
      */
@@ -131,12 +131,7 @@ public class CourseRegistrationFILEMgr implements FILEMgr<CourseRegistration>{
             System.out.println("Error occurs when loading course registrations.");
             e.printStackTrace();
         } finally {
-            try {
-                fileReader.close();
-            } catch (IOException e) {
-                System.out.println("Error occurs when closing the fileReader.");
-                e.printStackTrace();
-            }
+            printFinallyBlock(fileReader);
         }
         return courseRegistrations;
     }

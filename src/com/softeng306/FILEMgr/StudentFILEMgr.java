@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentFILEMgr implements FILEMgr<Student>{
+public class StudentFILEMgr extends FILEMgr<Student> {
     /**
      * The index of the student ID in studentFile.csv.
      */
@@ -49,16 +49,11 @@ public class StudentFILEMgr implements FILEMgr<Student>{
 
     @Override
     public void writeIntoFile(Student student) {
-        File file;
+
         FileWriter fileWriter = null;
         try {
-            file = new File(studentFileName);
-            //initialize file header if have not done so
-            fileWriter = new FileWriter(studentFileName, true);
-            if (file.length() == 0) {
-                fileWriter.append(student_HEADER);
-                fileWriter.append(NEW_LINE_SEPARATOR);
-            }
+            fileWriter = initialiseFileWriter(studentFileName, student_HEADER);
+
             fileWriter.append(student.getStudentID());
             fileWriter.append(COMMA_DELIMITER);
             fileWriter.append(student.getStudentName());
@@ -75,13 +70,7 @@ public class StudentFILEMgr implements FILEMgr<Student>{
             System.out.println("Error in adding a student to the file.");
             e.printStackTrace();
         } finally {
-            try {
-                fileWriter.flush();
-                fileWriter.close();
-            } catch (IOException e) {
-                System.out.println("Error in flushing or closing the file.");
-                e.printStackTrace();
-            }
+            printFinallyBlock(fileWriter);
         }
     }
 
@@ -114,12 +103,7 @@ public class StudentFILEMgr implements FILEMgr<Student>{
             System.out.println("Error occurs when loading students.");
             e.printStackTrace();
         } finally {
-            try {
-                fileReader.close();
-            } catch (IOException e) {
-                System.out.println("Error occurs when closing the fileReader.");
-                e.printStackTrace();
-            }
+            printFinallyBlock(fileReader);
         }
         return students;
     }

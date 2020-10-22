@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfessorFILEMgr implements FILEMgr<Professor> {
+public class ProfessorFILEMgr extends FILEMgr<Professor> {
     /**
      * The index of professor ID in professorFile.csv.
      */
@@ -35,16 +35,10 @@ public class ProfessorFILEMgr implements FILEMgr<Professor> {
 
     @Override
     public void writeIntoFile(Professor professor) {
-        File file;
         FileWriter fileWriter = null;
         try {
-            file = new File(professorFileName);
-            //initialize file header if have not done so
-            fileWriter = new FileWriter(professorFileName, true);
-            if (file.length() == 0) {
-                fileWriter.append(professor_HEADER);
-                fileWriter.append(NEW_LINE_SEPARATOR);
-            }
+            fileWriter = initialiseFileWriter(professorFileName, professor_HEADER);
+
             fileWriter.append(professor.getProfID());
             fileWriter.append(COMMA_DELIMITER);
             fileWriter.append(professor.getProfName());
@@ -55,13 +49,7 @@ public class ProfessorFILEMgr implements FILEMgr<Professor> {
             System.out.println("Error in adding a professor to the file.");
             e.printStackTrace();
         } finally {
-            try {
-                fileWriter.flush();
-                fileWriter.close();
-            } catch (IOException e) {
-                System.out.println("Error occurs when flushing or closing the file.");
-                e.printStackTrace();
-            }
+            printFinallyBlock(fileWriter);
         }
 
     }
@@ -87,12 +75,7 @@ public class ProfessorFILEMgr implements FILEMgr<Professor> {
             System.out.println("Error occurs when loading professors.");
             e.printStackTrace();
         } finally {
-            try {
-                fileReader.close();
-            } catch (IOException e) {
-                System.out.println("Error occurs when closing the fileReader.");
-                e.printStackTrace();
-            }
+            printFinallyBlock(fileReader);
         }
         return professors;
     }

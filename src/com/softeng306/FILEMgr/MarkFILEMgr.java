@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class MarkFILEMgr implements FILEMgr<Mark> {
+public class MarkFILEMgr extends FILEMgr<Mark> {
     /**
      * The file name of markFile.csv.
      */
@@ -41,16 +41,10 @@ public class MarkFILEMgr implements FILEMgr<Mark> {
 
 
     public void writeIntoFile(Mark mark) {
-        File file;
         FileWriter fileWriter = null;
         try {
-            file = new File(markFileName);
-            //initialize file header if have not done so
-            fileWriter = new FileWriter(markFileName, true);
-            if (file.length() == 0) {
-                fileWriter.append(mark_HEADER);
-                fileWriter.append(NEW_LINE_SEPARATOR);
-            }
+            fileWriter = initialiseFileWriter(markFileName, mark_HEADER);
+
             fileWriter.append(mark.getStudent().getStudentID());
             fileWriter.append(COMMA_DELIMITER);
             fileWriter.append(mark.getCourse().getCourseID());
@@ -97,13 +91,7 @@ public class MarkFILEMgr implements FILEMgr<Mark> {
             System.out.println("Error in adding a mark to the file.");
             e.printStackTrace();
         } finally {
-            try {
-                fileWriter.flush();
-                fileWriter.close();
-            } catch (IOException e) {
-                System.out.println("Error occurs in flushing or closing the file.");
-                e.printStackTrace();
-            }
+            printFinallyBlock(fileWriter);
         }
     }
 
@@ -117,9 +105,9 @@ public class MarkFILEMgr implements FILEMgr<Mark> {
             /**
              * This part is changed due to refactor
              */
-            StudentFILEMgr studentFILEMgrMgr = new StudentFILEMgr();
+            StudentFILEMgr studentFILEMgr = new StudentFILEMgr();
             CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
-            List<Student> students = studentFILEMgrMgr.loadFromFile();
+            List<Student> students = studentFILEMgr.loadFromFile();
             List<Course> courses = courseFILEMgr.loadFromFile();
 
 
@@ -200,12 +188,7 @@ public class MarkFILEMgr implements FILEMgr<Mark> {
             System.out.println("Error occurs when loading student marks.");
             e.printStackTrace();
         } finally {
-            try {
-                fileReader.close();
-            } catch (IOException e) {
-                System.out.println("Error occurs when closing the fileReader.");
-                e.printStackTrace();
-            }
+            printFinallyBlock(fileReader);
         }
         return marks;
     }

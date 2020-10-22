@@ -1,14 +1,13 @@
 package com.softeng306.FILEMgr;
 
 import com.softeng306.*;
-import com.softeng306.FILEMgr.FILEMgr;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class CourseFILEMgr implements FILEMgr<Course> {
+public class CourseFILEMgr extends FILEMgr<Course> {
     /**
      * The index of course vacancies in courseFile.csv.
      */
@@ -96,16 +95,9 @@ public class CourseFILEMgr implements FILEMgr<Course> {
 
     @Override
     public void writeIntoFile(Course course) {
-        File file;
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(courseFileName, true);
-            //initialize file header if have not done so
-            file = new File(courseFileName);
-            if (file.length() == 0) {
-                fileWriter.append(course_HEADER);
-                fileWriter.append(NEW_LINE_SEPARATOR);
-            }
+            fileWriter = initialiseFileWriter(courseFileName, course_HEADER);
 
             fileWriter.append(course.getCourseID());
             fileWriter.append(COMMA_DELIMITER);
@@ -223,13 +215,7 @@ public class CourseFILEMgr implements FILEMgr<Course> {
             System.out.println("Error in adding a course to the file.");
             e.printStackTrace();
         } finally {
-            try {
-                fileWriter.flush();
-                fileWriter.close();
-            } catch (IOException e) {
-                System.out.println("Error occurs occurs when flushing or closing the file.");
-                e.printStackTrace();
-            }
+            printFinallyBlock(fileWriter);
         }
 
     }
@@ -335,12 +321,7 @@ public class CourseFILEMgr implements FILEMgr<Course> {
             System.out.println("Error happens when loading courses.");
             e.printStackTrace();
         } finally {
-            try {
-                fileReader.close();
-            } catch (IOException e) {
-                System.out.println("Error happens when closing the fileReader.");
-                e.printStackTrace();
-            }
+            printFinallyBlock(fileReader);
         }
         return courses;
     }
