@@ -209,6 +209,8 @@ public class MarkMgr {
 
     public static void printAssessmentComponent(Course currentCourse, ArrayList<Mark> thisCourseMark){
 
+        int examWeight = 0;
+        boolean hasExam = false;
         double averageMark = 0;
 
         // Find marks for every assessment components
@@ -216,8 +218,8 @@ public class MarkMgr {
             String thisComponentName = courseworkComponent.getComponentName();
 
             if (thisComponentName.equals("Exam")) {
-
-                printExamComponent (courseworkComponent, thisCourseMark );
+                examWeight = courseworkComponent.getComponentWeight();
+                hasExam = true;
 
             } else {
                 averageMark = 0;
@@ -245,16 +247,19 @@ public class MarkMgr {
                     System.out.println("\t Average: " + averageMark);
                 }
                 System.out.println();
-                System.out.println("This course does not have final exam.");
             }
 
         }
 
+        if (hasExam) {
+            printExamComponent (examWeight, thisCourseMark );
+        } else {
+            System.out.println("This course does not have final exam.");
+        }
+
     }
 
-    public static void printExamComponent (CourseworkComponent courseworkComponent, ArrayList<Mark> thisCourseMark ){
-
-        int examWeight = courseworkComponent.getComponentWeight();
+    public static void printExamComponent (int examWeight, ArrayList<Mark> thisCourseMark ){
 
         double averageMark = 0 ;
         System.out.print("Final Exam");
