@@ -46,16 +46,10 @@ public class CourseRegistrationFILEMgr extends FILEMgr<CourseRegistration> {
 
     @Override
     public void writeIntoFile(CourseRegistration courseRegistration) {
-        File file;
         FileWriter fileWriter = null;
         try {
-            file = new File(courseRegistrationFileName);
-            //initialize file header if have not done so
-            fileWriter = new FileWriter(courseRegistrationFileName, true);
-            if (file.length() == 0) {
-                fileWriter.append(courseRegistration_HEADER);
-                fileWriter.append(NEW_LINE_SEPARATOR);
-            }
+            fileWriter = initialiseFileWriter(courseRegistrationFileName, courseRegistration_HEADER);
+
             fileWriter.append(courseRegistration.getStudent().getStudentID());
             fileWriter.append(COMMA_DELIMITER);
             fileWriter.append(courseRegistration.getCourse().getCourseID());
@@ -70,13 +64,7 @@ public class CourseRegistrationFILEMgr extends FILEMgr<CourseRegistration> {
             System.out.println("Error in adding a course registration to the file.");
             e.printStackTrace();
         } finally {
-            try {
-                fileWriter.flush();
-                fileWriter.close();
-            } catch (IOException e) {
-                System.out.println("Error occurs when flushing or closing the file.");
-                e.printStackTrace();
-            }
+            printFinallyBlock(fileWriter);
         }
 
     }
