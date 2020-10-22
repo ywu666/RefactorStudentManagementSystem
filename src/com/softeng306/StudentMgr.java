@@ -2,6 +2,7 @@ package com.softeng306;
 
 
 import com.softeng306.FILEMgr.FILEMgr;
+import com.softeng306.FILEMgr.StudentFILEMgr;
 
 import java.util.Scanner;
 
@@ -129,8 +130,8 @@ public class StudentMgr {
             }
         } while (true);
 
-
-        FILEMgr.writeStudentsIntoFile(currentStudent);
+        StudentFILEMgr studentFILEMgr = new StudentFILEMgr();
+        studentFILEMgr.writeIntoFile(currentStudent);
 
         Main.students.add(currentStudent);
         System.out.println("Student named: " + studentName + " is added, with ID: " + currentStudent.getStudentID());

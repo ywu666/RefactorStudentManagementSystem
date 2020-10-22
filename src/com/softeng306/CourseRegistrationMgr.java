@@ -1,7 +1,6 @@
 package com.softeng306;
 
 import com.softeng306.FILEMgr.CourseRestrictionFILEMgr;
-import com.softeng306.FILEMgr.FILEMgr;
 
 import java.util.*;
 
@@ -12,6 +11,7 @@ import static com.softeng306.CourseRegistration.TutComparator;
 
 public class CourseRegistrationMgr {
     private static Scanner scanner = new Scanner(System.in);
+    private static CourseRestrictionFILEMgr courseRestrictionFILEMgr = new CourseRestrictionFILEMgr();
 
     /**
      * Registers a course for a student
@@ -66,7 +66,6 @@ public class CourseRegistrationMgr {
         currentCourse.enrolledIn();
         CourseRegistration courseRegistration = new CourseRegistration(currentStudent, currentCourse, selectedLectureGroupName, selectedTutorialGroupName, selectedLabGroupName);
 
-        CourseRestrictionFILEMgr courseRestrictionFILEMgr = new CourseRestrictionFILEMgr();
         courseRestrictionFILEMgr.writeIntoFile(courseRegistration);
 
         Main.courseRegistrations.add(courseRegistration);
@@ -101,7 +100,6 @@ public class CourseRegistrationMgr {
         /**
          * This is changed due to the refactor
          */
-        CourseRestrictionFILEMgr courseRestrictionFILEMgr = new CourseRestrictionFILEMgr();
         List<CourseRegistration> allStuArray = courseRestrictionFILEMgr.loadFromFile() ;
 
 
