@@ -77,103 +77,11 @@ public class Mark {
         return totalMark;
     }
 
-    /**
-     * Sets the main course work marks of this student mark record.
-     *
-     * @param courseWorkName The name of this main course work.
-     * @param result         The mark obtained in this main course work.
-     */
-    public void setMainCourseWorkMarks(String courseWorkName, double result) {
-
-        for (HashMap.Entry<CourseworkComponent, Double> entry : courseWorkMarks.entrySet()) {
-            CourseworkComponent courseworkComponent = entry.getKey();
-            double previousResult = entry.getValue();
-            if (!(courseworkComponent instanceof MainComponent)) {
-                continue;
-            }
-            if (courseworkComponent.getComponentName().equals(courseWorkName)) {
-                if (((MainComponent) courseworkComponent).getSubComponents().size() != 0) {
-                    System.out.println("This main assessment is not stand alone");
-                    return;
-                }
-                this.totalMark += (result - previousResult) * courseworkComponent.getComponentWeight() / 100d;
-                entry.setValue(result);
-
-                System.out.println("The course work component is successfully set to: " + result);
-                System.out.println("The course total mark is updated to: " + this.totalMark);
-                return;
-            }
-        }
-        System.out.println("This main assessment component does not exist...");
-
+    public void setTotalMark(double totalMark){
+        this.totalMark = totalMark;
     }
 
 
-    /**
-     * Sets the sub course work marks of this student mark record.
-     *
-     * @param courseWorkName The name of this sub course work.
-     * @param result         The mark obtained in this sub course work.
-     */
-    public void setSubCourseWorkMarks(String courseWorkName, double result) {
-        double markIncInMain = 0d;
-        for (HashMap.Entry<CourseworkComponent, Double> entry : courseWorkMarks.entrySet()) {
-            CourseworkComponent courseworkComponent = entry.getKey();
-            double previousResult = entry.getValue();
-            if (!(courseworkComponent instanceof SubComponent)) {
-                continue;
-            }
-            if (courseworkComponent.getComponentName().equals(courseWorkName)) {
-                // Set the subComponent mark, calculate the main component increment
-                markIncInMain = (result - previousResult) * courseworkComponent.getComponentWeight() / 100d;
-                entry.setValue(result);
-
-                System.out.println("The sub course work component is successfully set to: " + result);
-                System.out.println("The main course work component increase by: " + markIncInMain);
-            }
-        }
-
-        // Find its main component and update
-
-        for (HashMap.Entry<CourseworkComponent, Double> entry : courseWorkMarks.entrySet()) {
-            CourseworkComponent courseworkComponent = entry.getKey();
-            double previousResult = entry.getValue();
-            if (!(courseworkComponent instanceof MainComponent)) {
-                continue;
-            }
-            if ( ((MainComponent) courseworkComponent).getSubComponents().size() == 0 ) {
-                continue;
-            }
-
-            for (SubComponent subComponent : ((MainComponent) courseworkComponent).getSubComponents()) {
-                if (subComponent.getComponentName().equals(courseWorkName)) {
-                    // We find the main component it is in
-                    this.totalMark += markIncInMain * courseworkComponent.getComponentWeight() / 100d;
-                    entry.setValue(previousResult + markIncInMain);
-                    System.out.println("The course total mark is updated to: " + this.totalMark);
-                    return;
-                }
-            }
-
-        }
-    }
-
-//        for (HashMap.Entry<CourseworkComponent, Double> entry : courseWorkMarks.entrySet()) {
-//            CourseworkComponent courseworkComponent = entry.getKey();
-//            double previousResult = entry.getValue();
-//            if ((courseworkComponent instanceof MainComponent) && ((MainComponent) courseworkComponent).getSubComponents().size() != 0) {
-//                for (SubComponent subComponent : ((MainComponent) courseworkComponent).getSubComponents()) {
-//                    if (subComponent.getComponentName().equals(courseWorkName)) {
-//                        // We find the main component it is in
-//                        this.totalMark += markIncInMain * courseworkComponent.getComponentWeight() / 100d;
-//                        entry.setValue(previousResult + markIncInMain);
-//                        System.out.println("The course total mark is updated to: " + this.totalMark);
-//                        return;
-//                    }
-//                }
-//
-//            }
-//        }
 
 }
 
