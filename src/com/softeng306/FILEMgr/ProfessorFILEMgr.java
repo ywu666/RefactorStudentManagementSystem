@@ -1,6 +1,5 @@
 package com.softeng306.FILEMgr;
 
-import com.softeng306.FILEMgr.FILEMgr;
 import com.softeng306.Professor;
 
 import java.io.*;
