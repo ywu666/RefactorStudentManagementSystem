@@ -26,10 +26,6 @@ public class Main {
      * An array list of all the student mark records in this school.
      */
     public static List<Mark> marks = new ArrayList<Mark>(0);
-    /**
-     * An array list of all the professors in this school.
-     */
-    public static List<Professor> professors = new ArrayList<Professor>(0);
     
     /**
      * The main function of the system.
@@ -42,7 +38,6 @@ public class Main {
          */
         StudentFILEMgr studentFILEMgr = new StudentFILEMgr();
         CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
-        ProfessorFILEMgr professorFILEMgr = new ProfessorFILEMgr();
         CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
         MarkFILEMgr markFILEMgr = new MarkFILEMgr();
 
@@ -50,7 +45,6 @@ public class Main {
         courses = courseFILEMgr.loadFromFile();
         courseRegistrations = courseRegistrationFILEMgr.loadFromFile();
         marks = markFILEMgr.loadFromFile();
-        professors = professorFILEMgr.loadFromFile();
 
         printWelcome();
 

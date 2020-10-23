@@ -1,8 +1,11 @@
 package com.softeng306.Managers;
 
+import com.softeng306.FILEMgr.FILEMgr;
+import com.softeng306.FILEMgr.ProfessorFILEMgr;
 import com.softeng306.Main;
 import com.softeng306.Professor;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -15,6 +18,11 @@ import java.util.stream.Collectors;
  */
 public class ProfessorMgr {
     private Scanner scanner = new Scanner(System.in);
+    private static FILEMgr<Professor> profFileMgr = new ProfessorFILEMgr();
+    /**
+     * A list of all the registered professors.
+     */
+    private static  List<Professor> professors = profFileMgr.loadFromFile();
 
     /**
      * Adds a professor.
@@ -87,7 +95,7 @@ public class ProfessorMgr {
      * @return the existing professor or else null.
      */
     public static Professor checkProfExists(String profID){
-        List<Professor> anyProf = Main.professors.stream().filter(p->profID.equals(p.getProfID())).collect(Collectors.toList());
+        List<Professor> anyProf = professors.stream().filter(p->profID.equals(p.getProfID())).collect(Collectors.toList());
         if(anyProf.size() == 0){
             return null;
         }
@@ -106,7 +114,7 @@ public class ProfessorMgr {
      */
     public static List<String> printProfInDepartment(String department, boolean printOut) {
         if (CourseMgr.checkDepartmentValidation(department)) {
-            List<String> validProfString = Main.professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
+            List<String> validProfString = professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
             if (printOut) {
                 validProfString.forEach(System.out::println);
             }
