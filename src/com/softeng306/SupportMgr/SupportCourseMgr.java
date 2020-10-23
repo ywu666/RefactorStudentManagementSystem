@@ -1,8 +1,14 @@
 package com.softeng306.SupportMgr;
 
+import com.softeng306.Enum.CourseType;
+import com.softeng306.Enum.Department;
 import com.softeng306.HelpInfoMgr;
+import com.softeng306.Main;
+import com.softeng306.ValidationMgr;
 
+import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class SupportCourseMgr extends SupportMgr {
 
@@ -36,11 +42,77 @@ public class SupportCourseMgr extends SupportMgr {
      * @return boolean indicates whether the inputted course type is valid.
      */
     public static boolean checkCourseTypeValidation(String courseType){
-        if(HelpInfoMgr.getAllCourseType().contains(courseType)){
+        if(getAllCourseType().contains(courseType)){
             return true;
         }
         System.out.println("The course type is invalid. Please re-enter.");
         return false;
     }
 
+    /**
+     * Displays all the professors in the inputted department.
+     *
+     * @param department The inputted department.
+     * @param printOut Represents whether print out the professor information or not
+     * @return A list of all the names of professors in the inputted department or else null.
+     */
+    public static List<String> printProfInDepartment(String department, boolean printOut) {
+        if (ValidationMgr.checkDepartmentValidation(department)) {
+            List<String> validProfString = Main.professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
+            if (printOut) {
+                validProfString.forEach(System.out::println);
+            }
+            return validProfString;
+        }
+        System.out.println("None.");
+        return null;
+
+    }
+
+
+    /**
+     * Displays a list of IDs of all the courses.
+     */
+    public static void printAllCourses() {
+        Main.courses.stream().map(c -> c.getCourseID()).forEach(System.out::println);
+
+    }
+
+    /**
+     * Displays a list of all the departments.
+     */
+    public static void printAllDepartment() {
+        int index = 1;
+        for (Department department : Department.values()) {
+            System.out.println(index + ": " + department);
+            index++;
+        }
+
+    }
+
+    /**
+     * Displays a list of all the course types.
+     */
+    public static void printAllCourseType() {
+        int index = 1;
+        for (CourseType courseType : CourseType.values()) {
+            System.out.println(index + ": " + courseType);
+            index++;
+        }
+    }
+
+    /**
+     * Gets all the course types as an array list.
+     *
+     * @return an array list of all the course types.
+     */
+    public static List<String> getAllCourseType() {
+        Set<CourseType> courseTypeEnumSet = EnumSet.allOf(CourseType.class);
+        List<String> courseTypeStringSet = new ArrayList<String>(0);
+        Iterator iter = courseTypeEnumSet.iterator();
+        while (iter.hasNext()) {
+            courseTypeStringSet.add(iter.next().toString());
+        }
+        return courseTypeStringSet;
+    }
 }
