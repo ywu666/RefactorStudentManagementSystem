@@ -1,11 +1,19 @@
 package com.softeng306.Managers;
 
-import com.softeng306.*;
+
 import  com.softeng306.FILEMgr.CourseFILEMgr;
+
+
+import com.softeng306.Enum.CourseType;
+import com.softeng306.Enum.Department;
+
+import com.softeng306.*;
 
 import java.util.*;
 import java.io.PrintStream;
 import java.io.OutputStream;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 
 public class CourseMgr {
@@ -30,7 +38,9 @@ public class CourseMgr {
         do {
             System.out.println("Give this course an ID: ");
             courseID = scanner.nextLine();
-        } while (!ValidationMgr.checkValidCourseIDInput(courseID) || ValidationMgr.checkCourseExists(courseID) != null);
+
+        } while (!CourseMgr.checkValidCourseIDInput(courseID) || CourseMgr.checkCourseExists(courseID) != null);
+
 
         System.out.println("Enter course Name: ");
         courseName = scanner.nextLine();
@@ -124,6 +134,7 @@ public class CourseMgr {
         addCourseIntoFile(courseID, course, " is added");
     }
 
+
     /**
      * Write course into file
      * @param courseID The course ID of course being added
@@ -169,18 +180,19 @@ public class CourseMgr {
         String profID;
         Professor profInCharge;
         List<String> professorsInDepartment;
-        professorsInDepartment = HelpInfoMgr.printProfInDepartment(courseDepartment, false);
+        professorsInDepartment = ProfessorMgr.printProfInDepartment(courseDepartment, false);
         while (true) {
+
             System.out.println("Enter the ID for the professor in charge please:");
             System.out.println("Enter -h to print all the professors in " + courseDepartment + ".");
             profID = scanner.nextLine();
             while ("-h".equals(profID)) {
-                professorsInDepartment = HelpInfoMgr.printProfInDepartment(courseDepartment, true);
+                professorsInDepartment = ProfessorMgr.printProfInDepartment(courseDepartment, true);
                 profID = scanner.nextLine();
             }
 
             System.setOut(dummyStream);
-            profInCharge = ValidationMgr.checkProfExists(profID);
+            profInCharge = ProfessorMgr.checkProfExists(profID);
             System.setOut(originalStream);
             if (profInCharge != null) {
                 assert professorsInDepartment != null;
@@ -192,6 +204,7 @@ public class CourseMgr {
                 }
             } else {
                 System.out.println("Invalid input. Please re-enter.");
+
             }
         }
         return profInCharge;
@@ -275,7 +288,7 @@ public class CourseMgr {
             groupNameExists = false;
             System.out.println("Enter a group Name: ");
             GroupName = scanner.nextLine();
-            if (!ValidationMgr.checkValidGroupNameInput(GroupName)) {
+            if (!CourseMgr.checkValidGroupNameInput(GroupName)) {
                 groupNameExists = true;
                 continue;
             }
@@ -319,6 +332,7 @@ public class CourseMgr {
         } while (true);
         return noOfGroups;
     }
+
 
     /**
      * Set the capacity of lecture groups
@@ -367,6 +381,7 @@ public class CourseMgr {
         return WeeklyHour;
     }
 
+
     /**
      * Set course type of course
      * @return The course type of course
@@ -378,12 +393,13 @@ public class CourseMgr {
             System.out.println("Enter -h to print all the course types.");
             courseType = scanner.nextLine();
             while (courseType.equals("-h")) {
-                HelpInfoMgr.printAllCourseType();
+                CourseMgr.printAllCourseType();
                 courseType = scanner.nextLine();
             }
-        } while (!ValidationMgr.checkCourseTypeValidation(courseType));
+        } while (!CourseMgr.checkCourseTypeValidation(courseType));
         return courseType;
     }
+
 
     /**
      * Set department of course
@@ -396,10 +412,10 @@ public class CourseMgr {
             System.out.println("Enter -h to print all the departments.");
             courseDepartment = scanner.nextLine();
             while ("-h".equals(courseDepartment)) {
-                HelpInfoMgr.printAllDepartment();
+                CourseMgr.printAllDepartment();
                 courseDepartment = scanner.nextLine();
             }
-        } while (!ValidationMgr.checkDepartmentValidation(courseDepartment));
+        } while (!CourseMgr.checkDepartmentValidation(courseDepartment));
         return courseDepartment;
     }
 
@@ -458,7 +474,7 @@ public class CourseMgr {
         Course currentCourse;
 
         do {
-            currentCourse = ValidationMgr.checkCourseExists();
+            currentCourse = CourseMgr.checkCourseExists();
             if (currentCourse != null) {
                 System.out.println(currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " (Available/Total): " + currentCourse.getVacancies() + "/" + currentCourse.getTotalSeats());
                 System.out.println("--------------------------------------------");
@@ -538,7 +554,7 @@ public class CourseMgr {
         System.out.println("enterCourseWorkComponentWeightage is called");
 //        if entered from main -- get user to input current course
         if (currentCourse == null) {
-            currentCourse = ValidationMgr.checkCourseExists();
+            currentCourse = CourseMgr.checkCourseExists();
         }
 
         ArrayList<MainComponent> mainComponents = new ArrayList<>(0);
@@ -756,4 +772,258 @@ public class CourseMgr {
         }
         System.out.println();
     }
+
+
+    /**
+     * Displays all the professors in the inputted department.
+     *
+     * @param department The inputted department.
+     * @param printOut Represents whether print out the professor information or not
+     * @return A list of all the names of professors in the inputted department or else null.
+     */
+    public static List<String> printProfInDepartment(String department, boolean printOut) {
+        if (CourseMgr.checkDepartmentValidation(department)) {
+            List<String> validProfString = Main.professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
+            if (printOut) {
+                validProfString.forEach(System.out::println);
+            }
+            return validProfString;
+        }
+        System.out.println("None.");
+        return null;
+    }
+
+
+    /**
+     * Displays a list of all the departments.
+     */
+    public static void printAllDepartment() {
+        int index = 1;
+        for (Department department : Department.values()) {
+            System.out.println(index + ": " + department);
+            index++;
+        }
+
+    }
+
+
+
+    /**
+     * Displays a list of all the course types.
+     */
+    public static void printAllCourseType() {
+        int index = 1;
+        for (CourseType courseType : CourseType.values()) {
+            System.out.println(index + ": " + courseType);
+            index++;
+        }
+    }
+
+
+
+
+    /**
+     * Gets all the departments as an array list.
+     *
+     * @return an array list of all the departments.
+     */
+    public static ArrayList<String> getAllDepartment() {
+        Set<Department> departmentEnumSet = EnumSet.allOf(Department.class);
+        ArrayList<String> departmentStringList = new ArrayList<String>(0);
+        Iterator iter = departmentEnumSet.iterator();
+        while (iter.hasNext()) {
+            departmentStringList.add(iter.next().toString());
+        }
+        return departmentStringList;
+
+    }
+
+
+
+    /**
+     * Gets all the course types as an array list.
+     *
+     * @return an array list of all the course types.
+     */
+    public static ArrayList<String> getAllCourseType() {
+        Set<CourseType> courseTypeEnumSet = EnumSet.allOf(CourseType.class);
+        ArrayList<String> courseTypeStringSet = new ArrayList<String>(0);
+        Iterator iter = courseTypeEnumSet.iterator();
+        while (iter.hasNext()) {
+            courseTypeStringSet.add(iter.next().toString());
+        }
+        return courseTypeStringSet;
+    }
+
+
+    /**
+     * Displays a list of all the courses in the inputted department.
+     *
+     * @param department The inputted department.
+     * @return a list of all the department values.
+     */
+    public static List<String> printCourseInDepartment(String department) {
+        List<Course> validCourses = Main.courses.stream().filter(c -> department.equals(c.getCourseDepartment())).collect(Collectors.toList());
+        List<String> validCourseString = validCourses.stream().map(c -> c.getCourseID()).collect(Collectors.toList());
+        validCourseString.forEach(System.out::println);
+        if (validCourseString.size() == 0) {
+            System.out.println("None.");
+        }
+        return validCourseString;
+    }
+
+
+    /**
+     * Displays a list of IDs of all the courses.
+     */
+    public static void printAllCourses() {
+        Main.courses.stream().map(c -> c.getCourseID()).forEach(System.out::println);
+
+    }
+
+
+
+    /**
+     * Checks whether the inputted department is valid.
+     * @param department The inputted department.
+     * @return boolean indicates whether the inputted department is valid.
+     */
+    public static boolean checkDepartmentValidation(String department){
+        if(CourseMgr.getAllDepartment().contains(department)){
+            return true;
+        }
+        System.out.println("The department is invalid. Please re-enter.");
+        return false;
+    }
+
+
+
+    /**
+     * Checks whether the inputted course type is valid.
+     * @param courseType The inputted course type.
+     * @return boolean indicates whether the inputted course type is valid.
+     */
+    public static boolean checkCourseTypeValidation(String courseType){
+        if(CourseMgr.getAllCourseType().contains(courseType)){
+            return true;
+        }
+        System.out.println("The course type is invalid. Please re-enter.");
+        return false;
+    }
+
+
+    /**
+     * Checks whether the inputted course ID is in the correct format.
+     * @param courseID The inputted course ID.
+     * @return boolean indicates whether the inputted course ID is valid.
+     */
+    public static boolean checkValidCourseIDInput(String courseID){
+        String REGEX = "^[A-Z]{2}[0-9]{3,4}$";
+        boolean valid = Pattern.compile(REGEX).matcher(courseID).matches();
+        if(!valid){
+            System.out.println("Wrong format of course ID.");
+        }
+        return valid;
+
+    }
+
+
+    /**
+     * Checks whether the inputted group name is in the correct format.
+     * @param groupName The inputted group name.
+     * @return boolean indicates whether the inputted group name is valid.
+     */
+    public static boolean checkValidGroupNameInput(String groupName){
+        String REGEX = "^[a-zA-Z0-9]+$";
+        boolean valid =  Pattern.compile(REGEX).matcher(groupName).matches();
+        if(!valid){
+            System.out.println("Wrong format of group name.");
+        }
+        return valid;
+    }
+
+
+    /**
+     * Prompts the user to input an existing course.
+     * @return the inputted course.
+     */
+    public static Course checkCourseExists(){
+        String courseID;
+        Course currentCourse;
+        while(true){
+            System.out.println("Enter course ID (-h to print all the course ID):");
+            courseID = scanner.nextLine();
+            while("-h".equals(courseID)){
+                CourseMgr.printAllCourses();
+                courseID = scanner.nextLine();
+            }
+
+            System.setOut(dummyStream);
+            currentCourse = CourseMgr.checkCourseExists(courseID);
+            if (currentCourse == null) {
+                System.setOut(originalStream);
+                System.out.println("Invalid Course ID. Please re-enter.");
+            }else{
+                break;
+            }
+        }
+        System.setOut(originalStream);
+        return currentCourse;
+    }
+
+
+
+    /**
+     * Prompts the user to input an existing department.
+     * @return the inputted department.
+     */
+    public static String checkCourseDepartmentExists(){
+        String courseDepartment;
+        while(true){
+            System.out.println("Which department's courses are you interested? (-h to print all the departments)");
+            courseDepartment = scanner.nextLine();
+            while("-h".equals(courseDepartment)){
+                CourseMgr.printAllDepartment();
+                courseDepartment = scanner.nextLine();
+            }
+
+            if(CourseMgr.checkDepartmentValidation(courseDepartment)){
+
+                List<String> validCourseString;
+                System.setOut(dummyStream);
+                validCourseString = CourseMgr.printCourseInDepartment(courseDepartment);
+
+                System.out.println("validCourseString = " + validCourseString );
+                System.out.println("validCourseString size = " + validCourseString.size() );
+
+                System.setOut(originalStream);
+                if(validCourseString.size() == 0){
+                    System.out.println("Invalid choice of department.");
+                }else{
+                    break;
+                }
+            }
+        }
+        return courseDepartment;
+    }
+
+
+
+    /**
+     * Checks whether this course ID is used by other courses.
+     * @param courseID The inputted course ID.
+     * @return the existing course or else null.
+     */
+    public static Course checkCourseExists(String courseID){
+        List<Course> anyCourse = Main.courses.stream().filter(c->courseID.equals(c.getCourseID())).collect(Collectors.toList());
+        if(anyCourse.size() == 0){
+            return null;
+        }
+        System.out.println("Sorry. The course ID is used. This course already exists.");
+        return anyCourse.get(0);
+
+    }
+
+
+
 }
