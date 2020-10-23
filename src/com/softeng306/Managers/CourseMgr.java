@@ -1,6 +1,8 @@
-package com.softeng306;
+package com.softeng306.Managers;
 
+import com.softeng306.*;
 import  com.softeng306.FILEMgr.CourseFILEMgr;
+
 import java.util.*;
 import java.io.PrintStream;
 import java.io.OutputStream;
