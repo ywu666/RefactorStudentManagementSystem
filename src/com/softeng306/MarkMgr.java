@@ -1,5 +1,6 @@
 package com.softeng306;
 
+import com.softeng306.FILEMgr.FILEMgr;
 import com.softeng306.FILEMgr.MarkFILEMgr;
 import java.util.*;
 
@@ -37,7 +38,7 @@ public class MarkMgr {
         /**
          * This patt is changed due to the refactor
          */
-        MarkFILEMgr markFILEMgr = new MarkFILEMgr();
+        FILEMgr<Mark> markFILEMgr = new MarkFILEMgr();
         markFILEMgr.writeIntoFile(mark);
 
         return mark;

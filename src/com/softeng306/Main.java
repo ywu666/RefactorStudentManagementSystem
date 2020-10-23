@@ -38,11 +38,11 @@ public class Main {
         /**
          * this part is changed due to the refactor
          */
-        StudentFILEMgr studentFILEMgr = new StudentFILEMgr();
-        CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
-        ProfessorFILEMgr professorFILEMgr = new ProfessorFILEMgr();
-        CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
-        MarkFILEMgr markFILEMgr = new MarkFILEMgr();
+        FILEMgr<Student> studentFILEMgr = new StudentFILEMgr();
+        FILEMgr<CourseRegistration> courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
+        FILEMgr<Professor> professorFILEMgr = new ProfessorFILEMgr();
+        FILEMgr<Course> courseFILEMgr = new CourseFILEMgr();
+        FILEMgr<Mark> markFILEMgr = new MarkFILEMgr();
 
         students = studentFILEMgr.loadFromFile();
         courses = courseFILEMgr.loadFromFile();

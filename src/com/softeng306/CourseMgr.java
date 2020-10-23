@@ -1,6 +1,8 @@
 package com.softeng306;
 
 import  com.softeng306.FILEMgr.CourseFILEMgr;
+import com.softeng306.FILEMgr.FILEMgr;
+
 import java.util.*;
 import java.io.PrintStream;
 import java.io.OutputStream;
@@ -46,7 +48,7 @@ public class CourseMgr {
         int lecWeeklyHour = setWeeklyHour(AU,"lecture");
         /*                        Lecture groups                                  */
 
-        ArrayList<LectureGroup> lectureGroups = new ArrayList<>();
+        ArrayList<Group> lectureGroups = new ArrayList<>();
         String lectureGroupName;
         int lectureGroupCapacity;
         seatsLeft = totalSeats;
@@ -59,7 +61,7 @@ public class CourseMgr {
 //                check if valid, if yes create new lecture group and add to array
                 seatsLeft -= lectureGroupCapacity;
                 if ((seatsLeft > 0 && i != (noOfLectureGroups - 1)) || (seatsLeft == 0 && i == noOfLectureGroups - 1)) {
-                    LectureGroup lectureGroup = new LectureGroup(lectureGroupName, lectureGroupCapacity, lectureGroupCapacity);
+                    Group lectureGroup = new Group(lectureGroupName, lectureGroupCapacity, lectureGroupCapacity);
                     lectureGroups.add(lectureGroup);
                     break;
                 } else {
@@ -78,7 +80,7 @@ public class CourseMgr {
         if(noOfTutorialGroups != 0) {
             tutWeeklyHour = setWeeklyHour(AU,"tutorial");
         }
-        ArrayList<TutorialGroup> tutorialGroups = new ArrayList<>();
+        ArrayList<Group> tutorialGroups = new ArrayList<>();
         String tutorialGroupName;
         for (int i = 0; i < noOfTutorialGroups; i++) {
 //            set tutorial group name
@@ -95,7 +97,7 @@ public class CourseMgr {
         if(noOfLabGroups != 0) {
             labWeeklyHour = setWeeklyHour(AU,"lab");
         }
-        ArrayList<LabGroup> labGroups = new ArrayList<>();
+        ArrayList<Group> labGroups = new ArrayList<>();
         String labGroupName;
         for (int i = 0; i < noOfLabGroups; i++) {
 //            set lab group name
@@ -129,7 +131,7 @@ public class CourseMgr {
      * @param s The string dependant on if components are added or not
      */
     private static void addCourseIntoFile(String courseID, Course course, String s) {
-        CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
+        FILEMgr<Course> courseFILEMgr = new CourseFILEMgr();
         courseFILEMgr.writeIntoFile(course);
         Main.courses.add(course);
         System.out.println("Course " + courseID + s);
@@ -205,7 +207,7 @@ public class CourseMgr {
      * @param i index of lab group being added
      * @return The total number of lab seats
      */
-    private static int getTotalLabSeats(int totalSeats, int totalLabSeats, int noOfLabGroups, ArrayList<LabGroup> labGroups, String labGroupName, int i) {
+    private static int getTotalLabSeats(int totalSeats, int totalLabSeats, int noOfLabGroups, ArrayList<Group> labGroups, String labGroupName, int i) {
         int labGroupCapacity;
         do {
             System.out.println("Enter this lab group's capacity: ");
@@ -213,7 +215,7 @@ public class CourseMgr {
             scanner.nextLine();
             totalLabSeats += labGroupCapacity;
             if ((i != noOfLabGroups - 1) || (totalLabSeats >= totalSeats)) {
-                LabGroup labGroup = new LabGroup(labGroupName, labGroupCapacity, labGroupCapacity);
+                Group labGroup = new Group(labGroupName, labGroupCapacity, labGroupCapacity);
                 labGroups.add(labGroup);
                 break;
             } else {
@@ -235,7 +237,7 @@ public class CourseMgr {
      * @param i The index of current tutorial group
      * @return The total tutorial seats in lab group
      */
-    private static int getTotalTutorialSeats(int totalSeats, int totalTutorialSeats, int noOfTutorialGroups, ArrayList<TutorialGroup> tutorialGroups, String tutorialGroupName, int i) {
+    private static int getTotalTutorialSeats(int totalSeats, int totalTutorialSeats, int noOfTutorialGroups, ArrayList<Group> tutorialGroups, String tutorialGroupName, int i) {
         int tutorialGroupCapacity;
         do {
             System.out.println("Enter this tutorial group's capacity: ");
@@ -244,7 +246,7 @@ public class CourseMgr {
                 scanner.nextLine();
                 totalTutorialSeats += tutorialGroupCapacity;
                 if ((i != noOfTutorialGroups - 1) || (totalTutorialSeats >= totalSeats)) {
-                    TutorialGroup tutorialGroup = new TutorialGroup(tutorialGroupName, tutorialGroupCapacity, tutorialGroupCapacity);
+                    Group tutorialGroup = new Group(tutorialGroupName, tutorialGroupCapacity, tutorialGroupCapacity);
                     tutorialGroups.add(tutorialGroup);
                     break;
                 } else {
@@ -265,7 +267,7 @@ public class CourseMgr {
      * @param s1 The type of group
      * @return The name of group
      */
-    private static String setGroupName(ArrayList<? extends Group> groups, String s1) {
+    private static String setGroupName(ArrayList<Group> groups, String s1) {
         String GroupName;
         boolean groupNameExists;
         System.out.println("Give a name to the " + s1 +   " group");
@@ -460,18 +462,18 @@ public class CourseMgr {
             if (currentCourse != null) {
                 System.out.println(currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " (Available/Total): " + currentCourse.getVacancies() + "/" + currentCourse.getTotalSeats());
                 System.out.println("--------------------------------------------");
-                for (LectureGroup lectureGroup : currentCourse.getLectureGroups()) {
+                for (Group lectureGroup : currentCourse.getLectureGroups()) {
                     System.out.println("Lecture group " + lectureGroup.getGroupName() + " (Available/Total): " + lectureGroup.getAvailableVacancies() + "/" + lectureGroup.getTotalSeats());
                 }
                 if (currentCourse.getTutorialGroups() != null) {
                     System.out.println();
-                    for (TutorialGroup tutorialGroup : currentCourse.getTutorialGroups()) {
+                    for (Group tutorialGroup : currentCourse.getTutorialGroups()) {
                         System.out.println("Tutorial group " + tutorialGroup.getGroupName() + " (Available/Total):  " + tutorialGroup.getAvailableVacancies() + "/" + tutorialGroup.getTotalSeats());
                     }
                 }
                 if (currentCourse.getLabGroups() != null) {
                     System.out.println();
-                    for (LabGroup labGroup : currentCourse.getLabGroups()) {
+                    for (Group labGroup : currentCourse.getLabGroups()) {
                         System.out.println("Lab group " + labGroup.getGroupName() + " (Available/Total): " + labGroup.getAvailableVacancies() + "/" + labGroup.getTotalSeats());
                     }
                 }
