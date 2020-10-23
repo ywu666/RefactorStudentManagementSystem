@@ -1,23 +1,13 @@
 package com.softeng306.SupportMgr;
 
-import com.softeng306.HelpInfoMgr;
+import com.softeng306.Enum.Gender;
 import com.softeng306.Main;
-import com.softeng306.Student;
 
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+
 
 public class SupportStudentMgr extends SupportMgr {
-
-    public Student checkExist(String studentID) {
-        List<Student> anyStudent = Main.students.stream().filter(s->studentID.equals(s.getStudentID())).collect(Collectors.toList());
-        if(anyStudent.size() == 0){
-            return null;
-        }
-        System.out.println("Sorry. The student ID is used. This student already exists.");
-        return anyStudent.get(0);
-    }
 
     @Override
     public boolean checkValidIDInput(String studentID) {
@@ -35,10 +25,43 @@ public class SupportStudentMgr extends SupportMgr {
      * @return boolean indicates whether the inputted gender is valid.
      */
     public static boolean checkGenderValidation(String gender){
-        if(HelpInfoMgr.getAllGender().contains(gender)){
+        if(getAllGender().contains(gender)){
             return true;
         }
         System.out.println("The gender is invalid. Please re-enter.");
         return false;
+    }
+
+    /**
+     * Displays a list of IDs of all the students.
+     */
+    public static void printAllStudents() {
+        Main.students.stream().map(s -> s.getStudentID()).forEach(System.out::println);
+    }
+
+    /**
+     * Displays a list of all the genders.
+     */
+    public static void printAllGender() {
+        int index = 1;
+        for (Gender gender : Gender.values()) {
+            System.out.println(index + ": " + gender);
+            index++;
+        }
+
+    }
+    /**
+     * Gets all the genders as an array list.
+     *
+     * @return an array list of all the genders.
+     */
+    public static List<String> getAllGender() {
+        Set<Gender> genderEnumSet = EnumSet.allOf(Gender.class);
+        List<String> genderStringList = new ArrayList<String>(0);
+        Iterator iter = genderEnumSet.iterator();
+        while (iter.hasNext()) {
+            genderStringList.add(iter.next().toString());
+        }
+        return genderStringList;
     }
 }
