@@ -98,7 +98,7 @@ public class CourseFILEMgr extends FILEMgr<Course> {
         FileWriter fileWriter = null;
         try {
             fileWriter = initialiseFileWriter(courseFileName, course_HEADER);
-            writeHelper(fileWriter, course);
+            appendCourseToFileWriter(fileWriter, course);
 
         } catch (Exception e) {
             System.out.println("Error in adding a course to the file.");
@@ -230,7 +230,7 @@ public class CourseFILEMgr extends FILEMgr<Course> {
             fileWriter.append(NEW_LINE_SEPARATOR);
 
             for (Course course : courses) {
-                writeHelper(fileWriter, course);
+                appendCourseToFileWriter(fileWriter, course);
             }
 
         } catch (Exception e) {
@@ -247,7 +247,11 @@ public class CourseFILEMgr extends FILEMgr<Course> {
         }
     }
 
-    private static void writeHelper(FileWriter fileWriter, Course course) {
+    /**
+     * Appends the specified course's information to the file writer
+     * Used by backUpCourse and writeIntoFile
+     */
+    private static void appendCourseToFileWriter(FileWriter fileWriter, Course course) {
         try {
             fileWriter.append(course.getCourseID());
             fileWriter.append(COMMA_DELIMITER);
@@ -364,7 +368,7 @@ public class CourseFILEMgr extends FILEMgr<Course> {
             fileWriter.append(COMMA_DELIMITER);
             fileWriter.append(String.valueOf(course.getLabWeeklyHour()));
             fileWriter.append(NEW_LINE_SEPARATOR);
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
