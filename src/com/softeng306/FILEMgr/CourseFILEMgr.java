@@ -93,7 +93,6 @@ public class CourseFILEMgr extends FILEMgr<Course> {
      */
     private static final String course_HEADER = "courseID,courseName,profInCharge,vacancies,totalSeats,lectureGroups,TutorialGroups,LabGroups,MainComponents,AU,courseDepartment,courseType,lecHr,tutHr,labHr";
 
-    @Override
     public void writeIntoFile(Course course) {
         FileWriter fileWriter = null;
         try {

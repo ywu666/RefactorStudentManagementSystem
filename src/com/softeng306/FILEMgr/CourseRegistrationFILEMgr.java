@@ -44,7 +44,6 @@ public class CourseRegistrationFILEMgr extends FILEMgr<CourseRegistration> {
      */
     private static final String courseRegistration_HEADER = "studentID,courseID,lectureGroup,tutorialGroup,labGroup";
 
-    @Override
     public void writeIntoFile(CourseRegistration courseRegistration) {
         FileWriter fileWriter = null;
         try {

@@ -32,7 +32,6 @@ public class ProfessorFILEMgr extends FILEMgr<Professor> {
      */
     private static final String professorFileName = "data/professorFile.csv";
 
-    @Override
     public void writeIntoFile(Professor professor) {
         FileWriter fileWriter = null;
         try {
