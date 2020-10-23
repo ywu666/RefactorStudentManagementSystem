@@ -8,7 +8,11 @@ package com.softeng306;
  */
 
 public class Student {
-    
+    /**
+     * Uses idNumber to generate student ID.
+     */
+    private static int idNumber = 1800000;
+
     /**
      * The ID of this student.
      */
@@ -127,6 +131,14 @@ public class Student {
      */
     public void  setStudentYear(int studentYear){
         this.studentYear = studentYear;
+    }
+
+    /**
+     * Sets the idNumber variable of this student class.
+     * @param idNumber static variable idNumber of this class.
+     */
+    public static void setIdNumber(int idNumber) {
+        Student.idNumber = idNumber;
     }
 
 

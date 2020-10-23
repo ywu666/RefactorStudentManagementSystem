@@ -1,6 +1,6 @@
 package com.softeng306;
 
-
+import  com.softeng306.FILEMgr.CourseFILEMgr;
 import java.util.*;
 import java.io.PrintStream;
 import java.io.OutputStream;
@@ -118,7 +118,7 @@ public class CourseMgr {
         }
 //        if 1: yes enter now
         enterCourseWorkComponentWeightage(course);
-         //add course into file
+        //add course into file
         addCourseIntoFile(courseID, course, " is added");
     }
 
@@ -129,7 +129,8 @@ public class CourseMgr {
      * @param s The string dependant on if components are added or not
      */
     private static void addCourseIntoFile(String courseID, Course course, String s) {
-        FILEMgr.writeCourseIntoFile(course);
+        CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
+        courseFILEMgr.writeIntoFile(course);
         Main.courses.add(course);
         System.out.println("Course " + courseID + s);
         printCourses();
@@ -574,7 +575,7 @@ public class CourseMgr {
 //                            set subcomponent name
                             subComponentName = setComponentName(subComponents,sub_totWeight,j," to sub component: ","sub");
 //                          set sub component weight
-                             sub_weight = setComponentWeight(sub_totWeight, j, "Enter sub component ", " weightage (out of the main component): ");
+                            sub_weight = setComponentWeight(sub_totWeight, j, "Enter sub component ", " weightage (out of the main component): ");
                             scanner.nextLine();
 
                             //Create Subcomponent

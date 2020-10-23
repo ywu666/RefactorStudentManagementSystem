@@ -1,6 +1,8 @@
 package com.softeng306;
 
 
+import com.softeng306.FILEMgr.StudentFILEMgr;
+
 import java.util.Scanner;
 
 /**
@@ -75,7 +77,8 @@ public class StudentMgr {
         //student year
         setStudentYear(currentStudent);
 //        write into file
-        FILEMgr.writeStudentsIntoFile(currentStudent);
+        StudentFILEMgr studentFILEMgr = new StudentFILEMgr();
+        studentFILEMgr.writeIntoFile(currentStudent);
 
         Main.students.add(currentStudent);
 //        print out current students after added

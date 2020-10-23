@@ -1,5 +1,7 @@
 package com.softeng306;
 
+import com.softeng306.FILEMgr.CourseRegistrationFILEMgr;
+
 import java.util.*;
 
 import static com.softeng306.CourseRegistration.LabComparator;
@@ -9,6 +11,7 @@ import static com.softeng306.CourseRegistration.TutComparator;
 
 public class CourseRegistrationMgr {
     private static Scanner scanner = new Scanner(System.in);
+    private static CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
 
     /**
      * Registers a course for a student
@@ -62,7 +65,8 @@ public class CourseRegistrationMgr {
 
         currentCourse.enrolledIn();
         CourseRegistration courseRegistration = new CourseRegistration(currentStudent, currentCourse, selectedLectureGroupName, selectedTutorialGroupName, selectedLabGroupName);
-        FILEMgr.writeCourseRegistrationIntoFile(courseRegistration);
+
+        courseRegistrationFILEMgr.writeIntoFile(courseRegistration);
 
         Main.courseRegistrations.add(courseRegistration);
 
@@ -93,7 +97,10 @@ public class CourseRegistrationMgr {
         System.out.println("(3) Lab group");
         // READ courseRegistrationFILE
         // return ArrayList of Object(student,course,lecture,tut,lab)
-        ArrayList<CourseRegistration> allStuArray = FILEMgr.loadCourseRegistration();
+        /**
+         * This is changed due to the refactor
+         */
+        List<CourseRegistration> allStuArray = courseRegistrationFILEMgr.loadFromFile() ;
 
 
         ArrayList<CourseRegistration> stuArray = new ArrayList<CourseRegistration>(0);
