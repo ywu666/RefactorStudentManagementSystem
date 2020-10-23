@@ -37,8 +37,6 @@ public abstract class FILEMgr<T> {
      */
     public static final String SLASH = "/";
 
-    public abstract void writeIntoFile(T object);
-
     public abstract List<T> loadFromFile();
 
     public FileWriter initialiseFileWriter(String fileName, String header) throws IOException {

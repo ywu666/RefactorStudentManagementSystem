@@ -48,7 +48,6 @@ public class StudentFILEMgr extends FILEMgr<Student> {
      */
     private static final String studentFileName = "data/studentFile.csv";
 
-    @Override
     public void writeIntoFile(Student student) {
 
         FileWriter fileWriter = null;

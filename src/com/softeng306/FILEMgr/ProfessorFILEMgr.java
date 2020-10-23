@@ -33,27 +33,6 @@ public class ProfessorFILEMgr extends FILEMgr<Professor> {
     private static final String professorFileName = "data/professorFile.csv";
 
     @Override
-    public void writeIntoFile(Professor professor) {
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = initialiseFileWriter(professorFileName, professor_HEADER);
-
-            fileWriter.append(professor.getProfID());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(professor.getProfName());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(professor.getProfDepartment());
-            fileWriter.append(NEW_LINE_SEPARATOR);
-        } catch (Exception e) {
-            System.out.println("Error in adding a professor to the file.");
-            e.printStackTrace();
-        } finally {
-            printFinallyBlock(fileWriter);
-        }
-
-    }
-
-    @Override
     public List<Professor> loadFromFile() {
         BufferedReader fileReader = null;
         ArrayList<Professor> professors = new ArrayList<Professor>(0);
