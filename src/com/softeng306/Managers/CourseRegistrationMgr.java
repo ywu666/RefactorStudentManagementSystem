@@ -1,6 +1,8 @@
-package com.softeng306;
+package com.softeng306.Managers;
 
+import com.softeng306.*;
 import com.softeng306.FILEMgr.CourseRegistrationFILEMgr;
+import com.softeng306.Managers.MarkMgr;
 
 import java.util.*;
 import java.util.stream.Collectors;

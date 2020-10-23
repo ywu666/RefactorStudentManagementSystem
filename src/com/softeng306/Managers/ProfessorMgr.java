@@ -1,4 +1,7 @@
-package com.softeng306;
+package com.softeng306.Managers;
+
+import com.softeng306.Main;
+import com.softeng306.Professor;
 
 import java.util.List;
 import java.util.Scanner;

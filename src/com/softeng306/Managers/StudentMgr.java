@@ -1,8 +1,10 @@
-package com.softeng306;
+package com.softeng306.Managers;
 
 
 
 import com.softeng306.FILEMgr.StudentFILEMgr;
+import com.softeng306.Main;
+import com.softeng306.Student;
 
 import java.util.Scanner;
 
