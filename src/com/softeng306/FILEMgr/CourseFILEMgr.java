@@ -114,7 +114,6 @@ public class CourseFILEMgr extends FILEMgr<Course> {
         BufferedReader fileReader = null;
         try {
             String line;
-            int thisProfessor = 0;
             Professor currentProfessor = null;
 
             /**
