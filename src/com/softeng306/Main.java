@@ -14,10 +14,6 @@ public class Main {
      * An array list of all the courses in this school.
      */
     public static List<Course> courses = new ArrayList<Course>(0);
-    /**
-     * An array list of all the student mark records in this school.
-     */
-    public static List<Mark> marks = new ArrayList<Mark>(0);
     
     /**
      * The main function of the system.
@@ -29,10 +25,8 @@ public class Main {
          * this part is changed due to the refactor
          */
         CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
-        MarkFILEMgr markFILEMgr = new MarkFILEMgr();
 
         courses = courseFILEMgr.loadFromFile();
-        marks = markFILEMgr.loadFromFile();
 
         printWelcome();
 
@@ -114,9 +108,10 @@ public class Main {
     public static void exitApplication() {
 
         System.out.println("Backing up data before exiting...");
+        MarkMgr markMgr = new MarkMgr();
 
         CourseFILEMgr.backUpCourse(courses);
-        MarkFILEMgr.backUpMarks(marks);
+        MarkFILEMgr.backUpMarks(markMgr.getMarks());
         System.out.println("********* Bye! Thank you for using Main! *********");
         System.out.println();
         System.out.println("                 ######    #      #   #######                   ");

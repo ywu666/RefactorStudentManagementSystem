@@ -77,7 +77,7 @@ public class CourseRegistrationMgr {
 
         courseRegistrations.add(courseRegistration);
 
-        Main.marks.add(MarkMgr.initializeMark(currentStudent, currentCourse));
+        MarkMgr.addMark(MarkMgr.initializeMark(currentStudent, currentCourse));
 
         System.out.println("Course registration successful!");
         System.out.print("Student: " + currentStudent.getStudentName());

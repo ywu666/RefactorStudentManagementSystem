@@ -1,6 +1,7 @@
 package com.softeng306.Managers;
 
 import com.softeng306.*;
+import com.softeng306.FILEMgr.CourseRegistrationFILEMgr;
 import com.softeng306.FILEMgr.MarkFILEMgr;
 
 import java.util.*;
@@ -11,6 +12,11 @@ import java.util.*;
 
 public class MarkMgr {
     private static Scanner scanner = new Scanner(System.in);
+    private static MarkFILEMgr markFILEMgr = new MarkFILEMgr();
+    /**
+     * A list of all the stored marks.
+     */
+    private static  List<Mark> marks = markFILEMgr.loadFromFile();
 
     /**
      * Initializes marks for a student when he/she just registered a course.
@@ -145,7 +151,7 @@ public class MarkMgr {
         String studentID = StudentMgr.checkStudentExists().getStudentID();
         String courseID = CourseMgr.checkCourseExists().getCourseID();
 
-        for (Mark mark : Main.marks) {
+        for (Mark mark : marks) {
 
             if (!(mark.getCourse().getCourseID().equals(courseID))) {
                 continue;
@@ -272,7 +278,7 @@ public class MarkMgr {
         String courseID = currentCourse.getCourseID();
 
         ArrayList<Mark> thisCourseMark = new ArrayList<Mark>(0);
-        for (Mark mark : Main.marks) {
+        for (Mark mark : marks) {
             if (mark.getCourse().getCourseID().equals(courseID)) {
                 thisCourseMark.add(mark);
             }
@@ -380,7 +386,7 @@ public class MarkMgr {
         int thisStudentAU = 0;
         ArrayList<Mark> thisStudentMark = new ArrayList<Mark>(0);
 
-        for (Mark mark : Main.marks) {
+        for (Mark mark : marks) {
             if (mark.getStudent().getStudentID().equals(studentID)) {
                 thisStudentMark.add(mark);
                 thisStudentAU += mark.getCourse().getAU();
@@ -504,5 +510,13 @@ public class MarkMgr {
             return 0d;
         }
 
+    }
+
+    public static void addMark(Mark mark) {
+        marks.add(mark);
+    }
+
+    public List<Mark> getMarks() {
+        return marks;
     }
 }
