@@ -1,6 +1,8 @@
 package com.softeng306;
 
 import com.softeng306.FILEMgr.*;
+import com.softeng306.Managers.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
