@@ -9,6 +9,9 @@ import com.softeng306.Student;
 import java.util.Scanner;
 
 import com.softeng306.Enum.Gender;
+import com.softeng306.SupportMgr.SupportHumanMgr;
+import com.softeng306.SupportMgr.SupportMgr;
+import com.softeng306.SupportMgr.SupportStudentMgr;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -24,6 +27,8 @@ import java.util.stream.Collectors;
 public class StudentMgr {
     private static Scanner scanner = new Scanner(System.in);
     public static int lastGeneratedIDNum = 1800000;
+    private static SupportHumanMgr supportStudentMgr;
+
 
 
     /**
@@ -86,7 +91,7 @@ public class StudentMgr {
             System.out.println("Enter student Name: ");
             studentName = scanner.nextLine();
 
-        } while (!StudentMgr.checkValidPersonNameInput(studentName));
+        } while (!supportStudentMgr.checkValidPersonNameInput(studentName));
 //        create new student with name and student ID
         currentStudent = new Student(studentID, studentName);
 
@@ -310,21 +315,6 @@ public class StudentMgr {
 
     }
 
-
-    /**
-     * Checks whether the inputted person name is in the correct format.
-     * This person can be professor or student.
-     * @param personName The inputted person name.
-     * @return boolean indicates whether the inputted person name is valid.
-     */
-    public static boolean checkValidPersonNameInput(String personName){
-        String REGEX = "^[ a-zA-Z]+$";
-        boolean valid =  Pattern.compile(REGEX).matcher(personName).matches();
-        if(!valid){
-            System.out.println("Wrong format of name.");
-        }
-        return valid;
-    }
 
 
     /**

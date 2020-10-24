@@ -176,6 +176,7 @@ public class MarkMgr {
         System.out.println("This student haven't registered " + courseID);
     }
 
+    //move to the support class
     public static void printChoicesForCourseWorkMark(Mark mark){
         ArrayList<String> availableChoices = new ArrayList<String>(0);
         ArrayList<Double> weights = new ArrayList<Double>(0);
@@ -503,6 +504,8 @@ public class MarkMgr {
             // F
             return 0d;
         }
+
+
 
     }
 }

@@ -8,6 +8,8 @@ import com.softeng306.Enum.CourseType;
 import com.softeng306.Enum.Department;
 
 import com.softeng306.*;
+import com.softeng306.SupportMgr.SupportCourseMgr;
+import com.softeng306.SupportMgr.SupportProfessorMgr;
 
 import java.util.*;
 import java.io.PrintStream;
@@ -25,6 +27,8 @@ public class CourseMgr {
         }
     });
 
+
+    private SupportProfessorMgr supportProfessorMgr;
 
     /**
      * Creates a new course and stores it in the file.
@@ -146,7 +150,7 @@ public class CourseMgr {
         courseFILEMgr.writeIntoFile(course);
         Main.courses.add(course);
         System.out.println("Course " + courseID + s);
-        printCourses();
+        SupportCourseMgr.printCourses();
     }
 
     /**
@@ -192,7 +196,7 @@ public class CourseMgr {
             }
 
             System.setOut(dummyStream);
-            profInCharge = ProfessorMgr.checkProfExists(profID);
+            profInCharge = SupportProfessorMgr.checkProfExists(profID);
             System.setOut(originalStream);
             if (profInCharge != null) {
                 assert professorsInDepartment != null;
@@ -633,23 +637,25 @@ public class CourseMgr {
             System.out.println("Course Assessment has been settled already!");
         }
 //        print course components after add
-        printCourseComponentsAfterAdd(currentCourse);
+        SupportCourseMgr.printCourseComponentsAfterAdd(currentCourse);
         // Update course into course.csv
     }
 
-    /**
-     * Prints the components of course after adding components
-     * @param currentCourse The course that components were added to
-     */
-    private static void printCourseComponentsAfterAdd(Course currentCourse) {
-        System.out.println(currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " components: ");
-        for (MainComponent each_comp : currentCourse.getMainComponents()) {
-            System.out.println("    " + each_comp.getComponentName() + " : " + each_comp.getComponentWeight() + "%");
-            for (SubComponent each_sub : each_comp.getSubComponents()) {
-                System.out.println("        " + each_sub.getComponentName() + " : " + each_sub.getComponentWeight() + "%");
-            }
-        }
-    }
+//    /**
+//     * Prints the components of course after adding components
+//     * @param currentCourse The course that components were added to
+//     */
+//    private static void printCourseComponentsAfterAdd(Course currentCourse) {
+//        System.out.println(currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " components: ");
+//        for (MainComponent each_comp : currentCourse.getMainComponents()) {
+//            System.out.println("    " + each_comp.getComponentName() + " : " + each_comp.getComponentWeight() + "%");
+//            for (SubComponent each_sub : each_comp.getSubComponents()) {
+//                System.out.println("        " + each_sub.getComponentName() + " : " + each_sub.getComponentWeight() + "%");
+//            }
+//        }
+//    }
+
+
     /**
      * Sets the number of sub components in main component from user
      * @param i The index of main component
@@ -761,38 +767,6 @@ public class CourseMgr {
         return numberOfMain;
     }
 
-    /**
-     * Prints the list of courses
-     */
-    public static void printCourses() {
-        System.out.println("Course List: ");
-        System.out.println("| Course ID | Course Name | Professor in Charge |");
-        for (Course course : Main.courses) {
-            System.out.println("| " + course.getCourseID() + " | " + course.getCourseName() + " | " + course.getProfInCharge().getProfName() + " |");
-        }
-        System.out.println();
-    }
-
-
-    /**
-     * Displays all the professors in the inputted department.
-     *
-     * @param department The inputted department.
-     * @param printOut Represents whether print out the professor information or not
-     * @return A list of all the names of professors in the inputted department or else null.
-     */
-    public static List<String> printProfInDepartment(String department, boolean printOut) {
-        if (CourseMgr.checkDepartmentValidation(department)) {
-            List<String> validProfString = Main.professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
-            if (printOut) {
-                validProfString.forEach(System.out::println);
-            }
-            return validProfString;
-        }
-        System.out.println("None.");
-        return null;
-    }
-
 
     /**
      * Displays a list of all the departments.
@@ -853,23 +827,6 @@ public class CourseMgr {
             courseTypeStringSet.add(iter.next().toString());
         }
         return courseTypeStringSet;
-    }
-
-
-    /**
-     * Displays a list of all the courses in the inputted department.
-     *
-     * @param department The inputted department.
-     * @return a list of all the department values.
-     */
-    public static List<String> printCourseInDepartment(String department) {
-        List<Course> validCourses = Main.courses.stream().filter(c -> department.equals(c.getCourseDepartment())).collect(Collectors.toList());
-        List<String> validCourseString = validCourses.stream().map(c -> c.getCourseID()).collect(Collectors.toList());
-        validCourseString.forEach(System.out::println);
-        if (validCourseString.size() == 0) {
-            System.out.println("None.");
-        }
-        return validCourseString;
     }
 
 
@@ -991,7 +948,7 @@ public class CourseMgr {
 
                 List<String> validCourseString;
                 System.setOut(dummyStream);
-                validCourseString = CourseMgr.printCourseInDepartment(courseDepartment);
+                validCourseString = SupportCourseMgr.printCourseInDepartment(courseDepartment);
 
                 System.out.println("validCourseString = " + validCourseString );
                 System.out.println("validCourseString size = " + validCourseString.size() );
