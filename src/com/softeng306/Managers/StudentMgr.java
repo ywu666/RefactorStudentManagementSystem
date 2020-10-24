@@ -100,8 +100,8 @@ public class StudentMgr {
         //student year
         setStudentYear(currentStudent);
 //        write into file
-        FILEMgr<Student> studentFILEMgr = new StudentFILEMgr();
-        studentFILEMgr.writeIntoFile(currentStudent);
+        FILEMgr<Student> studentFileEMgr = new StudentFILEMgr();
+        studentFileEMgr.writeIntoFile(currentStudent);
 
         Main.students.add(currentStudent);
 //        print out current students after added

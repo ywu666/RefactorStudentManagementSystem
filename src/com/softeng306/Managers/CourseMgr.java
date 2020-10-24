@@ -140,12 +140,12 @@ public class CourseMgr {
     /**
      * Write course into file
      * @param courseID The course ID of course being added
-     * @param course The corse to be added
+     * @param course The course to be added
      * @param s The string dependant on if components are added or not
      */
     private static void addCourseIntoFile(String courseID, Course course, String s) {
-        FILEMgr<Course> courseFILEMgr = new CourseFILEMgr();
-        courseFILEMgr.writeIntoFile(course);
+        FILEMgr<Course> courseFileEMgr = new CourseFILEMgr();
+        courseFileEMgr.writeIntoFile(course);
         Main.courses.add(course);
         System.out.println("Course " + courseID + s);
         printCourses();

@@ -7,32 +7,32 @@ public class Course {
     /**
      * The ID of this course.
      */
-    private String courseID;
+    private final String courseID;
 
     /**
      * The name of this course.
      */
-    private String courseName;
+    private final String courseName;
 
     /** The AU of this course.
      *
      */
-    private int AU;
+    private final int AU;
 
     /**
      * The professor in charge of this course.
      */
-    private Professor profInCharge;
+    private final Professor profInCharge;
 
     /**
      * The department this course belongs to.
      */
-    private String courseDepartment;
+    private final String courseDepartment;
 
     /**
      * The type of this course.
      */
-    private String courseType;
+    private final String courseType;
 
     /**
      * The current vacancy of this course.
@@ -42,17 +42,17 @@ public class Course {
     /**
      * The total seats of this course.
      */
-    private int totalSeats;
+    private final int totalSeats;
 
     /**
      * The weekly lecture hour of this course.
      */
-    private int lecWeeklyHour;
+    private final int lecWeeklyHour;
 
     /**
      * The lecture groups of this course.
      */
-    private ArrayList<Group> lectureGroups;
+    private final ArrayList<Group> lectureGroups;
 
 
     /**
