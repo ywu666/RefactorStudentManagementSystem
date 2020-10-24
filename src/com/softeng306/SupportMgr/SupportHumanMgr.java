@@ -19,8 +19,5 @@ public class SupportHumanMgr extends SupportMgr{
         return valid;
     }
 
-    @Override
-    public boolean checkValidIDInput(String idInput) {
-        return false;
-    }
+
 }

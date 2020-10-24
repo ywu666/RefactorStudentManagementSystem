@@ -5,16 +5,27 @@ import com.softeng306.Enum.CourseType;
 import com.softeng306.Enum.Department;
 import com.softeng306.Main;
 import com.softeng306.MainComponent;
+import com.softeng306.Managers.CourseMgr;
 import com.softeng306.SubComponent;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class SupportCourseMgr extends SupportMgr {
+public class SupportCourseMgr extends SupportDepartmentMgr {
 
-    @Override
-    public boolean checkValidIDInput(String courseID) {
+    private static Scanner scanner = new Scanner(System.in);
+    private static PrintStream originalStream = System.out;
+    private static PrintStream dummyStream = new PrintStream(new OutputStream() {
+        public void write(int b) {
+            // NO-OP
+        }
+    });
+
+
+    public boolean checkValidCourseIDInput(String courseID) {
         String REGEX = "^[A-Z]{2}[0-9]{3,4}$";
         boolean valid = Pattern.compile(REGEX).matcher(courseID).matches();
         if(!valid){
@@ -23,12 +34,13 @@ public class SupportCourseMgr extends SupportMgr {
         return valid;
     }
 
+
     /**
      * Checks whether the inputted group name is in the correct format.
      * @param groupName The inputted group name.
      * @return boolean indicates whether the inputted group name is valid.
      */
-    public static boolean checkValidGroupNameInput(String groupName){
+    public boolean checkValidGroupNameInput(String groupName){
         String REGEX = "^[a-zA-Z0-9]+$";
         boolean valid =  Pattern.compile(REGEX).matcher(groupName).matches();
         if(!valid){
@@ -37,44 +49,21 @@ public class SupportCourseMgr extends SupportMgr {
         return valid;
     }
 
-    /**
-     * Checks whether the inputted course type is valid.
-     * @param courseType The inputted course type.
-     * @return boolean indicates whether the inputted course type is valid.
-     */
-    public static boolean checkCourseTypeValidation(String courseType){
-        if(getAllCourseType().contains(courseType)){
-            return true;
-        }
-        System.out.println("The course type is invalid. Please re-enter.");
-        return false;
-    }
 
 
     /**
      * Displays a list of IDs of all the courses.
      */
-    public static void printAllCourses() {
+    public void printAllCourses() {
         Main.courses.stream().map(c -> c.getCourseID()).forEach(System.out::println);
 
     }
 
-    /**
-     * Displays a list of all the departments.
-     */
-    public static void printAllDepartment() {
-        int index = 1;
-        for (Department department : Department.values()) {
-            System.out.println(index + ": " + department);
-            index++;
-        }
-
-    }
 
     /**
      * Displays a list of all the course types.
      */
-    public static void printAllCourseType() {
+    public void printAllCourseType() {
         int index = 1;
         for (CourseType courseType : CourseType.values()) {
             System.out.println(index + ": " + courseType);
@@ -82,20 +71,6 @@ public class SupportCourseMgr extends SupportMgr {
         }
     }
 
-    /**
-     * Gets all the course types as an array list.
-     *
-     * @return an array list of all the course types.
-     */
-    public static List<String> getAllCourseType() {
-        Set<CourseType> courseTypeEnumSet = EnumSet.allOf(CourseType.class);
-        List<String> courseTypeStringSet = new ArrayList<String>(0);
-        Iterator iter = courseTypeEnumSet.iterator();
-        while (iter.hasNext()) {
-            courseTypeStringSet.add(iter.next().toString());
-        }
-        return courseTypeStringSet;
-    }
 
 
     /**
@@ -104,7 +79,7 @@ public class SupportCourseMgr extends SupportMgr {
      * @param department The inputted department.
      * @return a list of all the department values.
      */
-    public static List<String> printCourseInDepartment(String department) {
+    public List<String> printCourseInDepartment(String department) {
         List<Course> validCourses = Main.courses.stream().filter(c -> department.equals(c.getCourseDepartment())).collect(Collectors.toList());
         List<String> validCourseString = validCourses.stream().map(c -> c.getCourseID()).collect(Collectors.toList());
         validCourseString.forEach(System.out::println);
@@ -119,7 +94,7 @@ public class SupportCourseMgr extends SupportMgr {
      * Prints the components of course after adding components
      * @param currentCourse The course that components were added to
      */
-    public static void printCourseComponentsAfterAdd(Course currentCourse) {
+    public void printCourseComponentsAfterAdd(Course currentCourse) {
         System.out.println(currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " components: ");
         for (MainComponent each_comp : currentCourse.getMainComponents()) {
             System.out.println("    " + each_comp.getComponentName() + " : " + each_comp.getComponentWeight() + "%");
@@ -133,7 +108,7 @@ public class SupportCourseMgr extends SupportMgr {
     /**
      * Prints the list of courses
      */
-    public static void printCourses() {
+    public void printCourses() {
         System.out.println("Course List: ");
         System.out.println("| Course ID | Course Name | Professor in Charge |");
         for (Course course : Main.courses) {
@@ -143,12 +118,77 @@ public class SupportCourseMgr extends SupportMgr {
     }
 
 
+
+
+    /**
+     * Checks whether the inputted course type is valid.
+     * @param courseType The inputted course type.
+     * @return boolean indicates whether the inputted course type is valid.
+     */
+    public boolean checkCourseTypeValidation(String courseType){
+        if(getAllCourseType().contains(courseType)){
+            return true;
+        }
+        System.out.println("The course type is invalid. Please re-enter.");
+        return false;
+    }
+
+
+
+    /**
+     * Gets all the course types as an array list.
+     *
+     * @return an array list of all the course types.
+     */
+    public List<String> getAllCourseType() {
+        Set<CourseType> courseTypeEnumSet = EnumSet.allOf(CourseType.class);
+        List<String> courseTypeStringSet = new ArrayList<String>(0);
+        Iterator iter = courseTypeEnumSet.iterator();
+        while (iter.hasNext()) {
+            courseTypeStringSet.add(iter.next().toString());
+        }
+        return courseTypeStringSet;
+    }
+
+
+
+
+    /**
+     * Prompts the user to input an existing course.
+     * @return the inputted course.
+     */
+    public Course checkCourseExists(){
+        String courseID;
+        Course currentCourse;
+        while(true){
+            System.out.println("Enter course ID (-h to print all the course ID):");
+            courseID = scanner.nextLine();
+            while("-h".equals(courseID)){
+                printAllCourses();
+                courseID = scanner.nextLine();
+            }
+
+            System.setOut(dummyStream);
+            currentCourse = checkCourseExists(courseID);
+            if (currentCourse == null) {
+                System.setOut(originalStream);
+                System.out.println("Invalid Course ID. Please re-enter.");
+            }else{
+                break;
+            }
+        }
+        System.setOut(originalStream);
+        return currentCourse;
+    }
+
+
+
     /**
      * Checks whether this course ID is used by other courses.
      * @param courseID The inputted course ID.
      * @return the existing course or else null.
      */
-    public static Course checkCourseExists(String courseID){
+    public Course checkCourseExists(String courseID){
         List<Course> anyCourse = Main.courses.stream().filter(c->courseID.equals(c.getCourseID())).collect(Collectors.toList());
         if(anyCourse.size() == 0){
             return null;
