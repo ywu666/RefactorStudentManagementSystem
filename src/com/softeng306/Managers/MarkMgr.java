@@ -14,8 +14,8 @@ import java.util.*;
 public class MarkMgr {
     private static Scanner scanner = new Scanner(System.in);
 
-    private static SupportCourseMgr supportCourseMgr;
-    private static SupportStudentMgr supportStudentMgr;
+    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
+    private static SupportStudentMgr supportStudentMgr = new SupportStudentMgr();
 
     /**
      * Initializes marks for a student when he/she just registered a course.

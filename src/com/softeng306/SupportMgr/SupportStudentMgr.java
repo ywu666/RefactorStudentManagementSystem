@@ -12,6 +12,10 @@ import java.util.stream.Collectors;
 
 public class SupportStudentMgr extends SupportDepartmentMgr {
 
+
+    public SupportStudentMgr() {
+    }
+
     public boolean checkValidStudentIDInput(String studentID) {
         String REGEX = "^U[0-9]{7}[A-Z]$";
         boolean valid = Pattern.compile(REGEX).matcher(studentID).matches();

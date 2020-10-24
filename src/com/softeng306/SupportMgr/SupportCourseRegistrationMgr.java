@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 
 public class SupportCourseRegistrationMgr extends SupportDepartmentMgr{
 
+
+    public SupportCourseRegistrationMgr() {
+    }
+
     /**
      * Checks whether this course registration record exists.
      * @param studentID The inputted student ID.

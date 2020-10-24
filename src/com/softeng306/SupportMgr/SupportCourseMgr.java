@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 
 public class SupportCourseMgr extends SupportDepartmentMgr {
 
-
-
+    public SupportCourseMgr() {
+    }
 
     public boolean checkValidCourseIDInput(String courseID) {
         String REGEX = "^[A-Z]{2}[0-9]{3,4}$";

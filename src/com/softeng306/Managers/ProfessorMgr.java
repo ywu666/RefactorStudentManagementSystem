@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
  */
 public class ProfessorMgr {
 
-    private static SupportProfessorMgr supportProfessorMgr;
+    private static SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr();
 
-    private Scanner scanner = new Scanner(System.in);
+    //private Scanner scanner = new Scanner(System.in);
 
 //    /**
 //     * Adds a professor.

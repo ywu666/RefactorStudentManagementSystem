@@ -28,8 +28,8 @@ public class CourseMgr {
     });
 
 
-    private static SupportCourseMgr supportCourseMgr;
-    private static SupportProfessorMgr supportProfessorMgr;
+    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
+    private static SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr();
 
     /**
      * Creates a new course and stores it in the file.

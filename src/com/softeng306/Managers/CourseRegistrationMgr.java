@@ -19,9 +19,9 @@ public class CourseRegistrationMgr {
     private static Scanner scanner = new Scanner(System.in);
     private static CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
 
-    private static SupportCourseRegistrationMgr supportCourseRegistrationMgr;
-    private static SupportCourseMgr supportCourseMgr;
-    private static SupportStudentMgr supportStudentMgr;
+    private static SupportCourseRegistrationMgr supportCourseRegistrationMgr = new SupportCourseRegistrationMgr();
+    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
+    private static SupportStudentMgr supportStudentMgr = new SupportStudentMgr();
 
     /**
      * Registers a course for a student

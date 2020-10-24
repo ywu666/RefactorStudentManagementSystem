@@ -9,7 +9,13 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class SupportProfessorMgr extends SupportDepartmentMgr {
-//
+
+
+    public SupportProfessorMgr() {
+    }
+
+
+    //
 //    public boolean checkValidProfIDInput(String profID) {
 //        String REGEX = "^P[0-9]{7}[A-Z]$";
 //        boolean valid =  Pattern.compile(REGEX).matcher(profID).matches();
@@ -19,6 +25,8 @@ public class SupportProfessorMgr extends SupportDepartmentMgr {
 //        return valid;
 //    }
 //
+
+
 
     /**
      * Checks whether this professor ID is used by other professors.

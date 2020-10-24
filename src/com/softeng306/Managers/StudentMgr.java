@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class StudentMgr {
     private static Scanner scanner = new Scanner(System.in);
     public static int lastGeneratedIDNum = 1800000;
-    private static SupportStudentMgr supportStudentMgr;
+    private static SupportStudentMgr supportStudentMgr = new SupportStudentMgr();
 
 
 

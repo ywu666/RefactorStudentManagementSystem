@@ -20,6 +20,10 @@ public class SupportDepartmentMgr {
 ////        }
 ////    });
 
+
+    public SupportDepartmentMgr() {
+    }
+
     protected static Scanner scanner = new Scanner(System.in);
     protected static PrintStream originalStream = System.out;
     protected static PrintStream dummyStream = new PrintStream(new OutputStream() {
