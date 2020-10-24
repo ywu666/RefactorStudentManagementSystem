@@ -8,16 +8,10 @@ import com.softeng306.Student;
 
 import java.util.Scanner;
 
-import com.softeng306.Enum.Gender;
-import com.softeng306.SupportMgr.SupportHumanMgr;
-import com.softeng306.SupportMgr.SupportMgr;
 import com.softeng306.SupportMgr.SupportStudentMgr;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Manages the student related operations.

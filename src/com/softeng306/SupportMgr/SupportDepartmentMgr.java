@@ -12,14 +12,6 @@ import java.util.stream.Collectors;
 
 public class SupportDepartmentMgr {
 
-//    private static Scanner scanner = new Scanner(System.in);
-////    private static PrintStream originalStream = System.out;
-////    private static PrintStream dummyStream = new PrintStream(new OutputStream() {
-////        public void write(int b) {
-////            // NO-OP
-////        }
-////    });
-
 
     public SupportDepartmentMgr() {
     }
