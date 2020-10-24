@@ -2,9 +2,8 @@ package com.softeng306.SupportMgr;
 
 import com.softeng306.Enum.CourseType;
 import com.softeng306.Enum.Department;
-import com.softeng306.HelpInfoMgr;
 import com.softeng306.Main;
-import com.softeng306.ValidationMgr;
+import com.softeng306.Managers.CourseMgr;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -57,7 +56,7 @@ public class SupportCourseMgr extends SupportMgr {
      * @return A list of all the names of professors in the inputted department or else null.
      */
     public static List<String> printProfInDepartment(String department, boolean printOut) {
-        if (ValidationMgr.checkDepartmentValidation(department)) {
+        if (CourseMgr.checkDepartmentValidation(department)) {
             List<String> validProfString = Main.professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
             if (printOut) {
                 validProfString.forEach(System.out::println);
