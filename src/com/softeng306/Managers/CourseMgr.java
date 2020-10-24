@@ -8,6 +8,7 @@ import com.softeng306.Enum.CourseType;
 import com.softeng306.Enum.Department;
 
 import com.softeng306.*;
+import com.softeng306.FILEMgr.MarkFILEMgr;
 
 import java.util.*;
 import java.io.PrintStream;
@@ -24,6 +25,12 @@ public class CourseMgr {
             // NO-OP
         }
     });
+
+    private static CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
+    /**
+     * A list of all the stored courses.
+     */
+    private static  List<Course> courses = courseFILEMgr.loadFromFile();
 
 
     /**
@@ -145,7 +152,7 @@ public class CourseMgr {
     private static void addCourseIntoFile(String courseID, Course course, String s) {
         CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
         courseFILEMgr.writeIntoFile(course);
-        Main.courses.add(course);
+        courses.add(course);
         System.out.println("Course " + courseID + s);
         printCourses();
     }
@@ -788,7 +795,7 @@ public class CourseMgr {
     public static void printCourses() {
         System.out.println("Course List: ");
         System.out.println("| Course ID | Course Name | Professor in Charge |");
-        for (Course course : Main.courses) {
+        for (Course course : courses) {
             System.out.println("| " + course.getCourseID() + " | " + course.getCourseName() + " | " + course.getProfInCharge().getProfName() + " |");
         }
         System.out.println();
@@ -858,7 +865,7 @@ public class CourseMgr {
      * @return a list of all the department values.
      */
     public static List<String> printCourseInDepartment(String department) {
-        List<Course> validCourses = Main.courses.stream().filter(c -> department.equals(c.getCourseDepartment())).collect(Collectors.toList());
+        List<Course> validCourses = courses.stream().filter(c -> department.equals(c.getCourseDepartment())).collect(Collectors.toList());
         List<String> validCourseString = validCourses.stream().map(c -> c.getCourseID()).collect(Collectors.toList());
         validCourseString.forEach(System.out::println);
         if (validCourseString.size() == 0) {
@@ -872,7 +879,7 @@ public class CourseMgr {
      * Displays a list of IDs of all the courses.
      */
     public static void printAllCourses() {
-        Main.courses.stream().map(c -> c.getCourseID()).forEach(System.out::println);
+        courses.stream().map(c -> c.getCourseID()).forEach(System.out::println);
 
     }
 
@@ -1013,7 +1020,7 @@ public class CourseMgr {
      * @return the existing course or else null.
      */
     public static Course checkCourseExists(String courseID) {
-        List<Course> anyCourse = Main.courses.stream().filter(c -> courseID.equals(c.getCourseID())).collect(Collectors.toList());
+        List<Course> anyCourse = courses.stream().filter(c -> courseID.equals(c.getCourseID())).collect(Collectors.toList());
         if (anyCourse.size() == 0) {
             return null;
         }
@@ -1022,5 +1029,8 @@ public class CourseMgr {
 
     }
 
+    public List<Course> getCourses() {
+        return courses;
+    }
 
 }

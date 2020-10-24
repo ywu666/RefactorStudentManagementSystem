@@ -10,24 +10,13 @@ import java.util.Scanner;
 
 public class Main {
     public static Scanner scanner = new Scanner(System.in);
-    /**
-     * An array list of all the courses in this school.
-     */
-    public static List<Course> courses = new ArrayList<Course>(0);
-    
+
     /**
      * The main function of the system.
      * Command line interface.
      * @param args The command line parameters.
      */
     public static void main(String[] args) {
-        /**
-         * this part is changed due to the refactor
-         */
-        CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
-
-        courses = courseFILEMgr.loadFromFile();
-
         printWelcome();
 
         int choice;
@@ -109,8 +98,9 @@ public class Main {
 
         System.out.println("Backing up data before exiting...");
         MarkMgr markMgr = new MarkMgr();
+        CourseMgr courseMgr = new CourseMgr();
 
-        CourseFILEMgr.backUpCourse(courses);
+        CourseFILEMgr.backUpCourse(courseMgr.getCourses());
         MarkFILEMgr.backUpMarks(markMgr.getMarks());
         System.out.println("********* Bye! Thank you for using Main! *********");
         System.out.println();
