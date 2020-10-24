@@ -272,6 +272,33 @@ public class CourseFILEMgr extends FILEMgr<Course> {
             appendGroupToFile(fileWriter, labGroups);
 
             List<MainComponent> mainComponents = course.getMainComponents();
+            if (mainComponents.size() != 0) {
+                int index = 0;
+                for (MainComponent mainComponent : mainComponents) {
+                    fileWriter.append(mainComponent.getComponentName());
+                    fileWriter.append(EQUAL_SIGN);
+                    fileWriter.append(String.valueOf(mainComponent.getComponentWeight()));
+                    fileWriter.append(EQUAL_SIGN);
+                    ArrayList<SubComponent> subComponents = mainComponent.getSubComponents();
+                    int inner_index = 0;
+                    for (SubComponent subComponent : subComponents) {
+                        fileWriter.append(subComponent.getComponentName());
+                        fileWriter.append(HYPHEN);
+                        fileWriter.append(String.valueOf(subComponent.getComponentWeight()));
+                        inner_index++;
+                        if (inner_index != subComponents.size()) {
+                            fileWriter.append(SLASH);
+                        }
+                    }
+                    index++;
+                    if (index != mainComponents.size()) {
+                        fileWriter.append(LINE_DELIMITER);
+                    }
+                }
+            } else {
+                fileWriter.append("NULL");
+            }
+            fileWriter.append(COMMA_DELIMITER);
 
             fileWriter.append(String.valueOf(course.getAU()));
             fileWriter.append(COMMA_DELIMITER);
