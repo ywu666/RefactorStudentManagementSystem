@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 public class ProfessorMgr {
     private Scanner scanner = new Scanner(System.in);
-    private static FILEMgr<Professor> profFileMgr = new ProfessorFILEMgr();
+    private static ProfessorFILEMgr profFileMgr = new ProfessorFILEMgr();
     /**
      * A list of all the registered professors.
      */

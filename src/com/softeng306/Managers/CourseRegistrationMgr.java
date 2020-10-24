@@ -15,6 +15,10 @@ import static com.softeng306.CourseRegistration.TutComparator;
 public class CourseRegistrationMgr {
     private static Scanner scanner = new Scanner(System.in);
     private static CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
+    /**
+     * A list of all the stored course registrations.
+     */
+    private static  List<CourseRegistration> courseRegistrations = courseRegistrationFILEMgr.loadFromFile();
 
     /**
      * Registers a course for a student
@@ -71,7 +75,7 @@ public class CourseRegistrationMgr {
 
         courseRegistrationFILEMgr.writeIntoFile(courseRegistration);
 
-        Main.courseRegistrations.add(courseRegistration);
+        courseRegistrations.add(courseRegistration);
 
         Main.marks.add(MarkMgr.initializeMark(currentStudent, currentCourse));
 
@@ -249,12 +253,12 @@ public class CourseRegistrationMgr {
      * @return the existing course registration record or else null.
      */
     public static CourseRegistration checkCourseRegistrationExists(String studentID, String courseID){
-        List<CourseRegistration> courseRegistrations = Main.courseRegistrations.stream().filter(cr->studentID.equals(cr.getStudent().getStudentID())).filter(cr->courseID.equals(cr.getCourse().getCourseID())).collect(Collectors.toList());
-        if(courseRegistrations.size() == 0){
+        List<CourseRegistration> filteredCourseRegistrations = courseRegistrations.stream().filter(cr->studentID.equals(cr.getStudent().getStudentID())).filter(cr->courseID.equals(cr.getCourse().getCourseID())).collect(Collectors.toList());
+        if(filteredCourseRegistrations.size() == 0){
             return null;
         }
         System.out.println("Sorry. This student already registers this course.");
-        return courseRegistrations.get(0);
+        return filteredCourseRegistrations.get(0);
 
     }
 

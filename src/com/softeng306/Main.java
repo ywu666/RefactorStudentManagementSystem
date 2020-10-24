@@ -15,10 +15,6 @@ public class Main {
      */
     public static List<Course> courses = new ArrayList<Course>(0);
     /**
-     * An array list of all the course registration records in this school.
-     */
-    public static List<CourseRegistration> courseRegistrations = new ArrayList<CourseRegistration>(0);
-    /**
      * An array list of all the student mark records in this school.
      */
     public static List<Mark> marks = new ArrayList<Mark>(0);
@@ -32,12 +28,10 @@ public class Main {
         /**
          * this part is changed due to the refactor
          */
-        CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
         CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
         MarkFILEMgr markFILEMgr = new MarkFILEMgr();
 
         courses = courseFILEMgr.loadFromFile();
-        courseRegistrations = courseRegistrationFILEMgr.loadFromFile();
         marks = markFILEMgr.loadFromFile();
 
         printWelcome();

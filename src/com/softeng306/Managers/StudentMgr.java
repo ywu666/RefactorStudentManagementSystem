@@ -2,6 +2,8 @@ package com.softeng306.Managers;
 
 
 
+import com.softeng306.CourseRegistration;
+import com.softeng306.FILEMgr.CourseRegistrationFILEMgr;
 import com.softeng306.FILEMgr.FILEMgr;
 import com.softeng306.FILEMgr.ProfessorFILEMgr;
 import com.softeng306.FILEMgr.StudentFILEMgr;
@@ -27,12 +29,11 @@ import java.util.stream.Collectors;
 public class StudentMgr {
     private static Scanner scanner = new Scanner(System.in);
     public static int lastGeneratedIDNum = 1800000;
-    private static FILEMgr<Student> studentFileMgr = new StudentFILEMgr();
+    private static StudentFILEMgr studentFileMgr = new StudentFILEMgr();
     /**
      * A list of all the registered students.
      */
     private static  List<Student> students = studentFileMgr.loadFromFile();
-
 
     /**
      * Sets the lastGeneratedID variable of this  class. USed for generating new ID.
