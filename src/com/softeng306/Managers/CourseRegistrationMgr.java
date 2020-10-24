@@ -19,7 +19,7 @@ public class CourseRegistrationMgr {
     private static Scanner scanner = new Scanner(System.in);
     private static CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
 
-    private static SupportCourseRegistrationMgr supportCourseRegistrationMgr = new SupportCourseRegistrationMgr();
+    //private static SupportCourseRegistrationMgr supportCourseRegistrationMgr = new SupportCourseRegistrationMgr();
     private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
     private static SupportStudentMgr supportStudentMgr = new SupportStudentMgr();
 
@@ -35,13 +35,13 @@ public class CourseRegistrationMgr {
         Student currentStudent = supportStudentMgr.checkStudentExists();
         String studentID = currentStudent.getStudentID();
 
-        supportCourseRegistrationMgr.checkCourseDepartmentExists();
+        supportCourseMgr.checkCourseDepartmentExists();
 
         Course currentCourse = supportCourseMgr.checkCourseExists();
         String courseID = currentCourse.getCourseID();
 
 
-        if (SupportCourseRegistrationMgr.checkCourseRegistrationExists(studentID, courseID) != null) {
+        if (SupportCourseMgr.checkCourseRegistrationExists(studentID, courseID) != null) {
             return;
         }
 
