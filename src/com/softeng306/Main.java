@@ -11,10 +11,6 @@ import java.util.Scanner;
 public class Main {
     public static Scanner scanner = new Scanner(System.in);
     /**
-     * An array list of all the students in this school.
-     */
-    public static List<Student> students = new ArrayList<Student>(0);
-    /**
      * An array list of all the courses in this school.
      */
     public static List<Course> courses = new ArrayList<Course>(0);
@@ -36,12 +32,10 @@ public class Main {
         /**
          * this part is changed due to the refactor
          */
-        StudentFILEMgr studentFILEMgr = new StudentFILEMgr();
         CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
         CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
         MarkFILEMgr markFILEMgr = new MarkFILEMgr();
 
-        students = studentFILEMgr.loadFromFile();
         courses = courseFILEMgr.loadFromFile();
         courseRegistrations = courseRegistrationFILEMgr.loadFromFile();
         marks = markFILEMgr.loadFromFile();

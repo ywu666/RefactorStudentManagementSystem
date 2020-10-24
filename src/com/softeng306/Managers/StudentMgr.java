@@ -2,8 +2,11 @@ package com.softeng306.Managers;
 
 
 
+import com.softeng306.FILEMgr.FILEMgr;
+import com.softeng306.FILEMgr.ProfessorFILEMgr;
 import com.softeng306.FILEMgr.StudentFILEMgr;
 import com.softeng306.Main;
+import com.softeng306.Professor;
 import com.softeng306.Student;
 
 import java.util.Scanner;
@@ -24,6 +27,11 @@ import java.util.stream.Collectors;
 public class StudentMgr {
     private static Scanner scanner = new Scanner(System.in);
     public static int lastGeneratedIDNum = 1800000;
+    private static FILEMgr<Student> studentFileMgr = new StudentFILEMgr();
+    /**
+     * A list of all the registered students.
+     */
+    private static  List<Student> students = studentFileMgr.loadFromFile();
 
 
     /**
@@ -102,7 +110,7 @@ public class StudentMgr {
         StudentFILEMgr studentFILEMgr = new StudentFILEMgr();
         studentFILEMgr.writeIntoFile(currentStudent);
 
-        Main.students.add(currentStudent);
+        students.add(currentStudent);
 //        print out current students after added
         printStudentsAfterAdd(currentStudent);
 
@@ -124,7 +132,7 @@ public class StudentMgr {
             generateStudentID = "U" + lastGeneratedIDNum + lastPlace;
 
             studentIDUsed = false;
-            for (Student student : Main.students) {
+            for (Student student : students) {
                 if (generateStudentID.equals(student.getStudentID())) {
                     studentIDUsed = true;
                     break;
@@ -233,7 +241,7 @@ public class StudentMgr {
 
         System.out.println("Student List: ");
         System.out.println("| Student ID | Student Name | Student School | Gender | Year | GPA |");
-        for (Student student : Main.students) {
+        for (Student student : students) {
             if (Double.compare(student.getGPA(), 0.0) != 0) {
                 GPA = String.valueOf(student.getGPA());
             }
@@ -276,7 +284,7 @@ public class StudentMgr {
      * Displays a list of IDs of all the students.
      */
     public static void printAllStudents() {
-        Main.students.stream().map(s -> s.getStudentID()).forEach(System.out::println);
+        students.stream().map(s -> s.getStudentID()).forEach(System.out::println);
     }
 
 
@@ -333,7 +341,7 @@ public class StudentMgr {
      * @return the existing student or else null.
      */
     public static Student checkStudentExists(String studentID){
-        List<Student> anyStudent = Main.students.stream().filter(s->studentID.equals(s.getStudentID())).collect(Collectors.toList());
+        List<Student> anyStudent = students.stream().filter(s->studentID.equals(s.getStudentID())).collect(Collectors.toList());
         if(anyStudent.size() == 0){
             return null;
         }
