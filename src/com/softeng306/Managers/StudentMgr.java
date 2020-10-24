@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class StudentMgr {
     private static Scanner scanner = new Scanner(System.in);
     public static int lastGeneratedIDNum = 1800000;
-    private static SupportHumanMgr supportStudentMgr;
+    private static SupportStudentMgr supportStudentMgr;
 
 
 
@@ -79,7 +79,7 @@ public class StudentMgr {
 //                prompt user for with instructions for manual ID input
                 studentID = manualPromptUserID();
 //
-            } while (!StudentMgr.checkValidStudentIDInput(studentID) || StudentMgr.checkStudentExists(studentID) != null);
+            } while (!supportStudentMgr.checkValidStudentIDInput(studentID) || supportStudentMgr.checkStudentExists(studentID) != null);
 
         }
 //      if choice == 2 then generate automated student ID
@@ -167,10 +167,10 @@ public class StudentMgr {
             System.out.println("Enter -h to print all the schools.");
             studentSchool = scanner.nextLine();
             while ("-h".equals(studentSchool)) {
-                CourseMgr.printAllDepartment();
+                supportStudentMgr.printAllDepartment();
                 studentSchool = scanner.nextLine();
             }
-            if (CourseMgr.checkDepartmentValidation(studentSchool)) {
+            if (supportStudentMgr.checkDepartmentValidation(studentSchool)) {
 
                 currentStudent.setStudentSchool(studentSchool);
                 break;
@@ -190,11 +190,11 @@ public class StudentMgr {
             System.out.println("Enter -h to print all the genders.");
             studentGender = scanner.nextLine();
             while ("-h".equals(studentGender)) {
-                StudentMgr.printAllGender();
+                supportStudentMgr.printAllGender();
                 studentGender = scanner.nextLine();
             }
 
-                if (StudentMgr.checkGenderValidation(studentGender)) {
+                if (supportStudentMgr.checkGenderValidation(studentGender)) {
                 currentStudent.setGender(studentGender);
                 break;
             }
@@ -248,118 +248,102 @@ public class StudentMgr {
 
 
 
-    /**
-     * Displays a list of all the genders.
-     */
-    public static void printAllGender() {
-        int index = 1;
-        for (Gender gender : Gender.values()) {
-            System.out.println(index + ": " + gender);
-            index++;
-        }
+//    /**
+//     * Displays a list of all the genders.
+//     */
+//    public static void printAllGender() {
+//        int index = 1;
+//        for (Gender gender : Gender.values()) {
+//            System.out.println(index + ": " + gender);
+//            index++;
+//        }
+//
+//    }
+//
+//
+//    /**
+//     * Gets all the genders as an array list.
+//     *
+//     * @return an array list of all the genders.
+//     */
+//    public static ArrayList<String> getAllGender() {
+//        Set<Gender> genderEnumSet = EnumSet.allOf(Gender.class);
+//        ArrayList<String> genderStringList = new ArrayList<String>(0);
+//        Iterator iter = genderEnumSet.iterator();
+//        while (iter.hasNext()) {
+//            genderStringList.add(iter.next().toString());
+//        }
+//        return genderStringList;
+//    }
+//
+//
+//    /**
+//     * Displays a list of IDs of all the students.
+//     */
+//    public static void printAllStudents() {
+//        Main.students.stream().map(s -> s.getStudentID()).forEach(System.out::println);
+//    }
+//
+//
+//    /**
+//     * Checks whether the inputted gender is valid.
+//     * @param gender The inputted gender.
+//     * @return boolean indicates whether the inputted gender is valid.
+//     */
+//    public static boolean checkGenderValidation(String gender){
+//        if(StudentMgr.getAllGender().contains(gender)){
+//            return true;
+//        }
+//        System.out.println("The gender is invalid. Please re-enter.");
+//        return false;
+//    }
+//
+//
 
-    }
-
-
-    /**
-     * Gets all the genders as an array list.
-     *
-     * @return an array list of all the genders.
-     */
-    public static ArrayList<String> getAllGender() {
-        Set<Gender> genderEnumSet = EnumSet.allOf(Gender.class);
-        ArrayList<String> genderStringList = new ArrayList<String>(0);
-        Iterator iter = genderEnumSet.iterator();
-        while (iter.hasNext()) {
-            genderStringList.add(iter.next().toString());
-        }
-        return genderStringList;
-    }
-
-
-    /**
-     * Displays a list of IDs of all the students.
-     */
-    public static void printAllStudents() {
-        Main.students.stream().map(s -> s.getStudentID()).forEach(System.out::println);
-    }
-
-
-    /**
-     * Checks whether the inputted gender is valid.
-     * @param gender The inputted gender.
-     * @return boolean indicates whether the inputted gender is valid.
-     */
-    public static boolean checkGenderValidation(String gender){
-        if(StudentMgr.getAllGender().contains(gender)){
-            return true;
-        }
-        System.out.println("The gender is invalid. Please re-enter.");
-        return false;
-    }
-
-
-
-    /**
-     * Checks whether the inputted student ID is in the correct format.
-     * @param studentID The inputted student ID.
-     * @return boolean indicates whether the inputted student ID is valid.
-     */
-    public static boolean checkValidStudentIDInput(String studentID){
-        String REGEX = "^U[0-9]{7}[A-Z]$";
-        boolean valid = Pattern.compile(REGEX).matcher(studentID).matches();
-        if(!valid){
-            System.out.println("Wrong format of student ID.");
-        }
-        return valid;
-
-    }
-
-
-
-    /**
-     * Checks whether this student ID is used by other students.
-     * @param studentID This student's ID.
-     * @return the existing student or else null.
-     */
-    public static Student checkStudentExists(String studentID){
-        List<Student> anyStudent = Main.students.stream().filter(s->studentID.equals(s.getStudentID())).collect(Collectors.toList());
-        if(anyStudent.size() == 0){
-            return null;
-        }
-        System.out.println("Sorry. The student ID is used. This student already exists.");
-        return anyStudent.get(0);
-
-    }
+//    /**
+//     * Checks whether the inputted student ID is in the correct format.
+//     * @param studentID The inputted student ID.
+//     * @return boolean indicates whether the inputted student ID is valid.
+//     */
+//    public static boolean checkValidStudentIDInput(String studentID){
+//        String REGEX = "^U[0-9]{7}[A-Z]$";
+//        boolean valid = Pattern.compile(REGEX).matcher(studentID).matches();
+//        if(!valid){
+//            System.out.println("Wrong format of student ID.");
+//        }
+//        return valid;
+//
+//    }
 
 
-    /**
-     * Prompts the user to input an existing student.
-     * @return the inputted student.
-     */
-    public static Student checkStudentExists(){
-        String studentID;
-        Student currentStudent = null;
-        while (true) {
-            System.out.println("Enter Student ID (-h to print all the student ID):");
-            studentID = scanner.nextLine();
-            while("-h".equals(studentID)){
-                StudentMgr.printAllStudents();
-                studentID = scanner.nextLine();
-            }
 
-            System.setOut(dummyStream);
-            currentStudent = StudentMgr.checkStudentExists(studentID);
-            System.setOut(originalStream);
-            if (currentStudent == null) {
-                System.out.println("Invalid Student ID. Please re-enter.");
-            }else {
-                break;
-            }
-
-        }
-        return currentStudent;
-    }
+//    /**
+//     * Prompts the user to input an existing student.
+//     * @return the inputted student.
+//     */
+//    public static Student checkStudentExists(){
+//        String studentID;
+//        Student currentStudent = null;
+//        while (true) {
+//            System.out.println("Enter Student ID (-h to print all the student ID):");
+//            studentID = scanner.nextLine();
+//            while("-h".equals(studentID)){
+//                StudentMgr.printAllStudents();
+//                studentID = scanner.nextLine();
+//            }
+//
+//            System.setOut(dummyStream);
+//            currentStudent = StudentMgr.checkStudentExists(studentID);
+//            System.setOut(originalStream);
+//            if (currentStudent == null) {
+//                System.out.println("Invalid Student ID. Please re-enter.");
+//            }else {
+//                break;
+//            }
+//
+//        }
+//        return currentStudent;
+//    }
 
 
 }

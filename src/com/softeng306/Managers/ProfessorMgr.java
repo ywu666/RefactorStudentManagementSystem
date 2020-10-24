@@ -17,57 +17,56 @@ import java.util.stream.Collectors;
  */
 public class ProfessorMgr {
 
-    private SupportProfessorMgr supportProfessorMgr;
-    private SupportStudentMgr supportStudentMgr;
+    private static SupportProfessorMgr supportProfessorMgr;
 
     private Scanner scanner = new Scanner(System.in);
 
-    /**
-     * Adds a professor.
-     *
-     * @return a newly added professor
-     */
-    public Professor addProfessor() {
-        String department, profID;
-        while (true) {
-            System.out.println("Give this professor an ID: ");
-            profID = scanner.nextLine();
-                if (supportProfessorMgr.checkValidIDInput(profID)) {
-                if (supportProfessorMgr.checkProfExists(profID) == null) {
-                    break;
-                }
-            }
-        }
-
-        String profName;
-        while (true) {
-            System.out.println("Enter the professor's name: ");
-            profName = scanner.nextLine();
-            if (supportProfessorMgr.checkValidPersonNameInput(profName)) {
-                break;
-            }
-        }
-
-        Professor professor = new Professor(profID, profName);
-        while (true) {
-            System.out.println("Enter professor's Department: ");
-            System.out.println("Enter -h to print all the departments.");
-            department = scanner.nextLine();
-            while (department.equals("-h")) {
-                CourseMgr.getAllDepartment();
-                department = scanner.nextLine();
-            }
-
-            if (CourseMgr.checkDepartmentValidation(department)) {
-                professor.setProfDepartment(department);
-                break;
-            }
-        }
-
-
-        return professor;
-    }
-
+//    /**
+//     * Adds a professor.
+//     *
+//     * @return a newly added professor
+//     */
+//    public Professor addProfessor() {
+//        String department, profID;
+//        while (true) {
+//            System.out.println("Give this professor an ID: ");
+//            profID = scanner.nextLine();
+//                if (supportProfessorMgr.checkValidProfIDInput(profID)) {
+//                if (supportProfessorMgr.checkProfExists(profID) == null) {
+//                    break;
+//                }
+//            }
+//        }
+//
+//        String profName;
+//        while (true) {
+//            System.out.println("Enter the professor's name: ");
+//            profName = scanner.nextLine();
+//            if (supportProfessorMgr.checkValidPersonNameInput(profName)) {
+//                break;
+//            }
+//        }
+//
+//        Professor professor = new Professor(profID, profName);
+//        while (true) {
+//            System.out.println("Enter professor's Department: ");
+//            System.out.println("Enter -h to print all the departments.");
+//            department = scanner.nextLine();
+//            while (department.equals("-h")) {
+//                supportProfessorMgr.getAllDepartment();
+//                department = scanner.nextLine();
+//            }
+//
+//            if (supportProfessorMgr.checkDepartmentValidation(department)) {
+//                professor.setProfDepartment(department);
+//                break;
+//            }
+//        }
+//
+//
+//        return professor;
+//    }
+//
 
 
     /**
@@ -78,7 +77,7 @@ public class ProfessorMgr {
      * @return A list of all the names of professors in the inputted department or else null.
      */
     public static List<String> printProfInDepartment(String department, boolean printOut) {
-        if (CourseMgr.checkDepartmentValidation(department)) {
+        if (supportProfessorMgr.checkDepartmentValidation(department)) {
             List<String> validProfString = Main.professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
             if (printOut) {
                 validProfString.forEach(System.out::println);

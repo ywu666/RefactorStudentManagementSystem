@@ -8,24 +8,24 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class SupportProfessorMgr extends SupportHumanMgr {
-    @Override
-    public boolean checkValidIDInput(String profID) {
-        String REGEX = "^P[0-9]{7}[A-Z]$";
-        boolean valid =  Pattern.compile(REGEX).matcher(profID).matches();
-        if(!valid){
-            System.out.println("Wrong format of prof ID.");
-        }
-        return valid;
-    }
-
+public class SupportProfessorMgr extends SupportDepartmentMgr {
+//
+//    public boolean checkValidProfIDInput(String profID) {
+//        String REGEX = "^P[0-9]{7}[A-Z]$";
+//        boolean valid =  Pattern.compile(REGEX).matcher(profID).matches();
+//        if(!valid){
+//            System.out.println("Wrong format of prof ID.");
+//        }
+//        return valid;
+//    }
+//
 
     /**
      * Checks whether this professor ID is used by other professors.
      * @param profID The inputted professor ID.
      * @return the existing professor or else null.
      */
-    public static Professor checkProfExists(String profID){
+    public Professor checkProfExists(String profID){
         List<Professor> anyProf = Main.professors.stream().filter(p->profID.equals(p.getProfID())).collect(Collectors.toList());
         if(anyProf.size() == 0){
             return null;
@@ -34,7 +34,6 @@ public class SupportProfessorMgr extends SupportHumanMgr {
         return anyProf.get(0);
 
     }
-
 
 
 }

@@ -3,7 +3,9 @@ package com.softeng306.Managers;
 import com.softeng306.*;
 import com.softeng306.FILEMgr.CourseRegistrationFILEMgr;
 import com.softeng306.Managers.MarkMgr;
+import com.softeng306.SupportMgr.SupportCourseMgr;
 import com.softeng306.SupportMgr.SupportCourseRegistrationMgr;
+import com.softeng306.SupportMgr.SupportStudentMgr;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,6 +19,10 @@ public class CourseRegistrationMgr {
     private static Scanner scanner = new Scanner(System.in);
     private static CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
 
+    private static SupportCourseRegistrationMgr supportCourseRegistrationMgr;
+    private static SupportCourseMgr supportCourseMgr;
+    private static SupportStudentMgr supportStudentMgr;
+
     /**
      * Registers a course for a student
      */
@@ -26,12 +32,12 @@ public class CourseRegistrationMgr {
         String selectedTutorialGroupName = null;
         String selectedLabGroupName = null;
 
-        Student currentStudent = StudentMgr.checkStudentExists();
+        Student currentStudent = supportStudentMgr.checkStudentExists();
         String studentID = currentStudent.getStudentID();
 
-        CourseMgr.checkCourseDepartmentExists();
+        supportCourseRegistrationMgr.checkCourseDepartmentExists();
 
-        Course currentCourse = CourseMgr.checkCourseExists();
+        Course currentCourse = supportCourseMgr.checkCourseExists();
         String courseID = currentCourse.getCourseID();
 
 
@@ -93,7 +99,7 @@ public class CourseRegistrationMgr {
      */
     public static void printStudents() {
         System.out.println("printStudent is called");
-        Course currentCourse = CourseMgr.checkCourseExists();
+        Course currentCourse = supportCourseMgr.checkCourseExists();
 
         System.out.println("Print student by: ");
         System.out.println("(1) Lecture group");

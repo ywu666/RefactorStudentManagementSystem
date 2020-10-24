@@ -29,6 +29,7 @@ public class CourseMgr {
 
 
     private static SupportCourseMgr supportCourseMgr;
+    private static SupportProfessorMgr supportProfessorMgr;
 
     /**
      * Creates a new course and stores it in the file.
@@ -196,7 +197,7 @@ public class CourseMgr {
             }
 
             System.setOut(dummyStream);
-            profInCharge = SupportProfessorMgr.checkProfExists(profID);
+            profInCharge = supportProfessorMgr.checkProfExists(profID);
             System.setOut(originalStream);
             if (profInCharge != null) {
                 assert professorsInDepartment != null;
@@ -755,7 +756,7 @@ public class CourseMgr {
 
 
 
-    
+
 //
 //    /**
 //     * Displays a list of all the departments.

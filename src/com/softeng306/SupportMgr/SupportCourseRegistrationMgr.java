@@ -6,7 +6,7 @@ import com.softeng306.Main;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SupportCourseRegistrationMgr {
+public class SupportCourseRegistrationMgr extends SupportDepartmentMgr{
 
     /**
      * Checks whether this course registration record exists.

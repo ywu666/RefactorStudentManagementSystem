@@ -16,13 +16,7 @@ import java.util.stream.Collectors;
 
 public class SupportCourseMgr extends SupportDepartmentMgr {
 
-    private static Scanner scanner = new Scanner(System.in);
-    private static PrintStream originalStream = System.out;
-    private static PrintStream dummyStream = new PrintStream(new OutputStream() {
-        public void write(int b) {
-            // NO-OP
-        }
-    });
+
 
 
     public boolean checkValidCourseIDInput(String courseID) {
@@ -71,23 +65,6 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
         }
     }
 
-
-
-    /**
-     * Displays a list of all the courses in the inputted department.
-     *
-     * @param department The inputted department.
-     * @return a list of all the department values.
-     */
-    public List<String> printCourseInDepartment(String department) {
-        List<Course> validCourses = Main.courses.stream().filter(c -> department.equals(c.getCourseDepartment())).collect(Collectors.toList());
-        List<String> validCourseString = validCourses.stream().map(c -> c.getCourseID()).collect(Collectors.toList());
-        validCourseString.forEach(System.out::println);
-        if (validCourseString.size() == 0) {
-            System.out.println("None.");
-        }
-        return validCourseString;
-    }
 
 
     /**
