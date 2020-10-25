@@ -46,6 +46,8 @@ public class Main {
         CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
         MarkFILEMgr markFILEMgr = new MarkFILEMgr();
 
+        MarkMgr markMgr = new MarkMgr();
+
         students = studentFILEMgr.loadFromFile();
         courses = courseFILEMgr.loadFromFile();
         courseRegistrations = courseRegistrationFILEMgr.loadFromFile();
@@ -94,16 +96,16 @@ public class Main {
                     CourseMgr.enterCourseWorkComponentWeightage(null);
                     break;
                 case 7:
-                    MarkMgr.setCourseWorkMark(false);
+                    markMgr.setCourseWorkMark(false);
                     break;
                 case 8:
-                    MarkMgr.setCourseWorkMark(true);
+                    markMgr.setCourseWorkMark(true);
                     break;
                 case 9:
-                    MarkMgr.printCourseStatistics();
+                    markMgr.printCourseStatistics();
                     break;
                 case 10:
-                    MarkMgr.printStudentTranscript();
+                    markMgr.printStudentTranscript();
                     break;
                 case 11:
                     exitApplication();
