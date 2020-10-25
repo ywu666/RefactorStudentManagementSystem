@@ -100,11 +100,8 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
                     }
 
                     String courseWorkMarksString = tokens[courseWorkMarksIndex];
-//                    System.out.println("From File, This course work components is: " + courseWorkMarksString);
 
                     String[] eachCourseWorkMark = courseWorkMarksString.split(Pattern.quote(LINE_DELIMITER));
-                    // Get all the main components
-//                    System.out.println("From the file: " + eachCourseWorkMark.length + " main components.");
 
                     for (int i = 0; i < eachCourseWorkMark.length; i++) {
                         thisCourseWorkMark = eachCourseWorkMark[i].split(EQUAL_SIGN);
