@@ -1,6 +1,8 @@
-package com.softeng306;
+package com.softeng306.Managers;
 
+import com.softeng306.*;
 import com.softeng306.FILEMgr.MarkFILEMgr;
+
 import java.util.*;
 
 /**
@@ -140,8 +142,8 @@ public class MarkMgr {
     public static void setCourseWorkMark(boolean isExam) {
         System.out.println("enterCourseWorkMark is called");
 
-        String studentID = ValidationMgr.checkStudentExists().getStudentID();
-        String courseID = ValidationMgr.checkCourseExists().getCourseID();
+        String studentID = StudentMgr.checkStudentExists().getStudentID();
+        String courseID = CourseMgr.checkCourseExists().getCourseID();
 
         for (Mark mark : Main.marks) {
 
@@ -266,7 +268,7 @@ public class MarkMgr {
     public static void printCourseStatistics() {
         System.out.println("printCourseStatistics is called");
 
-        Course currentCourse = ValidationMgr.checkCourseExists();
+        Course currentCourse = CourseMgr.checkCourseExists();
         String courseID = currentCourse.getCourseID();
 
         ArrayList<Mark> thisCourseMark = new ArrayList<Mark>(0);
@@ -372,7 +374,8 @@ public class MarkMgr {
      * Prints transcript (Results of course taken) for a particular student
      */
     public static void printStudentTranscript() {
-        String studentID = ValidationMgr.checkStudentExists().getStudentID();
+        String studentID = StudentMgr.checkStudentExists().getStudentID();
+
 
         int thisStudentAU = 0;
         ArrayList<Mark> thisStudentMark = new ArrayList<Mark>(0);

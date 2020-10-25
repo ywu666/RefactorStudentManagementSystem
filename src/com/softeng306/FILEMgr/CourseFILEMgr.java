@@ -3,6 +3,7 @@ package com.softeng306.FILEMgr;
 import com.softeng306.*;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -93,124 +94,12 @@ public class CourseFILEMgr extends FILEMgr<Course> {
      */
     private static final String course_HEADER = "courseID,courseName,profInCharge,vacancies,totalSeats,lectureGroups,TutorialGroups,LabGroups,MainComponents,AU,courseDepartment,courseType,lecHr,tutHr,labHr";
 
-    @Override
     public void writeIntoFile(Course course) {
         FileWriter fileWriter = null;
         try {
             fileWriter = initialiseFileWriter(courseFileName, course_HEADER);
+            appendCourseToFileWriter(fileWriter, course);
 
-            fileWriter.append(course.getCourseID());
-            fileWriter.append(COMMA_DELIMITER);
-
-            fileWriter.append(course.getCourseName());
-            fileWriter.append(COMMA_DELIMITER);
-
-            fileWriter.append(course.getProfInCharge().getProfID());
-            fileWriter.append(COMMA_DELIMITER);
-
-            fileWriter.append(String.valueOf(course.getVacancies()));
-            fileWriter.append(COMMA_DELIMITER);
-
-            fileWriter.append(String.valueOf(course.getTotalSeats()));
-            fileWriter.append(COMMA_DELIMITER);
-
-            ArrayList<LectureGroup> lectureGroups = course.getLectureGroups();
-            if (lectureGroups.size() != 0) {
-                int index = 0;
-                for (LectureGroup lectureGroup : lectureGroups) {
-                    fileWriter.append(lectureGroup.getGroupName());
-                    fileWriter.append(EQUAL_SIGN);
-                    fileWriter.append(String.valueOf(lectureGroup.getAvailableVacancies()));
-                    fileWriter.append(EQUAL_SIGN);
-                    fileWriter.append(String.valueOf(lectureGroup.getTotalSeats()));
-                    index++;
-                    if (index != lectureGroups.size()) {
-                        fileWriter.append(LINE_DELIMITER);
-                    }
-                }
-            } else {
-                fileWriter.append("NULL");
-            }
-            fileWriter.append(COMMA_DELIMITER);
-
-            ArrayList<TutorialGroup> tutorialGroups = course.getTutorialGroups();
-            if (tutorialGroups.size() != 0) {
-                int index = 0;
-                for (TutorialGroup tutorialGroup : tutorialGroups) {
-                    fileWriter.append(tutorialGroup.getGroupName());
-                    fileWriter.append(EQUAL_SIGN);
-                    fileWriter.append(String.valueOf(tutorialGroup.getAvailableVacancies()));
-                    fileWriter.append(EQUAL_SIGN);
-                    fileWriter.append(String.valueOf(tutorialGroup.getTotalSeats()));
-                    index++;
-                    if (index != tutorialGroups.size()) {
-                        fileWriter.append(LINE_DELIMITER);
-                    }
-                }
-            } else {
-                fileWriter.append("NULL");
-            }
-            fileWriter.append(COMMA_DELIMITER);
-
-            ArrayList<LabGroup> labGroups = course.getLabGroups();
-            if (labGroups.size() != 0) {
-                int index = 0;
-                for (LabGroup labGroup : labGroups) {
-                    fileWriter.append(labGroup.getGroupName());
-                    fileWriter.append(EQUAL_SIGN);
-                    fileWriter.append(String.valueOf(labGroup.getAvailableVacancies()));
-                    fileWriter.append(EQUAL_SIGN);
-                    fileWriter.append(String.valueOf(labGroup.getTotalSeats()));
-                    index++;
-                    if (index != labGroups.size()) {
-                        fileWriter.append(LINE_DELIMITER);
-                    }
-                }
-            } else {
-                fileWriter.append("NULL");
-            }
-            fileWriter.append(COMMA_DELIMITER);
-
-            ArrayList<MainComponent> mainComponents = course.getMainComponents();
-            if (mainComponents.size() != 0) {
-                int index = 0;
-                for (MainComponent mainComponent : mainComponents) {
-                    fileWriter.append(mainComponent.getComponentName());
-                    fileWriter.append(EQUAL_SIGN);
-                    fileWriter.append(String.valueOf(mainComponent.getComponentWeight()));
-                    fileWriter.append(EQUAL_SIGN);
-                    ArrayList<SubComponent> subComponents = mainComponent.getSubComponents();
-                    int inner_index = 0;
-                    for (SubComponent subComponent : subComponents) {
-                        fileWriter.append(subComponent.getComponentName());
-                        fileWriter.append(HYPHEN);
-                        fileWriter.append(String.valueOf(subComponent.getComponentWeight()));
-                        inner_index++;
-                        if (inner_index != subComponents.size()) {
-                            fileWriter.append(SLASH);
-                        }
-                    }
-                    index++;
-                    if (index != mainComponents.size()) {
-                        fileWriter.append(LINE_DELIMITER);
-                    }
-                }
-            } else {
-                fileWriter.append("NULL");
-            }
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(course.getAU()));
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(course.getCourseDepartment());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(course.getCourseType());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(course.getLecWeeklyHour()));
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(course.getTutWeeklyHour()));
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(course.getLabWeeklyHour()));
-            fileWriter.append(NEW_LINE_SEPARATOR);
         } catch (Exception e) {
             System.out.println("Error in adding a course to the file.");
             e.printStackTrace();
@@ -226,12 +115,8 @@ public class CourseFILEMgr extends FILEMgr<Course> {
         BufferedReader fileReader = null;
         try {
             String line;
-            int thisProfessor = 0;
             Professor currentProfessor = null;
 
-            /**
-             * This is changed due to the reafacor
-             */
             ProfessorFILEMgr professorFILEMgr = new ProfessorFILEMgr();
             List<Professor> professors = professorFILEMgr.loadFromFile();
 
@@ -335,128 +220,11 @@ public class CourseFILEMgr extends FILEMgr<Course> {
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(courseFileName);
-
-
             fileWriter.append(course_HEADER);
             fileWriter.append(NEW_LINE_SEPARATOR);
 
             for (Course course : courses) {
-                fileWriter.append(course.getCourseID());
-                fileWriter.append(COMMA_DELIMITER);
-
-                fileWriter.append(course.getCourseName());
-                fileWriter.append(COMMA_DELIMITER);
-
-                fileWriter.append(course.getProfInCharge().getProfID());
-                fileWriter.append(COMMA_DELIMITER);
-
-                fileWriter.append(String.valueOf(course.getVacancies()));
-                fileWriter.append(COMMA_DELIMITER);
-
-                fileWriter.append(String.valueOf(course.getTotalSeats()));
-                fileWriter.append(COMMA_DELIMITER);
-
-                ArrayList<LectureGroup> lectureGroups = course.getLectureGroups();
-
-                if (lectureGroups.size() != 0) {
-                    int index = 0;
-                    for (LectureGroup lectureGroup : lectureGroups) {
-                        fileWriter.append(lectureGroup.getGroupName());
-                        fileWriter.append(EQUAL_SIGN);
-                        fileWriter.append(String.valueOf(lectureGroup.getAvailableVacancies()));
-                        fileWriter.append(EQUAL_SIGN);
-                        fileWriter.append(String.valueOf(lectureGroup.getTotalSeats()));
-                        index++;
-                        if (index != lectureGroups.size()) {
-                            fileWriter.append(LINE_DELIMITER);
-                        }
-                    }
-                } else {
-                    fileWriter.append("NULL");
-                }
-
-                fileWriter.append(COMMA_DELIMITER);
-
-                ArrayList<TutorialGroup> tutorialGroups = course.getTutorialGroups();
-                if (tutorialGroups.size() != 0) {
-                    int index = 0;
-                    for (TutorialGroup tutorialGroup : tutorialGroups) {
-                        fileWriter.append(tutorialGroup.getGroupName());
-                        fileWriter.append(EQUAL_SIGN);
-                        fileWriter.append(String.valueOf(tutorialGroup.getAvailableVacancies()));
-                        fileWriter.append(EQUAL_SIGN);
-                        fileWriter.append(String.valueOf(tutorialGroup.getTotalSeats()));
-                        index++;
-                        if (index != tutorialGroups.size()) {
-                            fileWriter.append(LINE_DELIMITER);
-                        }
-                    }
-                } else {
-                    fileWriter.append("NULL");
-                }
-                fileWriter.append(COMMA_DELIMITER);
-
-                ArrayList<LabGroup> labGroups = course.getLabGroups();
-                if (labGroups.size() != 0) {
-                    int index = 0;
-                    for (LabGroup labGroup : labGroups) {
-                        fileWriter.append(labGroup.getGroupName());
-                        fileWriter.append(EQUAL_SIGN);
-                        fileWriter.append(String.valueOf(labGroup.getAvailableVacancies()));
-                        fileWriter.append(EQUAL_SIGN);
-                        fileWriter.append(String.valueOf(labGroup.getTotalSeats()));
-                        index++;
-                        if (index != labGroups.size()) {
-                            fileWriter.append(LINE_DELIMITER);
-                        }
-                    }
-                } else {
-                    fileWriter.append("NULL");
-                }
-
-                fileWriter.append(COMMA_DELIMITER);
-
-                ArrayList<MainComponent> mainComponents = course.getMainComponents();
-                if (mainComponents.size() != 0) {
-                    int index = 0;
-                    for (MainComponent mainComponent : mainComponents) {
-                        fileWriter.append(mainComponent.getComponentName());
-                        fileWriter.append(EQUAL_SIGN);
-                        fileWriter.append(String.valueOf(mainComponent.getComponentWeight()));
-                        fileWriter.append(EQUAL_SIGN);
-                        ArrayList<SubComponent> subComponents = mainComponent.getSubComponents();
-                        int inner_index = 0;
-                        for (SubComponent subComponent : subComponents) {
-                            fileWriter.append(subComponent.getComponentName());
-                            fileWriter.append(HYPHEN);
-                            fileWriter.append(String.valueOf(subComponent.getComponentWeight()));
-                            inner_index++;
-                            if (inner_index != subComponents.size()) {
-                                fileWriter.append(SLASH);
-                            }
-                        }
-                        index++;
-                        if (index != mainComponents.size()) {
-                            fileWriter.append(LINE_DELIMITER);
-                        }
-                    }
-                } else {
-                    fileWriter.append("NULL");
-                }
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(String.valueOf(course.getAU()));
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(course.getCourseDepartment());
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(course.getCourseType());
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(String.valueOf(course.getLecWeeklyHour()));
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(String.valueOf(course.getTutWeeklyHour()));
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(String.valueOf(course.getLabWeeklyHour()));
-                fileWriter.append(NEW_LINE_SEPARATOR);
-
+                appendCourseToFileWriter(fileWriter, course);
             }
 
         } catch (Exception e) {
@@ -471,5 +239,101 @@ public class CourseFILEMgr extends FILEMgr<Course> {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Appends the specified course's information to the file writer
+     * Used by backUpCourse and writeIntoFile
+     */
+    private static void appendCourseToFileWriter(FileWriter fileWriter, Course course) {
+        try {
+            fileWriter.append(course.getCourseID());
+            fileWriter.append(COMMA_DELIMITER);
+
+            fileWriter.append(course.getCourseName());
+            fileWriter.append(COMMA_DELIMITER);
+
+            fileWriter.append(course.getProfInCharge().getProfID());
+            fileWriter.append(COMMA_DELIMITER);
+
+            fileWriter.append(String.valueOf(course.getVacancies()));
+            fileWriter.append(COMMA_DELIMITER);
+
+            fileWriter.append(String.valueOf(course.getTotalSeats()));
+            fileWriter.append(COMMA_DELIMITER);
+
+            List<LectureGroup> lectureGroups = course.getLectureGroups();
+            appendGroupToFile(fileWriter, lectureGroups);
+
+            List<TutorialGroup> tutorialGroups = course.getTutorialGroups();
+            appendGroupToFile(fileWriter, tutorialGroups);
+
+            List<LabGroup> labGroups = course.getLabGroups();
+            appendGroupToFile(fileWriter, labGroups);
+
+            List<MainComponent> mainComponents = course.getMainComponents();
+            if (mainComponents.size() != 0) {
+                int index = 0;
+                for (MainComponent mainComponent : mainComponents) {
+                    fileWriter.append(mainComponent.getComponentName());
+                    fileWriter.append(EQUAL_SIGN);
+                    fileWriter.append(String.valueOf(mainComponent.getComponentWeight()));
+                    fileWriter.append(EQUAL_SIGN);
+                    ArrayList<SubComponent> subComponents = mainComponent.getSubComponents();
+                    int inner_index = 0;
+                    for (SubComponent subComponent : subComponents) {
+                        fileWriter.append(subComponent.getComponentName());
+                        fileWriter.append(HYPHEN);
+                        fileWriter.append(String.valueOf(subComponent.getComponentWeight()));
+                        inner_index++;
+                        if (inner_index != subComponents.size()) {
+                            fileWriter.append(SLASH);
+                        }
+                    }
+                    index++;
+                    if (index != mainComponents.size()) {
+                        fileWriter.append(LINE_DELIMITER);
+                    }
+                }
+            } else {
+                fileWriter.append("NULL");
+            }
+            fileWriter.append(COMMA_DELIMITER);
+
+            fileWriter.append(String.valueOf(course.getAU()));
+            fileWriter.append(COMMA_DELIMITER);
+            fileWriter.append(course.getCourseDepartment());
+            fileWriter.append(COMMA_DELIMITER);
+            fileWriter.append(course.getCourseType());
+            fileWriter.append(COMMA_DELIMITER);
+            fileWriter.append(String.valueOf(course.getLecWeeklyHour()));
+            fileWriter.append(COMMA_DELIMITER);
+            fileWriter.append(String.valueOf(course.getTutWeeklyHour()));
+            fileWriter.append(COMMA_DELIMITER);
+            fileWriter.append(String.valueOf(course.getLabWeeklyHour()));
+            fileWriter.append(NEW_LINE_SEPARATOR);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void appendGroupToFile(FileWriter fileWriter, List<? extends Group> groups) throws IOException {
+        if (groups.size() != 0) {
+            int index = 0;
+            for (Group group : groups) {
+                fileWriter.append(group.getGroupName());
+                fileWriter.append(EQUAL_SIGN);
+                fileWriter.append(String.valueOf(group.getAvailableVacancies()));
+                fileWriter.append(EQUAL_SIGN);
+                fileWriter.append(String.valueOf(group.getTotalSeats()));
+                index++;
+                if (index != groups.size()) {
+                    fileWriter.append(LINE_DELIMITER);
+                }
+            }
+        } else {
+            fileWriter.append("NULL");
+        }
+        fileWriter.append(COMMA_DELIMITER);
     }
 }
