@@ -3,13 +3,20 @@ package com.softeng306;
 import com.softeng306.FILEMgr.*;
 import com.softeng306.Managers.*;
 
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static Scanner scanner = new Scanner(System.in);
+
+    private static ICourseMgr courseMgr = new CourseMgr();
+
+    private static IMarkMgr markMgr = new MarkMgr();
+
+    private static IStudentMgr studentMgr = new StudentMgr();
+
+    private static ICourseRegistrationMgr courseRegistrationMgr = new CourseRegistrationMgr();
+
+    private static IProfessorMgr professorMgr = new ProfessorMgr();
 
     /**
      * The main function of the system.
@@ -17,6 +24,21 @@ public class Main {
      * @param args The command line parameters.
      */
     public static void main(String[] args) {
+
+        courseMgr.setProfessorMgr(professorMgr);
+
+        studentMgr.setCourseMgr(courseMgr);
+
+        markMgr.setCourseMgr(courseMgr);
+        markMgr.setStudentMgr(studentMgr);
+
+        courseRegistrationMgr.setCourseMgr(courseMgr);
+        courseRegistrationMgr.setMarkMgr(markMgr);
+        courseRegistrationMgr.setStudentMgr(studentMgr);
+
+        professorMgr.setCourseMgr(courseMgr);
+        professorMgr.setStudentMgr(studentMgr);
+
         printWelcome();
 
         int choice;
@@ -41,34 +63,34 @@ public class Main {
                 case 0:
                     break;
                 case 1:
-                    StudentMgr.addStudent();
+                    studentMgr.addStudent();
                     break;
                 case 2:
-                    CourseMgr.addCourse();
+                    courseMgr.addCourse();
                     break;
                 case 3:
-                    CourseRegistrationMgr.registerCourse();
+                    courseRegistrationMgr.registerCourse();
                     break;
                 case 4:
-                    CourseMgr.checkAvailableSlots();
+                    courseMgr.checkAvailableSlots();
                     break;
                 case 5:
-                    CourseRegistrationMgr.printStudents();
+                    courseRegistrationMgr.printStudents();
                     break;
                 case 6:
-                    CourseMgr.enterCourseWorkComponentWeightage(null);
+                    courseMgr.enterCourseWorkComponentWeightage(null);
                     break;
                 case 7:
-                    MarkMgr.setCourseWorkMark(false);
+                    markMgr.setCourseWorkMark(false);
                     break;
                 case 8:
-                    MarkMgr.setCourseWorkMark(true);
+                    markMgr.setCourseWorkMark(true);
                     break;
                 case 9:
-                    MarkMgr.printCourseStatistics();
+                    markMgr.printCourseStatistics();
                     break;
                 case 10:
-                    MarkMgr.printStudentTranscript();
+                    markMgr.printStudentTranscript();
                     break;
                 case 11:
                     exitApplication();
@@ -97,9 +119,6 @@ public class Main {
     public static void exitApplication() {
 
         System.out.println("Backing up data before exiting...");
-        MarkMgr markMgr = new MarkMgr();
-        CourseMgr courseMgr = new CourseMgr();
-
         CourseFILEMgr.backUpCourse(courseMgr.getCourses());
         MarkFILEMgr.backUpMarks(markMgr.getMarks());
         System.out.println("********* Bye! Thank you for using Main! *********");

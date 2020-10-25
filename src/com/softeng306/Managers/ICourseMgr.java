@@ -1,5 +1,7 @@
 package com.softeng306.Managers;
 
+import com.softeng306.Course;
+
 import java.util.List;
 
 public interface ICourseMgr {
@@ -8,7 +10,7 @@ public interface ICourseMgr {
 
     void checkAvailableSlots();
 
-    void enterCourseWorkComponentWeightage();
+    void enterCourseWorkComponentWeightage(Course currentCourse);
 
     void printCourses();
 
@@ -16,21 +18,25 @@ public interface ICourseMgr {
 
     List<String> getAllCourseType();
 
-    List<String> printCourseInDepartment();
+    List<String> printCourseInDepartment(String department);
 
-    String printGroupWithVacancyInfo();
+    boolean checkCourseTypeValidation(String courseType);
 
-    boolean checkCourseTypeValidation();
+    boolean checkValidCourseIDInput(String courseID);
 
-    boolean checkValidCourseIDValidation();
+    boolean checkDepartmentValidation(String department);
 
-    boolean checkDepartmentValidation();
+    boolean checkValidGroupNameInput(String groupName);
 
-    boolean checkValidGroupNameInputValidation();
-
-    boolean checkCourseDepartmentExists();
+    String checkCourseDepartmentExists();
 
     void printAllDepartments();
 
     List<String> getAllDepartment();
+
+    Course checkCourseExists();
+
+    List<Course> getCourses();
+
+    void setProfessorMgr(IProfessorMgr professorMgr);
 }

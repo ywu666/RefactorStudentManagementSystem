@@ -1,11 +1,8 @@
 package com.softeng306.Managers;
 
-import com.softeng306.FILEMgr.FILEMgr;
 import com.softeng306.FILEMgr.ProfessorFILEMgr;
-import com.softeng306.Main;
 import com.softeng306.Professor;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -16,13 +13,16 @@ import java.util.stream.Collectors;
  *
 
  */
-public class ProfessorMgr {
+public class ProfessorMgr implements IProfessorMgr {
     private Scanner scanner = new Scanner(System.in);
-    private static ProfessorFILEMgr profFileMgr = new ProfessorFILEMgr();
+    private ProfessorFILEMgr profFileMgr = new ProfessorFILEMgr();
     /**
      * A list of all the registered professors.
      */
-    private static  List<Professor> professors = profFileMgr.loadFromFile();
+    private  List<Professor> professors = profFileMgr.loadFromFile();
+
+    private ICourseMgr courseMgr;
+    private IStudentMgr studentMgr;
 
     /**
      * Adds a professor.
@@ -34,8 +34,8 @@ public class ProfessorMgr {
         while (true) {
             System.out.println("Give this professor an ID: ");
             profID = scanner.nextLine();
-            if (ProfessorMgr.checkValidProfIDInput(profID)) {
-                if (ProfessorMgr.checkProfExists(profID) == null) {
+            if (checkValidProfIDInput(profID)) {
+                if (checkProfExists(profID) == null) {
                     break;
                 }
             }
@@ -45,7 +45,7 @@ public class ProfessorMgr {
         while (true) {
             System.out.println("Enter the professor's name: ");
             profName = scanner.nextLine();
-            if (StudentMgr.checkValidPersonNameInput(profName)) {
+            if (studentMgr.checkValidPersonNameInput(profName)) {
                 break;
             }
         }
@@ -56,11 +56,11 @@ public class ProfessorMgr {
             System.out.println("Enter -h to print all the departments.");
             department = scanner.nextLine();
             while (department.equals("-h")) {
-                CourseMgr.getAllDepartment();
+                courseMgr.getAllDepartment();
                 department = scanner.nextLine();
             }
 
-            if (CourseMgr.checkDepartmentValidation(department)) {
+            if (courseMgr.checkDepartmentValidation(department)) {
                 professor.setProfDepartment(department);
                 break;
             }
@@ -76,7 +76,7 @@ public class ProfessorMgr {
      * @param profID The inputted professor ID.
      * @return boolean indicates whether the inputted professor ID is valid.
      */
-    public static boolean checkValidProfIDInput(String profID){
+    public boolean checkValidProfIDInput(String profID){
         String REGEX = "^P[0-9]{7}[A-Z]$";
         boolean valid =  Pattern.compile(REGEX).matcher(profID).matches();
         if(!valid){
@@ -86,15 +86,12 @@ public class ProfessorMgr {
 
     }
 
-
-
-
     /**
      * Checks whether this professor ID is used by other professors.
      * @param profID The inputted professor ID.
      * @return the existing professor or else null.
      */
-    public static Professor checkProfExists(String profID){
+    public Professor checkProfExists(String profID){
         List<Professor> anyProf = professors.stream().filter(p->profID.equals(p.getProfID())).collect(Collectors.toList());
         if(anyProf.size() == 0){
             return null;
@@ -112,8 +109,8 @@ public class ProfessorMgr {
      * @param printOut Represents whether print out the professor information or not
      * @return A list of all the names of professors in the inputted department or else null.
      */
-    public static List<String> printProfInDepartment(String department, boolean printOut) {
-        if (CourseMgr.checkDepartmentValidation(department)) {
+    public List<String> printProfInDepartment(String department, boolean printOut) {
+        if (courseMgr.checkDepartmentValidation(department)) {
             List<String> validProfString = professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
             if (printOut) {
                 validProfString.forEach(System.out::println);
@@ -125,5 +122,12 @@ public class ProfessorMgr {
 
     }
 
+    public void setCourseMgr(ICourseMgr courseMgr) {
+        this.courseMgr = courseMgr;
+    }
+
+    public void setStudentMgr(IStudentMgr studentMgr) {
+        this.studentMgr = studentMgr;
+    }
 
 }

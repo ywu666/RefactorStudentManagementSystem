@@ -1,5 +1,7 @@
 package com.softeng306.Managers;
 
+import com.softeng306.Student;
+
 import java.util.ArrayList;
 
 public interface IStudentMgr {
@@ -8,15 +10,18 @@ public interface IStudentMgr {
 
     void printAllStudents();
 
-    boolean checkValidPersonNameInputValidation();
+    boolean checkValidPersonNameInput(String personName);
 
-    boolean checkValidStudentIDValidation();
+    boolean checkValidStudentIDInput(String studentID);
 
     void printAllGender();
 
     ArrayList<String> getAllGender();
 
-    boolean checkGenderValidation();
+    boolean checkGenderValidation(String Gender);
 
-    String generateStudentID();
+    Student checkStudentExists();
+
+    void setCourseMgr(ICourseMgr courseMgr);
+
 }

@@ -2,7 +2,6 @@ package com.softeng306.Managers;
 
 import com.softeng306.*;
 import com.softeng306.FILEMgr.CourseRegistrationFILEMgr;
-import com.softeng306.Managers.MarkMgr;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,33 +11,37 @@ import static com.softeng306.CourseRegistration.LecComparator;
 import static com.softeng306.CourseRegistration.TutComparator;
 
 
-public class CourseRegistrationMgr {
+public class CourseRegistrationMgr implements ICourseRegistrationMgr{
     private static Scanner scanner = new Scanner(System.in);
-    private static CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
+    private CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
     /**
      * A list of all the stored course registrations.
      */
-    private static  List<CourseRegistration> courseRegistrations = courseRegistrationFILEMgr.loadFromFile();
+    private List<CourseRegistration> courseRegistrations = courseRegistrationFILEMgr.loadFromFile();
+
+    private ICourseMgr courseMgr;
+    private IMarkMgr markMgr;
+    private IStudentMgr studentMgr;
 
     /**
      * Registers a course for a student
      */
-    public static void registerCourse() {
+    public void registerCourse() {
         System.out.println("registerCourse is called");
         String selectedLectureGroupName = null;
         String selectedTutorialGroupName = null;
         String selectedLabGroupName = null;
 
-        Student currentStudent = StudentMgr.checkStudentExists();
+        Student currentStudent = studentMgr.checkStudentExists();
         String studentID = currentStudent.getStudentID();
 
-        CourseMgr.checkCourseDepartmentExists();
+        courseMgr.checkCourseDepartmentExists();
 
-        Course currentCourse = CourseMgr.checkCourseExists();
+        Course currentCourse = courseMgr.checkCourseExists();
         String courseID = currentCourse.getCourseID();
 
 
-        if (CourseRegistrationMgr.checkCourseRegistrationExists(studentID, courseID) != null) {
+        if (checkCourseRegistrationExists(studentID, courseID) != null) {
             return;
         }
 
@@ -58,17 +61,17 @@ public class CourseRegistrationMgr {
         ArrayList<Group> lecGroups = new ArrayList<>(0);
         lecGroups.addAll(currentCourse.getLectureGroups());
 
-        selectedLectureGroupName = CourseRegistrationMgr.printGroupWithVacancyInfo("lecture", lecGroups);
+        selectedLectureGroupName = printGroupWithVacancyInfo("lecture", lecGroups);
 
         ArrayList<Group> tutGroups = new ArrayList<>(0);
         tutGroups.addAll(currentCourse.getTutorialGroups());
 
-        selectedTutorialGroupName = CourseRegistrationMgr.printGroupWithVacancyInfo("tutorial", tutGroups);
+        selectedTutorialGroupName = printGroupWithVacancyInfo("tutorial", tutGroups);
 
         ArrayList<Group> labGroups = new ArrayList<>(0);
         labGroups.addAll(currentCourse.getLabGroups());
 
-        selectedLabGroupName = CourseRegistrationMgr.printGroupWithVacancyInfo("lab", labGroups);
+        selectedLabGroupName = printGroupWithVacancyInfo("lab", labGroups);
 
         currentCourse.enrolledIn();
         CourseRegistration courseRegistration = new CourseRegistration(currentStudent, currentCourse, selectedLectureGroupName, selectedTutorialGroupName, selectedLabGroupName);
@@ -77,7 +80,7 @@ public class CourseRegistrationMgr {
 
         courseRegistrations.add(courseRegistration);
 
-        MarkMgr.addMark(MarkMgr.initializeMark(currentStudent, currentCourse));
+        markMgr.addMark(markMgr.initializeMark(currentStudent, currentCourse));
 
         System.out.println("Course registration successful!");
         System.out.print("Student: " + currentStudent.getStudentName());
@@ -94,9 +97,9 @@ public class CourseRegistrationMgr {
     /**
      * Prints the students in a course according to their lecture group, tutorial group or lab group.
      */
-    public static void printStudents() {
+    public void printStudents() {
         System.out.println("printStudent is called");
-        Course currentCourse = CourseMgr.checkCourseExists();
+        Course currentCourse = courseMgr.checkCourseExists();
 
         System.out.println("Print student by: ");
         System.out.println("(1) Lecture group");
@@ -196,7 +199,7 @@ public class CourseRegistrationMgr {
      * @param groups    An array list of a certain type of groups in a course.
      * @return the name of the group chosen by the user.
      */
-    public static String printGroupWithVacancyInfo(String groupType, ArrayList<Group> groups) {
+    public String printGroupWithVacancyInfo(String groupType, ArrayList<Group> groups) {
         int index;
         HashMap<String, Integer> groupAssign = new HashMap<String, Integer>(0);
         int selectedGroupNum;
@@ -252,7 +255,7 @@ public class CourseRegistrationMgr {
      * @param courseID The inputted course ID.
      * @return the existing course registration record or else null.
      */
-    public static CourseRegistration checkCourseRegistrationExists(String studentID, String courseID){
+    public CourseRegistration checkCourseRegistrationExists(String studentID, String courseID){
         List<CourseRegistration> filteredCourseRegistrations = courseRegistrations.stream().filter(cr->studentID.equals(cr.getStudent().getStudentID())).filter(cr->courseID.equals(cr.getCourse().getCourseID())).collect(Collectors.toList());
         if(filteredCourseRegistrations.size() == 0){
             return null;
@@ -262,6 +265,15 @@ public class CourseRegistrationMgr {
 
     }
 
+    public void setCourseMgr(ICourseMgr courseMgr) {
+        this.courseMgr = courseMgr;
+    }
 
+    public void setMarkMgr(IMarkMgr markMgr) {
+        this.markMgr = markMgr;
+    }
 
+    public void setStudentMgr(IStudentMgr studentMgr) {
+        this.studentMgr = studentMgr;
+    }
 }

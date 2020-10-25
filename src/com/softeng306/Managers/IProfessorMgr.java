@@ -8,9 +8,14 @@ public interface IProfessorMgr {
 
     Professor addProfessor();
 
-    List<String> printProfInDepartment();
+    List<String> printProfInDepartment(String department, boolean printOut);
 
-    boolean checkValidProfIDValidation();
+    boolean checkValidProfIDInput(String profID);
 
-    boolean checkValidPersonNameInputValidation();
+    void setCourseMgr(ICourseMgr courseMgr);
+
+    void setStudentMgr(IStudentMgr studentMgr);
+
+    Professor checkProfExists(String profID);
+
 }

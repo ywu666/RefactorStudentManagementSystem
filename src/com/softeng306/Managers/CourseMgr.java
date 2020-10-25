@@ -8,7 +8,6 @@ import com.softeng306.Enum.CourseType;
 import com.softeng306.Enum.Department;
 
 import com.softeng306.*;
-import com.softeng306.FILEMgr.MarkFILEMgr;
 
 import java.util.*;
 import java.io.PrintStream;
@@ -17,7 +16,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
-public class CourseMgr {
+public class CourseMgr implements ICourseMgr {
     private static Scanner scanner = new Scanner(System.in);
     private static PrintStream originalStream = System.out;
     private static PrintStream dummyStream = new PrintStream(new OutputStream() {
@@ -26,17 +25,18 @@ public class CourseMgr {
         }
     });
 
-    private static CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
+    private CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
     /**
      * A list of all the stored courses.
      */
-    private static  List<Course> courses = courseFILEMgr.loadFromFile();
+    private List<Course> courses = courseFILEMgr.loadFromFile();
 
+    private IProfessorMgr professorMgr;
 
     /**
      * Creates a new course and stores it in the file.
      */
-    public static void addCourse() {
+    public void addCourse() {
         String courseID;
         String courseName;
 
@@ -46,7 +46,7 @@ public class CourseMgr {
             System.out.println("Give this course an ID: ");
             courseID = scanner.nextLine();
 
-        } while (!CourseMgr.checkValidCourseIDInput(courseID) || CourseMgr.checkCourseExists(courseID) != null);
+        } while (!checkValidCourseIDInput(courseID) || checkCourseExists(courseID) != null);
 
 
         System.out.println("Enter course Name: ");
@@ -149,7 +149,7 @@ public class CourseMgr {
      * @param course   The corse to be added
      * @param s        The string dependant on if components are added or not
      */
-    private static void addCourseIntoFile(String courseID, Course course, String s) {
+    private void addCourseIntoFile(String courseID, Course course, String s) {
         CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
         courseFILEMgr.writeIntoFile(course);
         courses.add(course);
@@ -162,7 +162,7 @@ public class CourseMgr {
      *
      * @return 1 if Yes or 2 if no
      */
-    private static int promptUserToAddCourseComponent() {
+    private int promptUserToAddCourseComponent() {
         System.out.println("Create course components and set component weightage now?");
         System.out.println("1. Yes");
         System.out.println("2. Not yet");
@@ -186,23 +186,23 @@ public class CourseMgr {
      * @param courseDepartment The department of current course
      * @return Professor in charge of course
      */
-    private static Professor setProfessorInCharge(String courseDepartment) {
+    private Professor setProfessorInCharge(String courseDepartment) {
         String profID;
         Professor profInCharge;
         List<String> professorsInDepartment;
-        professorsInDepartment = ProfessorMgr.printProfInDepartment(courseDepartment, false);
+        professorsInDepartment = professorMgr.printProfInDepartment(courseDepartment, false);
         while (true) {
 
             System.out.println("Enter the ID for the professor in charge please:");
             System.out.println("Enter -h to print all the professors in " + courseDepartment + ".");
             profID = scanner.nextLine();
             while ("-h".equals(profID)) {
-                professorsInDepartment = ProfessorMgr.printProfInDepartment(courseDepartment, true);
+                professorsInDepartment = professorMgr.printProfInDepartment(courseDepartment, true);
                 profID = scanner.nextLine();
             }
 
             System.setOut(dummyStream);
-            profInCharge = ProfessorMgr.checkProfExists(profID);
+            profInCharge = professorMgr.checkProfExists(profID);
             System.setOut(originalStream);
             if (profInCharge != null) {
                 assert professorsInDepartment != null;
@@ -231,7 +231,7 @@ public class CourseMgr {
      * @param i             index of lab group being added
      * @return The total number of lab seats
      */
-    private static int getTotalLabSeats(int totalSeats, int totalLabSeats, int noOfLabGroups, ArrayList<LabGroup> labGroups, String labGroupName, int i) {
+    private int getTotalLabSeats(int totalSeats, int totalLabSeats, int noOfLabGroups, ArrayList<LabGroup> labGroups, String labGroupName, int i) {
         int labGroupCapacity;
         do {
             System.out.println("Enter this lab group's capacity: ");
@@ -262,7 +262,7 @@ public class CourseMgr {
      * @param i                  The index of current tutorial group
      * @return The total tutorial seats in lab group
      */
-    private static int getTotalTutorialSeats(int totalSeats, int totalTutorialSeats, int noOfTutorialGroups, ArrayList<TutorialGroup> tutorialGroups, String tutorialGroupName, int i) {
+    private int getTotalTutorialSeats(int totalSeats, int totalTutorialSeats, int noOfTutorialGroups, ArrayList<TutorialGroup> tutorialGroups, String tutorialGroupName, int i) {
         int tutorialGroupCapacity;
         do {
             System.out.println("Enter this tutorial group's capacity: ");
@@ -293,7 +293,7 @@ public class CourseMgr {
      * @param s1     The type of group
      * @return The name of group
      */
-    private static String setGroupName(ArrayList<? extends Group> groups, String s1) {
+    private String setGroupName(ArrayList<? extends Group> groups, String s1) {
         String GroupName;
         boolean groupNameExists;
         System.out.println("Give a name to the " + s1 + " group");
@@ -301,7 +301,7 @@ public class CourseMgr {
             groupNameExists = false;
             System.out.println("Enter a group Name: ");
             GroupName = scanner.nextLine();
-            if (!CourseMgr.checkValidGroupNameInput(GroupName)) {
+            if (!checkValidGroupNameInput(GroupName)) {
                 groupNameExists = true;
                 continue;
             }
@@ -327,7 +327,7 @@ public class CourseMgr {
      * @param s2         The invalid string output
      * @return The number of groups
      */
-    private static int setNoOfGroups(int totalSeats, String s1, String s2) {
+    private int setNoOfGroups(int totalSeats, String s1, String s2) {
         int noOfGroups;
         do {
             System.out.println("Enter the number of " + s1 + " groups:");
@@ -353,7 +353,7 @@ public class CourseMgr {
      *
      * @return The lecture group capacity
      */
-    private static int setLectureGroupCapacity() {
+    private int setLectureGroupCapacity() {
         int lectureGroupCapacity;
         System.out.println("Enter this lecture group's capacity: ");
         do {
@@ -378,7 +378,7 @@ public class CourseMgr {
      * @param s1 The type of group
      * @return The number of weekly hours
      */
-    private static int setWeeklyHour(int AU, String s1) {
+    private int setWeeklyHour(int AU, String s1) {
         int WeeklyHour;
         while (true) {
             System.out.println("Enter the weekly " + s1 + " hour for this course: ");
@@ -403,17 +403,17 @@ public class CourseMgr {
      *
      * @return The course type of course
      */
-    private static String setCourseType() {
+    private String setCourseType() {
         String courseType;
         do {
             System.out.println("Enter course type (uppercase): ");
             System.out.println("Enter -h to print all the course types.");
             courseType = scanner.nextLine();
             while (courseType.equals("-h")) {
-                CourseMgr.printAllCourseType();
+                printAllCourseType();
                 courseType = scanner.nextLine();
             }
-        } while (!CourseMgr.checkCourseTypeValidation(courseType));
+        } while (!checkCourseTypeValidation(courseType));
         return courseType;
     }
 
@@ -423,17 +423,17 @@ public class CourseMgr {
      *
      * @return The department of course
      */
-    private static String setDepartment() {
+    private String setDepartment() {
         String courseDepartment;
         do {
             System.out.println("Enter course's department (uppercase): ");
             System.out.println("Enter -h to print all the departments.");
             courseDepartment = scanner.nextLine();
             while ("-h".equals(courseDepartment)) {
-                CourseMgr.printAllDepartment();
+                printAllDepartments();
                 courseDepartment = scanner.nextLine();
             }
-        } while (!CourseMgr.checkDepartmentValidation(courseDepartment));
+        } while (!checkDepartmentValidation(courseDepartment));
         return courseDepartment;
     }
 
@@ -442,7 +442,7 @@ public class CourseMgr {
      *
      * @return The AU of course
      */
-    private static int setAU() {
+    private int setAU() {
         int AU;
         while (true) {
             System.out.println("Enter number of academic unit(s): ");
@@ -466,7 +466,7 @@ public class CourseMgr {
      *
      * @return The total seats in course
      */
-    private static int setTotalSeats() {
+    private int setTotalSeats() {
         int totalSeats;
         while (true) {
             System.out.println("Enter the total vacancy of this course: ");
@@ -488,13 +488,13 @@ public class CourseMgr {
     /**
      * Checks whether a course (with all of its groups) have available slots and displays the result.
      */
-    public static void checkAvailableSlots() {
+    public void checkAvailableSlots() {
         //printout the result directly
         System.out.println("checkAvailableSlots is called");
         Course currentCourse;
 
         do {
-            currentCourse = CourseMgr.checkCourseExists();
+            currentCourse = checkCourseExists();
             if (currentCourse != null) {
                 System.out.println(currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " (Available/Total): " + currentCourse.getVacancies() + "/" + currentCourse.getTotalSeats());
                 System.out.println("--------------------------------------------");
@@ -528,7 +528,7 @@ public class CourseMgr {
      * @param mainComponents The main components list of the course
      * @return The total weight of Exam mark. If no exam, then weight = 0.
      */
-    private static int setExamWeight(ArrayList<MainComponent> mainComponents) {
+    private int setExamWeight(ArrayList<MainComponent> mainComponents) {
         int hasFinalExamChoice;
         int examWeight = 0;
         while (true) {
@@ -565,7 +565,7 @@ public class CourseMgr {
      *
      * @param currentCourse The course which course work component is to be set.
      */
-    public static void enterCourseWorkComponentWeightage(Course currentCourse) {
+    public void enterCourseWorkComponentWeightage(Course currentCourse) {
         // Assume when course is created, no components are added yet
         // Assume once components are created and set, cannot be changed.
         int numberOfMain;
@@ -576,7 +576,7 @@ public class CourseMgr {
         System.out.println("enterCourseWorkComponentWeightage is called");
 //        if entered from main -- get user to input current course
         if (currentCourse == null) {
-            currentCourse = CourseMgr.checkCourseExists();
+            currentCourse = checkCourseExists();
         }
 
         ArrayList<MainComponent> mainComponents = new ArrayList<>(0);
@@ -664,7 +664,7 @@ public class CourseMgr {
      *
      * @param currentCourse The course that components were added to
      */
-    private static void printCourseComponentsAfterAdd(Course currentCourse) {
+    private void printCourseComponentsAfterAdd(Course currentCourse) {
         System.out.println(currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " components: ");
         for (MainComponent each_comp : currentCourse.getMainComponents()) {
             System.out.println("    " + each_comp.getComponentName() + " : " + each_comp.getComponentWeight() + "%");
@@ -680,7 +680,7 @@ public class CourseMgr {
      * @param i The index of main component
      * @return The number of sub components under main component
      */
-    private static int setNoOfSub(int i) {
+    private int setNoOfSub(int i) {
         int noOfSub;
         do {
             System.out.println("Enter number of sub component under main component " + (i + 1) + ":");
@@ -708,7 +708,7 @@ public class CourseMgr {
      * @param s2             Sub component or main component
      * @return The weight of the component
      */
-    private static int setComponentWeight(int totalWeightage, int i, String s, String s2) {
+    private int setComponentWeight(int totalWeightage, int i, String s, String s2) {
         int weight;
         do {
             System.out.println(s + (i + 1) + " weightage: ");
@@ -737,7 +737,7 @@ public class CourseMgr {
      * @param s2             Placeholder string fro main or sub
      * @return The name of component
      */
-    private static String setComponentName(ArrayList<? extends CourseworkComponent> components, int totalWeightage, int i, String s1, String s2) {
+    private String setComponentName(ArrayList<? extends CourseworkComponent> components, int totalWeightage, int i, String s1, String s2) {
         boolean componentExist;
         String ComponentName;
         do {
@@ -770,7 +770,7 @@ public class CourseMgr {
      *
      * @return The number of main components in course
      */
-    private static int setNumberOfMainComponents() {
+    private int setNumberOfMainComponents() {
         int numberOfMain;
         do {
             System.out.println("Enter number of main component(s) to add:");
@@ -792,7 +792,7 @@ public class CourseMgr {
     /**
      * Prints the list of courses
      */
-    public static void printCourses() {
+    public void printCourses() {
         System.out.println("Course List: ");
         System.out.println("| Course ID | Course Name | Professor in Charge |");
         for (Course course : courses) {
@@ -804,7 +804,7 @@ public class CourseMgr {
     /**
      * Displays a list of all the departments.
      */
-    public static void printAllDepartment() {
+    public void printAllDepartments() {
         int index = 1;
         for (Department department : Department.values()) {
             System.out.println(index + ": " + department);
@@ -816,7 +816,7 @@ public class CourseMgr {
     /**
      * Displays a list of all the course types.
      */
-    public static void printAllCourseType() {
+    public void printAllCourseType() {
         int index = 1;
         for (CourseType courseType : CourseType.values()) {
             System.out.println(index + ": " + courseType);
@@ -830,7 +830,7 @@ public class CourseMgr {
      *
      * @return an array list of all the departments.
      */
-    public static ArrayList<String> getAllDepartment() {
+    public ArrayList<String> getAllDepartment() {
         Set<Department> departmentEnumSet = EnumSet.allOf(Department.class);
         ArrayList<String> departmentStringList = new ArrayList<String>(0);
         Iterator iter = departmentEnumSet.iterator();
@@ -847,7 +847,7 @@ public class CourseMgr {
      *
      * @return an array list of all the course types.
      */
-    public static ArrayList<String> getAllCourseType() {
+    public ArrayList<String> getAllCourseType() {
         Set<CourseType> courseTypeEnumSet = EnumSet.allOf(CourseType.class);
         ArrayList<String> courseTypeStringSet = new ArrayList<String>(0);
         Iterator iter = courseTypeEnumSet.iterator();
@@ -864,7 +864,7 @@ public class CourseMgr {
      * @param department The inputted department.
      * @return a list of all the department values.
      */
-    public static List<String> printCourseInDepartment(String department) {
+    public List<String> printCourseInDepartment(String department) {
         List<Course> validCourses = courses.stream().filter(c -> department.equals(c.getCourseDepartment())).collect(Collectors.toList());
         List<String> validCourseString = validCourses.stream().map(c -> c.getCourseID()).collect(Collectors.toList());
         validCourseString.forEach(System.out::println);
@@ -878,7 +878,7 @@ public class CourseMgr {
     /**
      * Displays a list of IDs of all the courses.
      */
-    public static void printAllCourses() {
+    public void printAllCourses() {
         courses.stream().map(c -> c.getCourseID()).forEach(System.out::println);
 
     }
@@ -890,8 +890,8 @@ public class CourseMgr {
      * @param department The inputted department.
      * @return boolean indicates whether the inputted department is valid.
      */
-    public static boolean checkDepartmentValidation(String department) {
-        if (CourseMgr.getAllDepartment().contains(department)) {
+    public boolean checkDepartmentValidation(String department) {
+        if (getAllDepartment().contains(department)) {
             return true;
         }
         System.out.println("The department is invalid. Please re-enter.");
@@ -905,8 +905,8 @@ public class CourseMgr {
      * @param courseType The inputted course type.
      * @return boolean indicates whether the inputted course type is valid.
      */
-    public static boolean checkCourseTypeValidation(String courseType) {
-        if (CourseMgr.getAllCourseType().contains(courseType)) {
+    public boolean checkCourseTypeValidation(String courseType) {
+        if (getAllCourseType().contains(courseType)) {
             return true;
         }
         System.out.println("The course type is invalid. Please re-enter.");
@@ -920,7 +920,7 @@ public class CourseMgr {
      * @param courseID The inputted course ID.
      * @return boolean indicates whether the inputted course ID is valid.
      */
-    public static boolean checkValidCourseIDInput(String courseID) {
+    public boolean checkValidCourseIDInput(String courseID) {
         String REGEX = "^[A-Z]{2}[0-9]{3,4}$";
         boolean valid = Pattern.compile(REGEX).matcher(courseID).matches();
         if (!valid) {
@@ -937,7 +937,7 @@ public class CourseMgr {
      * @param groupName The inputted group name.
      * @return boolean indicates whether the inputted group name is valid.
      */
-    public static boolean checkValidGroupNameInput(String groupName) {
+    public boolean checkValidGroupNameInput(String groupName) {
         String REGEX = "^[a-zA-Z0-9]+$";
         boolean valid = Pattern.compile(REGEX).matcher(groupName).matches();
         if (!valid) {
@@ -952,19 +952,19 @@ public class CourseMgr {
      *
      * @return the inputted course.
      */
-    public static Course checkCourseExists() {
+    public Course checkCourseExists() {
         String courseID;
         Course currentCourse;
         while (true) {
             System.out.println("Enter course ID (-h to print all the course ID):");
             courseID = scanner.nextLine();
             while ("-h".equals(courseID)) {
-                CourseMgr.printAllCourses();
+                printAllCourses();
                 courseID = scanner.nextLine();
             }
 
             System.setOut(dummyStream);
-            currentCourse = CourseMgr.checkCourseExists(courseID);
+            currentCourse = checkCourseExists(courseID);
             if (currentCourse == null) {
                 System.setOut(originalStream);
                 System.out.println("Invalid Course ID. Please re-enter.");
@@ -982,21 +982,21 @@ public class CourseMgr {
      *
      * @return the inputted department.
      */
-    public static String checkCourseDepartmentExists() {
+    public String checkCourseDepartmentExists() {
         String courseDepartment;
         while (true) {
             System.out.println("Which department's courses are you interested? (-h to print all the departments)");
             courseDepartment = scanner.nextLine();
             while ("-h".equals(courseDepartment)) {
-                CourseMgr.printAllDepartment();
+                printAllDepartments();
                 courseDepartment = scanner.nextLine();
             }
 
-            if (CourseMgr.checkDepartmentValidation(courseDepartment)) {
+            if (checkDepartmentValidation(courseDepartment)) {
 
                 List<String> validCourseString;
                 System.setOut(dummyStream);
-                validCourseString = CourseMgr.printCourseInDepartment(courseDepartment);
+                validCourseString = printCourseInDepartment(courseDepartment);
 
                 System.out.println("validCourseString = " + validCourseString);
                 System.out.println("validCourseString size = " + validCourseString.size());
@@ -1019,7 +1019,7 @@ public class CourseMgr {
      * @param courseID The inputted course ID.
      * @return the existing course or else null.
      */
-    public static Course checkCourseExists(String courseID) {
+    public Course checkCourseExists(String courseID) {
         List<Course> anyCourse = courses.stream().filter(c -> courseID.equals(c.getCourseID())).collect(Collectors.toList());
         if (anyCourse.size() == 0) {
             return null;
@@ -1031,6 +1031,11 @@ public class CourseMgr {
 
     public List<Course> getCourses() {
         return courses;
+    }
+
+
+    public void setProfessorMgr(IProfessorMgr professorMgr) {
+        this.professorMgr = professorMgr;
     }
 
 }
