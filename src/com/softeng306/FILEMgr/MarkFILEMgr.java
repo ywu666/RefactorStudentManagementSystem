@@ -172,15 +172,6 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
                     }
                     Double totalMark = Double.parseDouble(tokens[totalMarkIndex]);
                     Mark mark = new Mark(currentStudent, currentCourse, courseWorkMarks, totalMark);
-//                    System.out.println();
-//                    System.out.println("Loaded mark...");
-//                    System.out.println("Student ID: " + mark.getStudent().getStudentID() + " Student name: " + mark.getStudent().getStudentName());
-//                    System.out.println("Course ID: " + mark.getCourse().getCourseID() + " Course name: " + mark.getCourse().getCourseName());
-//                    for (HashMap.Entry<CourseworkComponent, Double> entry : mark.getCourseWorkMarks().entrySet()) {
-//                        System.out.println("Course Components: " + entry.getKey().getComponentName());
-//                        System.out.println("Course Component weightage " + entry.getKey().getComponentWeight());
-//                    }
-//                    System.out.println();
                     marks.add(mark);
                 }
             }
@@ -210,7 +201,6 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
             for (Mark mark : marks) {
                 fileWriter.append(mark.getStudent().getStudentID());
                 fileWriter.append(COMMA_DELIMITER);
-
                 fileWriter.append(mark.getCourse().getCourseID());
                 fileWriter.append(COMMA_DELIMITER);
 
