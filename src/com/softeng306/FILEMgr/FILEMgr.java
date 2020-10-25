@@ -45,7 +45,7 @@ public abstract class FILEMgr<T> {
         File file = new File(fileName);
         //initialize file header if have not done so
         FileWriter fileWriter = new FileWriter(fileName, true);
-        if (file.length() != 0) {
+        if (file.length() == 0) {
             fileWriter.append(header);
             fileWriter.append(NEW_LINE_SEPARATOR);
         }
