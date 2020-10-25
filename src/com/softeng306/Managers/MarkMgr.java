@@ -37,7 +37,7 @@ public class MarkMgr {
 
         }
         Mark mark = new Mark(student, course, courseWorkMarks, totalMark);
-        /**
+        /*
          * This patt is changed due to the refactor
          */
         FILEMgr<Mark> markFILEMgr = new MarkFILEMgr();
@@ -408,7 +408,7 @@ public class MarkMgr {
      * print the marks for the student
      *
      * @param  thisStudentMark list of the student's mark
-     * @param  thisStudentAU
+     * @param  thisStudentAU The AU of the student
      *
      */
     public static void printMarkForTranscript(ArrayList<Mark> thisStudentMark, int thisStudentAU){
@@ -445,7 +445,7 @@ public class MarkMgr {
                 System.out.println();
             }
             System.out.println("Course Total: " + mark.getTotalMark());
-            studentGPA += gpaCalcualtor(mark.getTotalMark()) * mark.getCourse().getAU();
+            studentGPA += gpaCalculator(mark.getTotalMark()) * mark.getCourse().getAU();
             System.out.println();
         }
 
@@ -472,7 +472,7 @@ public class MarkMgr {
      * @param result result of this course
      * @return the grade (in A, B ... )
      */
-    public static double gpaCalcualtor(double result) {
+    public static double gpaCalculator(double result) {
         if (result > 85) {
             // A+, A
             return 5d;
