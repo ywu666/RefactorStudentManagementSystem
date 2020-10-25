@@ -19,55 +19,6 @@ public class ProfessorMgr {
 
     private static SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr();
 
-    //private Scanner scanner = new Scanner(System.in);
-
-//    /**
-//     * Adds a professor.
-//     *
-//     * @return a newly added professor
-//     */
-//    public Professor addProfessor() {
-//        String department, profID;
-//        while (true) {
-//            System.out.println("Give this professor an ID: ");
-//            profID = scanner.nextLine();
-//                if (supportProfessorMgr.checkValidProfIDInput(profID)) {
-//                if (supportProfessorMgr.checkProfExists(profID) == null) {
-//                    break;
-//                }
-//            }
-//        }
-//
-//        String profName;
-//        while (true) {
-//            System.out.println("Enter the professor's name: ");
-//            profName = scanner.nextLine();
-//            if (supportProfessorMgr.checkValidPersonNameInput(profName)) {
-//                break;
-//            }
-//        }
-//
-//        Professor professor = new Professor(profID, profName);
-//        while (true) {
-//            System.out.println("Enter professor's Department: ");
-//            System.out.println("Enter -h to print all the departments.");
-//            department = scanner.nextLine();
-//            while (department.equals("-h")) {
-//                supportProfessorMgr.getAllDepartment();
-//                department = scanner.nextLine();
-//            }
-//
-//            if (supportProfessorMgr.checkDepartmentValidation(department)) {
-//                professor.setProfDepartment(department);
-//                break;
-//            }
-//        }
-//
-//
-//        return professor;
-//    }
-//
-
 
     /**
      * Displays all the professors in the inputted department.
