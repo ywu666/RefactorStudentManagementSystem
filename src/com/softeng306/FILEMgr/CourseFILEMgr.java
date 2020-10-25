@@ -146,12 +146,7 @@ public class CourseFILEMgr extends FILEMgr<Course> {
 
                     String lectureGroupsString = tokens[lectureGroupsIndex];
                     ArrayList<Group> lectureGroups = new ArrayList<>(0);
-                    String[] eachLectureGroupsString = lectureGroupsString.split(Pattern.quote(LINE_DELIMITER));
-
-                    for (int i = 0; i < eachLectureGroupsString.length; i++) {
-                        String[] thisLectureGroup = eachLectureGroupsString[i].split(EQUAL_SIGN);
-                        lectureGroups.add(new Group(thisLectureGroup[0], Integer.parseInt(thisLectureGroup[1]), Integer.parseInt(thisLectureGroup[2])));
-                    }
+                    splitLine(lectureGroupsString, lectureGroups);
 
                     Course course = new Course(courseID, courseName, currentProfessor, vacancies, totalSeats, lectureGroups, AU, courseDepartment, courseType, lecWeeklyHr);
 
@@ -159,11 +154,7 @@ public class CourseFILEMgr extends FILEMgr<Course> {
                     ArrayList<Group> tutorialGroups = new ArrayList<>(0);
 
                     if (!tutorialGroupsString.equals("NULL")) {
-                        String[] eachTutorialGroupsString = tutorialGroupsString.split(Pattern.quote(LINE_DELIMITER));
-                        for (int i = 0; i < eachTutorialGroupsString.length; i++) {
-                            String[] thisTutorialGroup = eachTutorialGroupsString[i].split(EQUAL_SIGN);
-                            tutorialGroups.add(new Group(thisTutorialGroup[0], Integer.parseInt(thisTutorialGroup[1]), Integer.parseInt(thisTutorialGroup[2])));
-                        }
+                        splitLine(tutorialGroupsString, tutorialGroups);
                     }
                     course.setTutorialGroups(tutorialGroups);
                     course.setTutWeeklyHour(tutWeeklyHr);
@@ -171,11 +162,7 @@ public class CourseFILEMgr extends FILEMgr<Course> {
                     String labGroupsString = tokens[labGroupIndex];
                     ArrayList<Group> labGroups = new ArrayList<>(0);
                     if (!labGroupsString.equals("NULL")) {
-                        String[] eachLabGroupString = labGroupsString.split(Pattern.quote(LINE_DELIMITER));
-                        for (int i = 0; i < eachLabGroupString.length; i++) {
-                            String[] thisLabGroup = eachLabGroupString[i].split(EQUAL_SIGN);
-                            labGroups.add(new Group(thisLabGroup[0], Integer.parseInt(thisLabGroup[1]), Integer.parseInt(thisLabGroup[2])));
-                        }
+                        splitLine(labGroupsString, labGroups);
                     }
                     course.setLabGroups(labGroups);
                     course.setLabWeeklyHour(labWeeklyHr);
@@ -210,6 +197,15 @@ public class CourseFILEMgr extends FILEMgr<Course> {
             printFinallyBlock(fileReader);
         }
         return courses;
+    }
+
+    private void splitLine(String lectureGroupsString, ArrayList<Group> lectureGroups) {
+        String[] eachLectureGroupsString = lectureGroupsString.split(Pattern.quote(LINE_DELIMITER));
+
+        for (int i = 0; i < eachLectureGroupsString.length; i++) {
+            String[] thisLectureGroup = eachLectureGroupsString[i].split(EQUAL_SIGN);
+            lectureGroups.add(new Group(thisLectureGroup[0], Integer.parseInt(thisLectureGroup[1]), Integer.parseInt(thisLectureGroup[2])));
+        }
     }
 
     /**
