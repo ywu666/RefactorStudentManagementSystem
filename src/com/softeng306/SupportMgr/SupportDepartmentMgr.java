@@ -3,7 +3,6 @@ package com.softeng306.SupportMgr;
 import com.softeng306.Course;
 import com.softeng306.Enum.Department;
 import com.softeng306.Main;
-import com.softeng306.Managers.CourseMgr;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -11,10 +10,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class SupportDepartmentMgr {
-
-
-    public SupportDepartmentMgr() {
-    }
 
     protected static Scanner scanner = new Scanner(System.in);
     protected static PrintStream originalStream = System.out;
@@ -37,8 +32,6 @@ public class SupportDepartmentMgr {
         return false;
     }
 
-
-
     /**
      * Gets all the departments as an array list.
      *
@@ -52,7 +45,6 @@ public class SupportDepartmentMgr {
             departmentStringList.add(iter.next().toString());
         }
         return departmentStringList;
-
     }
 
 
@@ -67,45 +59,6 @@ public class SupportDepartmentMgr {
         }
 
     }
-
-
-
-
-    /**
-     * Prompts the user to input an existing department.
-     * @return the inputted department.
-     */
-    public String checkCourseDepartmentExists(){
-        String courseDepartment;
-        while(true){
-            System.out.println("Which department's courses are you interested? (-h to print all the departments)");
-            courseDepartment = scanner.nextLine();
-            while("-h".equals(courseDepartment)){
-                printAllDepartment();
-                courseDepartment = scanner.nextLine();
-            }
-
-            if(checkDepartmentValidation(courseDepartment)){
-
-                List<String> validCourseString;
-                System.setOut(dummyStream);
-                validCourseString = printCourseInDepartment(courseDepartment);
-
-                System.out.println("validCourseString = " + validCourseString );
-                System.out.println("validCourseString size = " + validCourseString.size() );
-
-                System.setOut(originalStream);
-                if(validCourseString.size() == 0){
-                    System.out.println("Invalid choice of department.");
-                }else{
-                    break;
-                }
-            }
-        }
-        return courseDepartment;
-    }
-
-
 
     /**
      * Displays a list of all the courses in the inputted department.
@@ -122,11 +75,4 @@ public class SupportDepartmentMgr {
         }
         return validCourseString;
     }
-
-
-
-
-
-
-
 }

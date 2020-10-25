@@ -13,9 +13,6 @@ import java.util.stream.Collectors;
 
 public class SupportCourseMgr extends SupportDepartmentMgr {
 
-    public SupportCourseMgr() {
-    }
-
     public boolean checkValidCourseIDInput(String courseID) {
         String REGEX = "^[A-Z]{2}[0-9]{3,4}$";
         boolean valid = Pattern.compile(REGEX).matcher(courseID).matches();
@@ -24,7 +21,6 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
         }
         return valid;
     }
-
 
     /**
      * Checks whether the inputted group name is in the correct format.
@@ -40,8 +36,6 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
         return valid;
     }
 
-
-
     /**
      * Displays a list of IDs of all the courses.
      */
@@ -49,7 +43,6 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
         Main.courses.stream().map(c -> c.getCourseID()).forEach(System.out::println);
 
     }
-
 
     /**
      * Displays a list of all the course types.
@@ -61,8 +54,6 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
             index++;
         }
     }
-
-
 
     /**
      * Prints the components of course after adding components
@@ -91,9 +82,6 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
         System.out.println();
     }
 
-
-
-
     /**
      * Checks whether the inputted course type is valid.
      * @param courseType The inputted course type.
@@ -106,8 +94,6 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
         System.out.println("The course type is invalid. Please re-enter.");
         return false;
     }
-
-
 
     /**
      * Gets all the course types as an array list.
@@ -123,9 +109,6 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
         }
         return courseTypeStringSet;
     }
-
-
-
 
     /**
      * Prompts the user to input an existing course.
@@ -155,8 +138,6 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
         return currentCourse;
     }
 
-
-
     /**
      * Checks whether this course ID is used by other courses.
      * @param courseID The inputted course ID.
@@ -171,8 +152,5 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
         return anyCourse.get(0);
 
     }
-
-
-
 
 }

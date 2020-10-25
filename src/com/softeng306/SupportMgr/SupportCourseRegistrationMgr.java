@@ -7,11 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SupportCourseRegistrationMgr extends SupportDepartmentMgr{
-
-
-    public SupportCourseRegistrationMgr() {
-    }
-
     /**
      * Checks whether this course registration record exists.
      * @param studentID The inputted student ID.
@@ -26,5 +21,40 @@ public class SupportCourseRegistrationMgr extends SupportDepartmentMgr{
         System.out.println("Sorry. This student already registers this course.");
         return courseRegistrations.get(0);
 
+    }
+
+    /**
+     * Prompts the user to input an existing department.
+     * @return the inputted department.
+     */
+    public String checkCourseDepartmentExists(){
+        String courseDepartment;
+        while(true){
+            System.out.println("Which department's courses are you interested? (-h to print all the departments)");
+            courseDepartment = scanner.nextLine();
+            while("-h".equals(courseDepartment)){
+                printAllDepartment();
+                courseDepartment = scanner.nextLine();
+            }
+
+            SupportDepartmentMgr supportDepartmentMgr = new SupportDepartmentMgr();
+            if(supportDepartmentMgr.checkDepartmentValidation(courseDepartment)){
+
+                List<String> validCourseString;
+                System.setOut(dummyStream);
+                validCourseString = printCourseInDepartment(courseDepartment);
+
+                System.out.println("validCourseString = " + validCourseString );
+                System.out.println("validCourseString size = " + validCourseString.size() );
+
+                System.setOut(originalStream);
+                if(validCourseString.size() == 0){
+                    System.out.println("Invalid choice of department.");
+                } else {
+                    break;
+                }
+            }
+        }
+        return courseDepartment;
     }
 }

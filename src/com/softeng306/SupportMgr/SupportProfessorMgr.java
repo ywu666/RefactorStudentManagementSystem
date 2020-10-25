@@ -10,11 +10,6 @@ import java.util.stream.Collectors;
 
 public class SupportProfessorMgr extends SupportDepartmentMgr {
 
-
-    public SupportProfessorMgr() {
-    }
-
-
     /**
      * Checks whether this professor ID is used by other professors.
      * @param profID The inputted professor ID.
@@ -27,9 +22,6 @@ public class SupportProfessorMgr extends SupportDepartmentMgr {
         }
         System.out.println("Sorry. The professor ID is used. This professor already exists.");
         return anyProf.get(0);
-
     }
-
-
 }
 

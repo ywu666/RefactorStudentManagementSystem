@@ -12,10 +12,6 @@ import java.util.stream.Collectors;
 
 public class SupportStudentMgr extends SupportDepartmentMgr {
 
-
-    public SupportStudentMgr() {
-    }
-
     public boolean checkValidStudentIDInput(String studentID) {
         String REGEX = "^U[0-9]{7}[A-Z]$";
         boolean valid = Pattern.compile(REGEX).matcher(studentID).matches();
@@ -41,8 +37,6 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
         return valid;
     }
 
-
-
     /**
      * Checks whether the inputted gender is valid.
      * @param gender The inputted gender.
@@ -56,7 +50,6 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
         return false;
     }
 
-
     /**
      * Displays a list of all the genders.
      */
@@ -66,8 +59,8 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
             System.out.println(index + ": " + gender);
             index++;
         }
-
     }
+
     /**
      * Gets all the genders as an array list.
      *
@@ -83,20 +76,12 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
         return genderStringList;
     }
 
-
-
-
-
     /**
      * Displays a list of IDs of all the students.
      */
     public void printAllStudents() {
         Main.students.stream().map(s -> s.getStudentID()).forEach(System.out::println);
     }
-
-
-
-
 
     /**
      * Checks whether this student ID is used by other students.
@@ -110,10 +95,7 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
         }
         System.out.println("Sorry. The student ID is used. This student already exists.");
         return anyStudent.get(0);
-
     }
-
-
 
     /**
      * Prompts the user to input an existing student.
@@ -142,7 +124,4 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
         }
         return currentStudent;
     }
-
-
-
 }
