@@ -44,49 +44,7 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
         FileWriter fileWriter = null;
         try {
             fileWriter = initialiseFileWriter(markFileName, mark_HEADER);
-
-            fileWriter.append(mark.getStudent().getStudentID());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(mark.getCourse().getCourseID());
-            fileWriter.append(COMMA_DELIMITER);
-            HashMap<CourseworkComponent, Double> courseworkMarks = mark.getCourseWorkMarks();
-            if (!courseworkMarks.isEmpty()) {
-                int index = 0;
-                for (HashMap.Entry<CourseworkComponent, Double> entry : courseworkMarks.entrySet()) {
-                    CourseworkComponent key = entry.getKey();
-                    Double value = entry.getValue();
-                    if (key instanceof MainComponent) {
-                        fileWriter.append(key.getComponentName());
-                        fileWriter.append(EQUAL_SIGN);
-                        fileWriter.append(String.valueOf(key.getComponentWeight()));
-                        fileWriter.append(EQUAL_SIGN);
-                        fileWriter.append(String.valueOf(value));
-                        fileWriter.append(EQUAL_SIGN);
-                        ArrayList<SubComponent> subComponents = ((MainComponent) key).getSubComponents();
-                        int subComponent_index = 0;
-                        for (SubComponent subComponent : subComponents) {
-                            fileWriter.append(subComponent.getComponentName());
-                            fileWriter.append(SLASH);
-                            fileWriter.append(String.valueOf(subComponent.getComponentWeight()));
-                            fileWriter.append(SLASH);
-                            fileWriter.append(String.valueOf(0.0));
-                            subComponent_index++;
-                            if (subComponent_index != subComponents.size()) {
-                                fileWriter.append(EQUAL_SIGN);
-                            }
-                        }
-                    }
-                    index++;
-                    if (index != courseworkMarks.size() && (key instanceof MainComponent)) {
-                        fileWriter.append(LINE_DELIMITER);
-                    }
-                }
-            } else {
-                fileWriter.append("NULL");
-            }
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(mark.getTotalMark()));
-            fileWriter.append(NEW_LINE_SEPARATOR);
+            appendMarkToFile(fileWriter, mark);
         } catch (Exception e) {
             System.out.println("Error in adding a mark to the file.");
             e.printStackTrace();
@@ -194,63 +152,11 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(markFileName);
-
             fileWriter.append(mark_HEADER);
             fileWriter.append(NEW_LINE_SEPARATOR);
 
             for (Mark mark : marks) {
-                fileWriter.append(mark.getStudent().getStudentID());
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(mark.getCourse().getCourseID());
-                fileWriter.append(COMMA_DELIMITER);
-
-                if (!mark.getCourseWorkMarks().isEmpty()) {
-                    int index = 0;
-                    for (HashMap.Entry<CourseworkComponent, Double> entry : mark.getCourseWorkMarks().entrySet()) {
-                        CourseworkComponent key = entry.getKey();
-                        Double value = entry.getValue();
-                        if (key instanceof MainComponent) {
-                            fileWriter.append(key.getComponentName());
-                            fileWriter.append(EQUAL_SIGN);
-                            fileWriter.append(String.valueOf(key.getComponentWeight()));
-                            fileWriter.append(EQUAL_SIGN);
-                            fileWriter.append(String.valueOf(value));
-                            fileWriter.append(EQUAL_SIGN);
-                            ArrayList<SubComponent> subComponents = ((MainComponent) key).getSubComponents();
-                            int subComponent_index = 0;
-                            for (SubComponent subComponent : subComponents) {
-                                fileWriter.append(subComponent.getComponentName());
-                                fileWriter.append(SLASH);
-                                fileWriter.append(String.valueOf(subComponent.getComponentWeight()));
-                                fileWriter.append(SLASH);
-                                String subComponentName = subComponent.getComponentName();
-                                double subComponentMark = 0d;
-                                for (HashMap.Entry<CourseworkComponent, Double> subEntry : mark.getCourseWorkMarks().entrySet()) {
-                                    CourseworkComponent subKey = subEntry.getKey();
-                                    Double subValue = subEntry.getValue();
-                                    if (subKey instanceof SubComponent && subKey.getComponentName().equals(subComponentName)) {
-                                        subComponentMark = subValue;
-                                        break;
-                                    }
-                                }
-                                fileWriter.append(String.valueOf(subComponentMark));
-                                subComponent_index++;
-                                if (subComponent_index != subComponents.size()) {
-                                    fileWriter.append(EQUAL_SIGN);
-                                }
-                            }
-                        }
-                        index++;
-                        if (index != mark.getCourseWorkMarks().size() && (key instanceof MainComponent)) {
-                            fileWriter.append(LINE_DELIMITER);
-                        }
-                    }
-                } else {
-                    fileWriter.append("NULL");
-                }
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(String.valueOf(mark.getTotalMark()));
-                fileWriter.append(NEW_LINE_SEPARATOR);
+                appendMarkToFile(fileWriter, mark);
             }
         } catch (Exception e) {
             System.out.println("Error in adding a mark to the file.");
@@ -265,4 +171,66 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
             }
         }
     }
+
+    /**
+     * Writes the marks for one studnent in a single course to the marks CSV.
+     * @param fileWriter
+     * @param mark
+     * @throws IOException
+     */
+    public static void appendMarkToFile(FileWriter fileWriter, Mark mark) throws IOException {
+        fileWriter.append(mark.getStudent().getStudentID());
+        fileWriter.append(COMMA_DELIMITER);
+        fileWriter.append(mark.getCourse().getCourseID());
+        fileWriter.append(COMMA_DELIMITER);
+        HashMap<CourseworkComponent, Double> courseworkMarks = mark.getCourseWorkMarks();
+        if (!courseworkMarks.isEmpty()) {
+            int index = 0;
+            for (HashMap.Entry<CourseworkComponent, Double> entry : courseworkMarks.entrySet()) {
+                CourseworkComponent key = entry.getKey();
+                Double value = entry.getValue();
+                if (key instanceof MainComponent) {
+                    fileWriter.append(key.getComponentName());
+                    fileWriter.append(EQUAL_SIGN);
+                    fileWriter.append(String.valueOf(key.getComponentWeight()));
+                    fileWriter.append(EQUAL_SIGN);
+                    fileWriter.append(String.valueOf(value));
+                    fileWriter.append(EQUAL_SIGN);
+                    ArrayList<SubComponent> subComponents = ((MainComponent) key).getSubComponents();
+                    int subComponent_index = 0;
+                    for (SubComponent subComponent : subComponents) {
+                        String subComponentName = subComponent.getComponentName();
+                        fileWriter.append(subComponentName);
+                        fileWriter.append(SLASH);
+                        fileWriter.append(String.valueOf(subComponent.getComponentWeight()));
+                        fileWriter.append(SLASH);
+                        double subComponentMark = 0d;
+                        for (HashMap.Entry<CourseworkComponent, Double> subEntry : mark.getCourseWorkMarks().entrySet()) {
+                            CourseworkComponent subKey = subEntry.getKey();
+                            Double subValue = subEntry.getValue();
+                            if (subKey instanceof SubComponent && subKey.getComponentName().equals(subComponentName)) {
+                                subComponentMark = subValue;
+                                break;
+                            }
+                        }
+                        fileWriter.append(String.valueOf(subComponentMark));
+                        subComponent_index++;
+                        if (subComponent_index != subComponents.size()) {
+                            fileWriter.append(EQUAL_SIGN);
+                        }
+                    }
+                }
+                index++;
+                if (index != mark.getCourseWorkMarks().size() && (key instanceof MainComponent)) {
+                    fileWriter.append(LINE_DELIMITER);
+                }
+            }
+        } else {
+            fileWriter.append("NULL");
+        }
+        fileWriter.append(COMMA_DELIMITER);
+        fileWriter.append(String.valueOf(mark.getTotalMark()));
+        fileWriter.append(NEW_LINE_SEPARATOR);
+    }
+
 }
