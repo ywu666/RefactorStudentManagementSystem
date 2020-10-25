@@ -1,11 +1,9 @@
 package com.softeng306.SupportMgr;
 
 import com.softeng306.Main;
-import com.softeng306.Managers.CourseMgr;
 import com.softeng306.Professor;
 
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class SupportProfessorMgr extends SupportDepartmentMgr {

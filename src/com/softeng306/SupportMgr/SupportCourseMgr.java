@@ -2,11 +2,6 @@ package com.softeng306.SupportMgr;
 
 import com.softeng306.*;
 import com.softeng306.Enum.CourseType;
-import com.softeng306.Enum.Department;
-import com.softeng306.Managers.CourseMgr;
-
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
