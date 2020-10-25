@@ -15,19 +15,6 @@ public class SupportProfessorMgr extends SupportDepartmentMgr {
     }
 
 
-    //
-//    public boolean checkValidProfIDInput(String profID) {
-//        String REGEX = "^P[0-9]{7}[A-Z]$";
-//        boolean valid =  Pattern.compile(REGEX).matcher(profID).matches();
-//        if(!valid){
-//            System.out.println("Wrong format of prof ID.");
-//        }
-//        return valid;
-//    }
-//
-
-
-
     /**
      * Checks whether this professor ID is used by other professors.
      * @param profID The inputted professor ID.
