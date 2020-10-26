@@ -105,7 +105,7 @@ public class CourseComponentMgr implements ICourseComponentMgr{
             System.out.println("Course Assessment has been settled already!");
         }
 //        print course components after add
-        printCourseComponentsAfterAdd(currentCourse);
+        supportCourseMgr.printCourseComponentsAfterAdd(currentCourse);
         // Update course into course.csv
     }
     /**
@@ -144,19 +144,7 @@ public class CourseComponentMgr implements ICourseComponentMgr{
         }
         return examWeight;
     }
-    /**
-     * Prints the components of course after adding components
-     * @param currentCourse The course that components were added to
-     */
-    private static void printCourseComponentsAfterAdd(Course currentCourse) {
-        System.out.println(currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " components: ");
-        for (MainComponent each_comp : currentCourse.getMainComponents()) {
-            System.out.println("    " + each_comp.getComponentName() + " : " + each_comp.getComponentWeight() + "%");
-            for (SubComponent each_sub : each_comp.getSubComponents()) {
-                System.out.println("        " + each_sub.getComponentName() + " : " + each_sub.getComponentWeight() + "%");
-            }
-        }
-    }
+
     /**
      * Sets the number of sub components in main component from user
      * @param i The index of main component

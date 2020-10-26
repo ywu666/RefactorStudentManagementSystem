@@ -15,17 +15,17 @@ public class Main {
     /*
         Declare Object managers
      */
-    private static ICourseMgr courseMgr = new CourseMgr();
+    private static final ICourseMgr courseMgr = new CourseMgr();
 
-    private static IMarkMgr markMgr = new MarkMgr();
+    private static final IMarkMgr markMgr = new MarkMgr();
 
-    private static IStudentMgr studentMgr = new StudentMgr();
+    private static final IStudentMgr studentMgr = new StudentMgr();
 
-    private static ICourseRegistrationMgr courseRegistrationMgr = new CourseRegistrationMgr();
+    private static final ICourseRegistrationMgr courseRegistrationMgr = new CourseRegistrationMgr();
 
-    private static IProfessorMgr professorMgr = new ProfessorMgr();
+    private static final IProfessorMgr professorMgr = new ProfessorMgr();
 
-    private static ICourseComponentMgr courseComponentMgr = new CourseComponentMgr();
+    private static final ICourseComponentMgr courseComponentMgr = new CourseComponentMgr();
 
 
     /**

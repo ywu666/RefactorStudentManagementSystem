@@ -8,11 +8,11 @@ package com.softeng306.Entities;
 
  */
 
-public class Group {
+public class Group implements IGroup{
     /**
      * The name of this group.
      */
-    private String groupName;
+    private final String groupName;
 
     /**
      * The availableVacancies of this group.
@@ -23,7 +23,7 @@ public class Group {
     /**
      * The total seates of this group
      */
-    private int totalSeats;
+    private final int totalSeats;
 
 
     /**
@@ -38,37 +38,22 @@ public class Group {
         this.availableVacancies = availableVacancies;
         this.totalSeats = totalSeats;
     }
-
-    /**
-     * Gets the name of this group.
-     *
-     * @return this group's name.
-     */
+    
     public String getGroupName() {
         return this.groupName;
     }
 
-    /**
-     * Gets the current available vacancies for this group.
-     *
-     * @return this group's current available vacancy.
-     */
+
     public int getAvailableVacancies() {
         return this.availableVacancies;
     }
 
-    /**
-     * Gets the total seats for this group.
-     *
-     * @return this group's total seats.
-     */
+
     public int getTotalSeats() {
         return totalSeats;
     }
 
-    /**
-     * Updates the available vacancies of this group after someone has registered this group.
-     */
+
     public void enrolledIn() {
         this.availableVacancies -= 1;
     }

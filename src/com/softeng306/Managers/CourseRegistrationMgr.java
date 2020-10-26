@@ -18,7 +18,7 @@ import static com.softeng306.Entities.CourseRegistration.TutComparator;
 
 
 public class CourseRegistrationMgr implements ICourseRegistrationMgr{
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
     private static final FILEMgr<CourseRegistration> courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
 
 
