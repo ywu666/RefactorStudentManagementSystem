@@ -35,7 +35,7 @@ public abstract class FILEMgr<T> {
     /**
      * The string of {@code SLASH}.
      */
-    public static final String SLASH = "/";
+    protected static final String SLASH = "/";
 
     public abstract List<T> loadFromFile();
 
