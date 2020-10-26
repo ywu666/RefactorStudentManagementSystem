@@ -8,8 +8,17 @@ import java.util.ArrayList;
  * A course can have many main assessment components.
 
  */
-public class MainComponent extends CourseworkComponent {
+public class MainComponent implements CourseworkComponent {
 
+
+    /**
+     * The name of this coursework.
+     */
+    private final String componentName;
+    /**
+     * The weight of this course component.
+     */
+    private final int componentWeight;
     /**
      * This main component's sub components.
      */
@@ -22,10 +31,28 @@ public class MainComponent extends CourseworkComponent {
      * @param subComponents the sub components of the assessment component
      */
     public MainComponent(String componentName, int componentWeight, ArrayList<SubComponent> subComponents) {
-        super(componentName, componentWeight);
+        this.componentName = componentName;
+        this.componentWeight = componentWeight;
         this.subComponents = subComponents;
     }
 
+    /**
+     * Gets the component name
+     *
+     * @return the name of this component
+     */
+    public String getComponentName() {
+        return this.componentName;
+    }
+
+    /**
+     * Gets the weight of this component
+     *
+     * @return the weight of this component
+     */
+    public int getComponentWeight() {
+        return this.componentWeight;
+    }
     /**
      * Gets the sub components of this main component.
      * @return the sub components of this main component.
@@ -34,13 +61,5 @@ public class MainComponent extends CourseworkComponent {
         return this.subComponents;
     }
 
-    /**
-     * Prints the course component type (main component or sub component).
-     * Implements the abstract method {@code printComponentType} in {@code CourseworkComponent}.
-     */
-    public void printComponentType() {
-        System.out.println("This is a main-component.");
-        System.out.println("There are " + this.subComponents.size() + " sub-components inside");
-    }
 
 }
