@@ -16,18 +16,26 @@ import static com.softeng306.CourseRegistration.LecComparator;
 import static com.softeng306.CourseRegistration.TutComparator;
 
 
-public class CourseRegistrationMgr {
+public class CourseRegistrationMgr implements ICourseRegistrationMgr{
     private static Scanner scanner = new Scanner(System.in);
     private static final FILEMgr<CourseRegistration> courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
 
-    private static SupportCourseRegistrationMgr supportCourseRegistrationMgr = new SupportCourseRegistrationMgr();
-    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
-    private static SupportStudentMgr supportStudentMgr = new SupportStudentMgr();
+
+    /**
+     * A list of all the stored course registrations.
+     */
+    private List<CourseRegistration> courseRegistrations = courseRegistrationFILEMgr.loadFromFile();
+
+    private IMarkMgr markMgr;
+
+    private SupportCourseRegistrationMgr supportCourseRegistrationMgr;
+    private SupportCourseMgr supportCourseMgr;
+    private SupportStudentMgr supportStudentMgr;
 
     /**
      * Registers a course for a student
      */
-    public static void registerCourse() {
+    public void registerCourse() {
         System.out.println("registerCourse is called");
         String selectedLectureGroupName = null;
         String selectedTutorialGroupName = null;
@@ -62,26 +70,26 @@ public class CourseRegistrationMgr {
         ArrayList<Group> lecGroups = new ArrayList<>(0);
         lecGroups.addAll(currentCourse.getLectureGroups());
 
-        selectedLectureGroupName = CourseRegistrationMgr.printGroupWithVacancyInfo("lecture", lecGroups);
+        selectedLectureGroupName = printGroupWithVacancyInfo("lecture", lecGroups);
 
         ArrayList<Group> tutGroups = new ArrayList<>(0);
         tutGroups.addAll(currentCourse.getTutorialGroups());
 
-        selectedTutorialGroupName = CourseRegistrationMgr.printGroupWithVacancyInfo("tutorial", tutGroups);
+        selectedTutorialGroupName = printGroupWithVacancyInfo("tutorial", tutGroups);
 
         ArrayList<Group> labGroups = new ArrayList<>(0);
         labGroups.addAll(currentCourse.getLabGroups());
 
-        selectedLabGroupName = CourseRegistrationMgr.printGroupWithVacancyInfo("lab", labGroups);
+        selectedLabGroupName = printGroupWithVacancyInfo("lab", labGroups);
 
         currentCourse.enrolledIn();
         CourseRegistration courseRegistration = new CourseRegistration(currentStudent, currentCourse, selectedLectureGroupName, selectedTutorialGroupName, selectedLabGroupName);
 
         courseRegistrationFILEMgr.writeIntoFile(courseRegistration);
 
-        Main.courseRegistrations.add(courseRegistration);
+        courseRegistrations.add(courseRegistration);
 
-        Main.marks.add(MarkMgr.initializeMark(currentStudent, currentCourse));
+        markMgr.addMark(markMgr.initializeMark(currentStudent, currentCourse));
 
         System.out.println("Course registration successful!");
         System.out.print("Student: " + currentStudent.getStudentName());
@@ -98,7 +106,7 @@ public class CourseRegistrationMgr {
     /**
      * Prints the students in a course according to their lecture group, tutorial group or lab group.
      */
-    public static void printStudents() {
+    public void printStudents() {
         System.out.println("printStudent is called");
         Course currentCourse = supportCourseMgr.checkCourseExists();
 
@@ -200,7 +208,7 @@ public class CourseRegistrationMgr {
      * @param groups    An array list of a certain type of groups in a course.
      * @return the name of the group chosen by the user.
      */
-    public static String printGroupWithVacancyInfo(String groupType, ArrayList<Group> groups) {
+    public String printGroupWithVacancyInfo(String groupType, ArrayList<Group> groups) {
         int index;
         HashMap<String, Integer> groupAssign = new HashMap<String, Integer>(0);
         int selectedGroupNum;
@@ -247,9 +255,23 @@ public class CourseRegistrationMgr {
         return selectedGroupName;
     }
 
+    public void setMarkMgr(IMarkMgr markMgr) {
+        this.markMgr = markMgr;
+    }
 
+    public List<CourseRegistration> getCourseRegistrations() {
+        return courseRegistrations;
+    }
 
+    public void setSupportCourseRegistrationMgr(SupportCourseRegistrationMgr supportCourseRegistrationMgr) {
+        this.supportCourseRegistrationMgr = supportCourseRegistrationMgr;
+    }
 
+    public void setSupportCourseMgr(SupportCourseMgr supportCourseMgr) {
+        this.supportCourseMgr = supportCourseMgr;
+    }
 
-
+    public void setSupportStudentMgr(SupportStudentMgr supportStudentMgr) {
+        this.supportStudentMgr = supportStudentMgr;
+    }
 }

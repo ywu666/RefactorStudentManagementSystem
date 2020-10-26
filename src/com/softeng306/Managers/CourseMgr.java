@@ -5,10 +5,6 @@ import  com.softeng306.FILEMgr.CourseFILEMgr;
 import com.softeng306.FILEMgr.FILEMgr;
 
 
-
-import com.softeng306.Enum.CourseType;
-import com.softeng306.Enum.Department;
-
 import com.softeng306.*;
 import com.softeng306.SupportMgr.SupportCourseMgr;
 import com.softeng306.SupportMgr.SupportProfessorMgr;
@@ -16,11 +12,8 @@ import com.softeng306.SupportMgr.SupportProfessorMgr;
 import java.util.*;
 import java.io.PrintStream;
 import java.io.OutputStream;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-
-public class CourseMgr {
+public class CourseMgr implements ICourseMgr {
     private static final Scanner scanner = new Scanner(System.in);
     private static final PrintStream originalStream = System.out;
     private static final PrintStream dummyStream = new PrintStream(new OutputStream() {
@@ -29,13 +22,21 @@ public class CourseMgr {
         }
     });
 
-    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
-    private static SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr();
+    private CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
+    /**
+     * A list of all the stored courses.
+     */
+    private List<Course> courses = courseFILEMgr.loadFromFile();
+
+    private IProfessorMgr professorMgr;
+
+    private SupportCourseMgr supportCourseMgr;
+    private SupportProfessorMgr supportProfessorMgr;
 
     /**
      * Creates a new course and stores it in the file.
      */
-    public static void addCourse() {
+    public void addCourse() {
         String courseID;
         String courseName;
         int seatsLeft;
@@ -58,9 +59,9 @@ public class CourseMgr {
 //        set courseType
         String courseType = setCourseType();
 //        set number of lecture groups
-        int noOfLectureGroups = setNoOfGroups(totalSeats,"lecture","Number of lecture group must be positive but less than total seats in this course.");
+        int noOfLectureGroups = setNoOfGroups(totalSeats, "lecture", "Number of lecture group must be positive but less than total seats in this course.");
 //        set number of weekly lecture hours
-        int lecWeeklyHour = setWeeklyHour(AU,"lecture");
+        int lecWeeklyHour = setWeeklyHour(AU, "lecture");
         /*                        Lecture groups                                  */
 
         ArrayList<Group> lectureGroups = new ArrayList<>();
@@ -69,7 +70,7 @@ public class CourseMgr {
         seatsLeft = totalSeats;
         for (int i = 0; i < noOfLectureGroups; i++) {
 //            set lecture group name
-            lectureGroupName = setGroupName(lectureGroups,"lecture");
+            lectureGroupName = setGroupName(lectureGroups, "lecture");
             do {
 //                set lecture group capacity
                 lectureGroupCapacity = setLectureGroupCapacity();
@@ -89,34 +90,34 @@ public class CourseMgr {
         /*                        Tutorial groups                                  */
         int totalTutorialSeats = 0;
 //        set number of tutorial groups
-        int noOfTutorialGroups = setNoOfGroups(totalSeats,"tutorial","Number of tutorial group must be non-negative.");
+        int noOfTutorialGroups = setNoOfGroups(totalSeats, "tutorial", "Number of tutorial group must be non-negative.");
 //        set tutorial weekly hours
         int tutWeeklyHour = 0;
-        if(noOfTutorialGroups != 0) {
-            tutWeeklyHour = setWeeklyHour(AU,"tutorial");
+        if (noOfTutorialGroups != 0) {
+            tutWeeklyHour = setWeeklyHour(AU, "tutorial");
         }
         ArrayList<Group> tutorialGroups = new ArrayList<>();
         String tutorialGroupName;
         for (int i = 0; i < noOfTutorialGroups; i++) {
 //            set tutorial group name
-            tutorialGroupName = setGroupName(tutorialGroups,"tutorial");
+            tutorialGroupName = setGroupName(tutorialGroups, "tutorial");
 //            set group tutorial seats
             totalTutorialSeats = getTotalTutorialSeats(totalSeats, totalTutorialSeats, noOfTutorialGroups, tutorialGroups, tutorialGroupName, i);
         }
         /*                        lab groups                                                             */
         int totalLabSeats = 0;
 //      set number of lab groups
-        int noOfLabGroups = setNoOfGroups(totalSeats,"lab","Number of lab group must be non-negative.");
+        int noOfLabGroups = setNoOfGroups(totalSeats, "lab", "Number of lab group must be non-negative.");
 //        set lab weekly hours
         int labWeeklyHour = 0;
-        if(noOfLabGroups != 0) {
-            labWeeklyHour = setWeeklyHour(AU,"lab");
+        if (noOfLabGroups != 0) {
+            labWeeklyHour = setWeeklyHour(AU, "lab");
         }
         ArrayList<Group> labGroups = new ArrayList<>();
         String labGroupName;
         for (int i = 0; i < noOfLabGroups; i++) {
 //            set lab group name
-            labGroupName = setGroupName(labGroups,"lab");
+            labGroupName = setGroupName(labGroups, "lab");
 //            set lab seats
             totalLabSeats = getTotalLabSeats(totalSeats, totalLabSeats, noOfLabGroups, labGroups, labGroupName, i);
         }
@@ -148,10 +149,10 @@ public class CourseMgr {
      * @param course The course to be added
      * @param s The string dependant on if components are added or not
      */
-    private static void addCourseIntoFile(String courseID, Course course, String s) {
+    private void addCourseIntoFile(String courseID, Course course, String s) {
         FILEMgr<Course> courseFileEMgr = new CourseFILEMgr();
         courseFileEMgr.writeIntoFile(course);
-        Main.courses.add(course);
+        courses.add(course);
         System.out.println("Course " + courseID + s);
         supportCourseMgr.printCourses();
     }
@@ -160,7 +161,7 @@ public class CourseMgr {
      * Ask user to add coursework component?
      * @return 1 if Yes or 2 if no
      */
-    private static int promptUserToAddCourseComponent() {
+    private int promptUserToAddCourseComponent() {
         System.out.println("Create course components and set component weightage now?");
         System.out.println("1. Yes");
         System.out.println("2. Not yet");
@@ -183,18 +184,18 @@ public class CourseMgr {
      * @param courseDepartment The department of current course
      * @return Professor in charge of course
      */
-    private static Professor setProfessorInCharge(String courseDepartment) {
+    private Professor setProfessorInCharge(String courseDepartment) {
         String profID;
         Professor profInCharge;
         List<String> professorsInDepartment;
-        professorsInDepartment = ProfessorMgr.printProfInDepartment(courseDepartment, false);
+        professorsInDepartment = professorMgr.printProfInDepartment(courseDepartment, false);
         while (true) {
 
             System.out.println("Enter the ID for the professor in charge please:");
             System.out.println("Enter -h to print all the professors in " + courseDepartment + ".");
             profID = scanner.nextLine();
             while ("-h".equals(profID)) {
-                professorsInDepartment = ProfessorMgr.printProfInDepartment(courseDepartment, true);
+                professorsInDepartment = professorMgr.printProfInDepartment(courseDepartment, true);
                 profID = scanner.nextLine();
             }
 
@@ -219,15 +220,15 @@ public class CourseMgr {
 
     /**
      * Set total lab seats
-     * @param totalSeats The total seats in course
+     * @param totalSeats    The total seats in course
      * @param totalLabSeats The total lab seats in course
      * @param noOfLabGroups Number of lab groups in course
-     * @param labGroups Array containing labGroups
-     * @param labGroupName Current labGroup
-     * @param i index of lab group being added
+     * @param labGroups     Array containing labGroups
+     * @param labGroupName  Current labGroup
+     * @param i             index of lab group being added
      * @return The total number of lab seats
      */
-    private static int getTotalLabSeats(int totalSeats, int totalLabSeats, int noOfLabGroups, ArrayList<Group> labGroups, String labGroupName, int i) {
+    private int getTotalLabSeats(int totalSeats, int totalLabSeats, int noOfLabGroups, ArrayList<Group> labGroups, String labGroupName, int i) {
         int labGroupCapacity;
         do {
             System.out.println("Enter this lab group's capacity: ");
@@ -249,15 +250,15 @@ public class CourseMgr {
 
     /**
      * Set tutorial groups for course
-     * @param totalSeats The total seats in course
+     * @param totalSeats         The total seats in course
      * @param totalTutorialSeats The total tutorial seats in lab group
      * @param noOfTutorialGroups The total number of tutorial groups
-     * @param tutorialGroups The list of tutorial groups
-     * @param tutorialGroupName The current name of the tutorial group
-     * @param i The index of current tutorial group
+     * @param tutorialGroups     The list of tutorial groups
+     * @param tutorialGroupName  The current name of the tutorial group
+     * @param i                  The index of current tutorial group
      * @return The total tutorial seats in lab group
      */
-    private static int getTotalTutorialSeats(int totalSeats, int totalTutorialSeats, int noOfTutorialGroups, ArrayList<Group> tutorialGroups, String tutorialGroupName, int i) {
+    private int getTotalTutorialSeats(int totalSeats, int totalTutorialSeats, int noOfTutorialGroups, ArrayList<Group> tutorialGroups, String tutorialGroupName, int i) {
         int tutorialGroupCapacity;
         do {
             System.out.println("Enter this tutorial group's capacity: ");
@@ -284,13 +285,13 @@ public class CourseMgr {
     /**
      * Set the name of group
      * @param groups The list of groups
-     * @param s1 The type of group
+     * @param s1     The type of group
      * @return The name of group
      */
-    private static String setGroupName(ArrayList<Group> groups, String s1) {
+    private String setGroupName(ArrayList<Group> groups, String s1) {
         String GroupName;
         boolean groupNameExists;
-        System.out.println("Give a name to the " + s1 +   " group");
+        System.out.println("Give a name to the " + s1 + " group");
         do {
             groupNameExists = false;
             System.out.println("Enter a group Name: ");
@@ -316,11 +317,11 @@ public class CourseMgr {
     /**
      * Sets the number of groups
      * @param totalSeats The Total seats in course
-     * @param s1 The type of group
-     * @param s2 The invalid string output
+     * @param s1         The type of group
+     * @param s2         The invalid string output
      * @return The number of groups
      */
-    private static int setNoOfGroups(int totalSeats,String s1,String s2) {
+    private int setNoOfGroups(int totalSeats, String s1, String s2) {
         int noOfGroups;
         do {
             System.out.println("Enter the number of " + s1 + " groups:");
@@ -345,7 +346,7 @@ public class CourseMgr {
      * Set the capacity of lecture groups
      * @return The lecture group capacity
      */
-    private static int setLectureGroupCapacity() {
+    private int setLectureGroupCapacity() {
         int lectureGroupCapacity;
         System.out.println("Enter this lecture group's capacity: ");
         do {
@@ -369,15 +370,15 @@ public class CourseMgr {
      * @param s1 The type of group
      * @return The number of weekly hours
      */
-    private static int setWeeklyHour(int AU,String s1) {
+    private int setWeeklyHour(int AU, String s1) {
         int WeeklyHour;
         while (true) {
-            System.out.println("Enter the weekly " +  s1 +  " hour for this course: ");
+            System.out.println("Enter the weekly " + s1 + " hour for this course: ");
             if (scanner.hasNextInt()) {
                 WeeklyHour = scanner.nextInt();
                 scanner.nextLine();
                 if (WeeklyHour < 0 || WeeklyHour > AU) {
-                    System.out.println("Weekly " + s1 +  " hour out of bound. Please re-enter.");
+                    System.out.println("Weekly " + s1 + " hour out of bound. Please re-enter.");
                 } else {
                     break;
                 }
@@ -393,7 +394,7 @@ public class CourseMgr {
      * Set course type of course
      * @return The course type of course
      */
-    private static String setCourseType() {
+    private String setCourseType() {
         String courseType;
         do {
             System.out.println("Enter course type (uppercase): ");
@@ -412,7 +413,7 @@ public class CourseMgr {
      * Set department of course
      * @return The department of course
      */
-    private static String setDepartment() {
+    private String setDepartment() {
         String courseDepartment;
         do {
             System.out.println("Enter course's department (uppercase): ");
@@ -430,7 +431,7 @@ public class CourseMgr {
      * Set AU of course
      * @return The AU of course
      */
-    private static int setAU() {
+    private int setAU() {
         int AU;
         while (true) {
             System.out.println("Enter number of academic unit(s): ");
@@ -453,7 +454,7 @@ public class CourseMgr {
      * Set total seats in course
      * @return The total seats in course
      */
-    private static int setTotalSeats() {
+    private int setTotalSeats() {
         int totalSeats;
         while (true) {
             System.out.println("Enter the total vacancy of this course: ");
@@ -475,7 +476,7 @@ public class CourseMgr {
     /**
      * Checks whether a course (with all of its groups) have available slots and displays the result.
      */
-    public static void checkAvailableSlots() {
+    public void checkAvailableSlots() {
         //printout the result directly
         System.out.println("checkAvailableSlots is called");
         Course currentCourse;
@@ -514,7 +515,7 @@ public class CourseMgr {
      * @param mainComponents The main components list of the course
      * @return The total weight of Exam mark. If no exam, then weight = 0.
      */
-    private  static int setExamWeight(ArrayList<MainComponent> mainComponents) {
+    private int setExamWeight(ArrayList<MainComponent> mainComponents) {
         int hasFinalExamChoice;
         int examWeight = 0;
         while (true) {
@@ -545,12 +546,13 @@ public class CourseMgr {
         }
         return examWeight;
     }
+
     /**
      * Sets the course work component weightage of a course.
      *
      * @param currentCourse The course which course work component is to be set.
      */
-    public static void enterCourseWorkComponentWeightage(Course currentCourse) {
+    public void enterCourseWorkComponentWeightage(Course currentCourse) {
         // Assume when course is created, no components are added yet
         // Assume once components are created and set, cannot be changed.
         int numberOfMain;
@@ -584,7 +586,7 @@ public class CourseMgr {
                 for (int i = 0; i < numberOfMain; i++) {
                     ArrayList<SubComponent> subComponents = new ArrayList<>(0);
 //                  set main component name
-                    mainComponentName = setComponentName(mainComponents, totalWeightage, i,": ","main");
+                    mainComponentName = setComponentName(mainComponents, totalWeightage, i, ": ", "main");
 //                    set main component weight
                     weight = setComponentWeight(totalWeightage, i, "Enter main component ", " weightage:");
                     scanner.nextLine();
@@ -598,7 +600,7 @@ public class CourseMgr {
                         int sub_totWeight = 100;
                         for (int j = 0; j < noOfSub; j++) {
 //                            set subcomponent name
-                            subComponentName = setComponentName(subComponents,sub_totWeight,j," to sub component: ","sub");
+                            subComponentName = setComponentName(subComponents, sub_totWeight, j, " to sub component: ", "sub");
 //                          set sub component weight
                             sub_weight = setComponentWeight(sub_totWeight, j, "Enter sub component ", " weightage (out of the main component): ");
                             scanner.nextLine();
@@ -649,7 +651,7 @@ public class CourseMgr {
      * @param i The index of main component
      * @return The number of sub components under main component
      */
-    private static int setNoOfSub(int i) {
+    private int setNoOfSub(int i) {
         int noOfSub;
         do {
             System.out.println("Enter number of sub component under main component " + (i + 1) + ":");
@@ -671,12 +673,12 @@ public class CourseMgr {
     /**
      * Set weight of components (either sub or main)
      * @param totalWeightage The total weight of main componenets or subcomponents
-     * @param i The index of component
-     * @param s Place holder string
-     * @param s2 Sub component or main component
+     * @param i              The index of component
+     * @param s              Place holder string
+     * @param s2             Sub component or main component
      * @return The weight of the component
      */
-    private static int setComponentWeight(int totalWeightage, int i, String s, String s2) {
+    private int setComponentWeight(int totalWeightage, int i, String s, String s2) {
         int weight;
         do {
             System.out.println(s + (i + 1) + " weightage: ");
@@ -699,18 +701,18 @@ public class CourseMgr {
      * Set the name of sub or main component
      * @param components The array of sub or main components
      * @param totalWeightage The total weightage of sub or main components
-     * @param i Index of component
-     * @param s1 Placeholder string
-     * @param s2 Placeholder string fro main or sub
+     * @param i              Index of component
+     * @param s1             Placeholder string
+     * @param s2             Placeholder string fro main or sub
      * @return The name of component
      */
-    private static String setComponentName(ArrayList<? extends CourseworkComponent> components, int totalWeightage, int i,String s1, String s2) {
+    private String setComponentName(ArrayList<? extends CourseworkComponent> components, int totalWeightage, int i, String s1, String s2) {
         boolean componentExist;
         String ComponentName;
         do {
             componentExist = false;
             System.out.println("Total weightage left to assign" + s1 + totalWeightage);
-            System.out.println("Enter " + s2 +  " component " + (i + 1) + " name: ");
+            System.out.println("Enter " + s2 + " component " + (i + 1) + " name: ");
             ComponentName = scanner.nextLine();
 
             if (components.size() == 0) {
@@ -736,7 +738,7 @@ public class CourseMgr {
      * Set number of main components in course
      * @return The number of main components in course
      */
-    private static int setNumberOfMainComponents() {
+    private int setNumberOfMainComponents() {
         int numberOfMain;
         do {
             System.out.println("Enter number of main component(s) to add:");
@@ -753,6 +755,23 @@ public class CourseMgr {
             break;
         } while (true);
         return numberOfMain;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+
+    public void setProfessorMgr(IProfessorMgr professorMgr) {
+        this.professorMgr = professorMgr;
+    }
+
+    public void setSupportProfessorMgr(SupportProfessorMgr supportProfessorMgr) {
+        this.supportProfessorMgr = supportProfessorMgr;
+    }
+
+    public void setSupportCourseMgr(SupportCourseMgr supportCourseMgr) {
+        this.supportCourseMgr = supportCourseMgr;
     }
 
 }

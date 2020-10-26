@@ -3,6 +3,7 @@ package com.softeng306.SupportMgr;
 import com.softeng306.Course;
 import com.softeng306.Enum.Department;
 import com.softeng306.Main;
+import com.softeng306.Managers.ICourseMgr;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -18,6 +19,7 @@ public class SupportDepartmentMgr {
             // NO-OP
         }
     });
+    protected ICourseMgr courseMgr;
 
     /**
      * Checks whether the inputted department is valid.
@@ -67,7 +69,7 @@ public class SupportDepartmentMgr {
      * @return a list of all the department values.
      */
     public List<String> printCourseInDepartment(String department) {
-        List<Course> validCourses = Main.courses.stream().filter(c -> department.equals(c.getCourseDepartment())).collect(Collectors.toList());
+        List<Course> validCourses = courseMgr.getCourses().stream().filter(c -> department.equals(c.getCourseDepartment())).collect(Collectors.toList());
         List<String> validCourseString = validCourses.stream().map(c -> c.getCourseID()).collect(Collectors.toList());
         validCourseString.forEach(System.out::println);
         if (validCourseString.size() == 0) {

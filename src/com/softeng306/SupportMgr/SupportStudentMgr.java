@@ -2,6 +2,7 @@ package com.softeng306.SupportMgr;
 
 import com.softeng306.Enum.Gender;
 import com.softeng306.Main;
+import com.softeng306.Managers.IStudentMgr;
 import com.softeng306.Student;
 
 import java.util.*;
@@ -10,6 +11,12 @@ import java.util.stream.Collectors;
 
 
 public class SupportStudentMgr extends SupportDepartmentMgr {
+
+    private IStudentMgr studentMgr;
+
+    public SupportStudentMgr(IStudentMgr studentMgr) {
+        this.studentMgr = studentMgr;
+    }
 
     public boolean checkValidStudentIDInput(String studentID) {
         String REGEX = "^U[0-9]{7}[A-Z]$";
@@ -79,7 +86,7 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
      * Displays a list of IDs of all the students.
      */
     public void printAllStudents() {
-        Main.students.stream().map(s -> s.getStudentID()).forEach(System.out::println);
+        studentMgr.getStudents().stream().map(s -> s.getStudentID()).forEach(System.out::println);
     }
 
     /**
@@ -88,7 +95,7 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
      * @return the existing student or else null.
      */
     public Student checkStudentExists(String studentID){
-        List<Student> anyStudent = Main.students.stream().filter(s->studentID.equals(s.getStudentID())).collect(Collectors.toList());
+        List<Student> anyStudent = studentMgr.getStudents().stream().filter(s->studentID.equals(s.getStudentID())).collect(Collectors.toList());
         if(anyStudent.size() == 0){
             return null;
         }

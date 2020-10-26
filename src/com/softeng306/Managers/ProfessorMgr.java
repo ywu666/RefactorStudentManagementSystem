@@ -1,6 +1,6 @@
 package com.softeng306.Managers;
 
-import com.softeng306.Main;
+import com.softeng306.FILEMgr.ProfessorFILEMgr;
 import com.softeng306.Professor;
 import com.softeng306.SupportMgr.SupportProfessorMgr;
 import com.softeng306.SupportMgr.SupportStudentMgr;
@@ -15,10 +15,13 @@ import java.util.stream.Collectors;
  *
 
  */
-public class ProfessorMgr {
-
-    private static SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr();
-
+public class ProfessorMgr implements IProfessorMgr {
+    private SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr(this);
+    private ProfessorFILEMgr profFileMgr = new ProfessorFILEMgr();
+    /**
+     * A list of all the registered professors.
+     */
+    private  List<Professor> professors = profFileMgr.loadFromFile();
 
     /**
      * Displays all the professors in the inputted department.
@@ -27,9 +30,9 @@ public class ProfessorMgr {
      * @param printOut Represents whether print out the professor information or not
      * @return A list of all the names of professors in the inputted department or else null.
      */
-    public static List<String> printProfInDepartment(String department, boolean printOut) {
+    public List<String> printProfInDepartment(String department, boolean printOut) {
         if (supportProfessorMgr.checkDepartmentValidation(department)) {
-            List<String> validProfString = Main.professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
+            List<String> validProfString = professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
             if (printOut) {
                 validProfString.forEach(System.out::println);
             }
@@ -40,5 +43,12 @@ public class ProfessorMgr {
 
     }
 
+    public void setSupportProfessorMgr(SupportProfessorMgr supportProfessorMgr) {
+        this.supportProfessorMgr = supportProfessorMgr;
+    }
+
+    public List<Professor> getProfessors() {
+        return professors;
+    }
 
 }

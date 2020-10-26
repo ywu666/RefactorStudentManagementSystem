@@ -2,58 +2,64 @@ package com.softeng306;
 
 import com.softeng306.FILEMgr.*;
 import com.softeng306.Managers.*;
+import com.softeng306.SupportMgr.SupportCourseMgr;
+import com.softeng306.SupportMgr.SupportCourseRegistrationMgr;
+import com.softeng306.SupportMgr.SupportProfessorMgr;
+import com.softeng306.SupportMgr.SupportStudentMgr;
 
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static Scanner scanner = new Scanner(System.in);
-    /**
-     * An array list of all the students in this school.
+
+    /*
+        Declare Object managers
      */
-    public static List<Student> students = new ArrayList<Student>(0);
-    /**
-     * An array list of all the courses in this school.
-     */
-    public static List<Course> courses = new ArrayList<Course>(0);
-    /**
-     * An array list of all the course registration records in this school.
-     */
-    public static List<CourseRegistration> courseRegistrations = new ArrayList<CourseRegistration>(0);
-    /**
-     * An array list of all the student mark records in this school.
-     */
-    public static List<Mark> marks = new ArrayList<Mark>(0);
-    /**
-     * An array list of all the professors in this school.
-     */
-    public static List<Professor> professors = new ArrayList<Professor>(0);
-    
+    private static ICourseMgr courseMgr = new CourseMgr();
+
+    private static IMarkMgr markMgr = new MarkMgr();
+
+    private static IStudentMgr studentMgr = new StudentMgr();
+
+    private static ICourseRegistrationMgr courseRegistrationMgr = new CourseRegistrationMgr();
+
+    private static IProfessorMgr professorMgr = new ProfessorMgr();
+
+    private static ICourseComponentMgr courseComponentMgr = new CourseComponentMgr();
+
+
     /**
      * The main function of the system.
      * Command line interface.
+     *
      * @param args The command line parameters.
      */
     public static void main(String[] args) {
-        /*
-         * this part is changed due to the refactor
-         */
-        FILEMgr<Student> studentFileMgr = new StudentFILEMgr();
-        FILEMgr<CourseRegistration> courseRegistrationFileEMgr = new CourseRegistrationFILEMgr();
-        FILEMgr<Professor> professorFileMgr = new ProfessorFILEMgr();
-        FILEMgr<Course> courseFileMgr = new CourseFILEMgr();
-        FILEMgr<Mark> markFileMgr = new MarkFILEMgr();
 
-         // declare object managers
-        ICourseComponentMgr courseComponentManager = new CourseComponentMgr();
+        // Set dependent object managers
+        courseMgr.setProfessorMgr(professorMgr);
 
-        students = studentFileMgr.loadFromFile();
-        courses = courseFileMgr.loadFromFile();
-        courseRegistrations = courseRegistrationFileEMgr.loadFromFile();
-        marks = markFileMgr.loadFromFile();
-        professors = professorFileMgr.loadFromFile();
+        courseRegistrationMgr.setMarkMgr(markMgr);
+
+        // Create support object managers and set them in the object managers
+        SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr(professorMgr);
+        professorMgr.setSupportProfessorMgr(supportProfessorMgr);
+        courseMgr.setSupportProfessorMgr(supportProfessorMgr);
+
+        SupportCourseMgr supportCourseMgr = new SupportCourseMgr(courseMgr);
+        courseMgr.setSupportCourseMgr(supportCourseMgr);
+        courseRegistrationMgr.setSupportCourseMgr(supportCourseMgr);
+        markMgr.setSupportCourseMgr(supportCourseMgr);
+        courseComponentMgr.setSupportCourseMgr(supportCourseMgr);
+
+        SupportStudentMgr supportStudentMgr = new SupportStudentMgr(studentMgr);
+        studentMgr.setSupportStudentMgr(supportStudentMgr);
+        courseRegistrationMgr.setSupportStudentMgr(supportStudentMgr);
+        markMgr.setSupportStudentMgr(supportStudentMgr);
+
+        SupportCourseRegistrationMgr supportCourseRegistrationMgr = new SupportCourseRegistrationMgr(courseRegistrationMgr, courseMgr);
+        courseRegistrationMgr.setSupportCourseRegistrationMgr(supportCourseRegistrationMgr);
+
 
         printWelcome();
 
@@ -79,34 +85,34 @@ public class Main {
                 case 0:
                     break;
                 case 1:
-                    StudentMgr.addStudent();
+                    studentMgr.addStudent();
                     break;
                 case 2:
-                    CourseMgr.addCourse();
+                    courseMgr.addCourse();
                     break;
                 case 3:
-                    CourseRegistrationMgr.registerCourse();
+                    courseRegistrationMgr.registerCourse();
                     break;
                 case 4:
-                    CourseMgr.checkAvailableSlots();
+                    courseMgr.checkAvailableSlots();
                     break;
                 case 5:
-                    CourseRegistrationMgr.printStudents();
+                    courseRegistrationMgr.printStudents();
                     break;
                 case 6:
-                    courseComponentManager.enterCourseWorkComponentWeightage(null);
+                    courseComponentMgr.enterCourseWorkComponentWeightage(null);
                     break;
                 case 7:
-                    MarkMgr.setCourseWorkMark(false);
+                    markMgr.setCourseWorkMark(false);
                     break;
                 case 8:
-                    MarkMgr.setCourseWorkMark(true);
+                    markMgr.setCourseWorkMark(true);
                     break;
                 case 9:
-                    MarkMgr.printCourseStatistics();
+                    markMgr.printCourseStatistics();
                     break;
                 case 10:
-                    MarkMgr.printStudentTranscript();
+                    markMgr.printStudentTranscript();
                     break;
                 case 11:
                     exitApplication();
@@ -129,6 +135,7 @@ public class Main {
         System.out.println("******************************************************************************************************************************");
         System.out.println();
     }
+
     /**
      * Displays the exiting message.
      */
@@ -136,8 +143,8 @@ public class Main {
 
         System.out.println("Backing up data before exiting...");
 
-        CourseFILEMgr.backUpCourse(courses);
-        MarkFILEMgr.backUpMarks(marks);
+        CourseFILEMgr.backUpCourse(courseMgr.getCourses());
+        MarkFILEMgr.backUpMarks(markMgr.getMarks());
         System.out.println("********* Bye! Thank you for using Main! *********");
         System.out.println();
         System.out.println("                 ######    #      #   #######                   ");

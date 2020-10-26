@@ -1,16 +1,18 @@
 package com.softeng306.Managers;
 
 import com.softeng306.Professor;
+import com.softeng306.SupportMgr.SupportProfessorMgr;
 
+import java.util.Arrays;
 import java.util.List;
 
 public interface IProfessorMgr {
 
-    Professor addProfessor();
+    List<String> printProfInDepartment(String department, boolean printOut);
 
-    List<String> printProfInDepartment();
+    //boolean checkValidProfIDInput(String profID);
 
-    boolean checkValidProfIDValidation();
+    List<Professor> getProfessors();
 
-    boolean checkValidPersonNameInputValidation();
+    void setSupportProfessorMgr(SupportProfessorMgr professorMgr);
 }
