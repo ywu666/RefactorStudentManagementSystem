@@ -7,32 +7,32 @@ public class Course {
     /**
      * The ID of this course.
      */
-    private String courseID;
+    private final String courseID;
 
     /**
      * The name of this course.
      */
-    private String courseName;
+    private final String courseName;
 
     /** The AU of this course.
      *
      */
-    private int AU;
+    private final int AU;
 
     /**
      * The professor in charge of this course.
      */
-    private Professor profInCharge;
+    private final Professor profInCharge;
 
     /**
      * The department this course belongs to.
      */
-    private String courseDepartment;
+    private final String courseDepartment;
 
     /**
      * The type of this course.
      */
-    private String courseType;
+    private final String courseType;
 
     /**
      * The current vacancy of this course.
@@ -42,17 +42,17 @@ public class Course {
     /**
      * The total seats of this course.
      */
-    private int totalSeats;
+    private final int totalSeats;
 
     /**
      * The weekly lecture hour of this course.
      */
-    private int lecWeeklyHour;
+    private final int lecWeeklyHour;
 
     /**
      * The lecture groups of this course.
      */
-    private ArrayList<LectureGroup> lectureGroups;
+    private final ArrayList<Group> lectureGroups;
 
 
     /**
@@ -64,7 +64,7 @@ public class Course {
     /**
      * The tutorial groups of this course.
      */
-    private ArrayList<TutorialGroup> tutorialGroups = new ArrayList<TutorialGroup>(0);
+    private ArrayList<Group> tutorialGroups = new ArrayList<>(0);
 
     /**
      * The weekly lab hour of this course.
@@ -74,7 +74,7 @@ public class Course {
     /**
      * The lab groups of this course.
      */
-    private ArrayList<LabGroup> labGroups = new ArrayList<LabGroup>(0);
+    private ArrayList<Group> labGroups = new ArrayList<>(0);
 
     /**
      * The assessment components of this course.
@@ -95,7 +95,7 @@ public class Course {
      * @param courseType The course type of this course.
      * @param lecWeeklyHour The lecture weekly hour of this course.
      */
-    public Course(String courseID, String courseName, Professor profInCharge, int vacancies, int totalSeats, ArrayList<LectureGroup> lectureGroups, int AU, String courseDepartment, String courseType, int lecWeeklyHour) {
+    public Course(String courseID, String courseName, Professor profInCharge, int vacancies, int totalSeats, ArrayList<Group> lectureGroups, int AU, String courseDepartment, String courseType, int lecWeeklyHour) {
         this.courseID = courseID;
         this.courseName = courseName;
         this.profInCharge = profInCharge;
@@ -125,7 +125,7 @@ public class Course {
      * @param tutWeeklyHour The tutorial weekly hour of this course.
      * @param labWeeklyHour The lab weekly hour of this course.
      */
-    public Course(String courseID, String courseName, Professor profInCharge, int vacancies, int totalSeats, ArrayList<LectureGroup> lectureGroups, ArrayList<TutorialGroup> tutorialGroups, ArrayList<LabGroup> labGroups, int AU, String courseDepartment, String courseType, int lecWeeklyHour, int tutWeeklyHour, int labWeeklyHour) {
+    public Course(String courseID, String courseName, Professor profInCharge, int vacancies, int totalSeats, ArrayList<Group> lectureGroups, ArrayList<Group> tutorialGroups, ArrayList<Group> labGroups, int AU, String courseDepartment, String courseType, int lecWeeklyHour, int tutWeeklyHour, int labWeeklyHour) {
         this.courseID = courseID;
         this.courseName = courseName;
         this.profInCharge = profInCharge;
@@ -230,7 +230,7 @@ public class Course {
      * Gets the course's lecture groups.
      * @return the lecture groups of this course.
      */
-    public ArrayList<LectureGroup> getLectureGroups() {
+    public ArrayList<Group> getLectureGroups() {
         return lectureGroups;
     }
 
@@ -238,7 +238,7 @@ public class Course {
      * Gets the course's tutorial groups
      * @return the tutorial groups of this course
      */
-    public ArrayList<TutorialGroup> getTutorialGroups() {
+    public ArrayList<Group> getTutorialGroups() {
         return this.tutorialGroups;
     }
 
@@ -246,7 +246,7 @@ public class Course {
      * Gets the course's lab groups.
      * @return the lab groups of this course.
      */
-    public ArrayList<LabGroup> getLabGroups() {
+    public ArrayList<Group> getLabGroups() {
         return this.labGroups;
     }
 
@@ -275,7 +275,7 @@ public class Course {
      * Sets the tutorial groups of the lecture groups.
      * @param tutorialGroups this course's tutorial groups.
      */
-    public void setTutorialGroups(ArrayList<TutorialGroup> tutorialGroups) {
+    public void setTutorialGroups(ArrayList<Group> tutorialGroups) {
         this.tutorialGroups = tutorialGroups;
     }
 
@@ -283,7 +283,7 @@ public class Course {
      * Sets the lab groups of the lecture groups.
      * @param labGroups this course's lab groups.
      */
-    public void setLabGroups(ArrayList<LabGroup> labGroups) {
+    public void setLabGroups(ArrayList<Group> labGroups) {
         this.labGroups = labGroups;
     }
 

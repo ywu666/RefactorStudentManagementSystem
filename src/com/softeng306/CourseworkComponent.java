@@ -4,11 +4,11 @@ public abstract class CourseworkComponent {
     /**
      * The name of this coursework.
      */
-    private String componentName;
+    private final String componentName;
     /**
      * The weight of this course component.
      */
-    private int componentWeight;
+    private final int componentWeight;
 
     /**
      * Creates a course work components with component name and component weight

@@ -39,6 +39,8 @@ public abstract class FILEMgr<T> {
 
     public abstract List<T> loadFromFile();
 
+    public abstract void writeIntoFile(T object);
+
     public FileWriter initialiseFileWriter(String fileName, String header) throws IOException {
         File file = new File(fileName);
         //initialize file header if have not done so
