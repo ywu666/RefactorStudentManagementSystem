@@ -1,17 +1,19 @@
 package com.softeng306.Managers;
 
 
-import com.softeng306.Entities.*;
-import  com.softeng306.FILEMgr.CourseFILEMgr;
+import com.softeng306.Entities.Course;
+import com.softeng306.Entities.Group;
+import com.softeng306.Entities.Professor;
+import com.softeng306.FILEMgr.CourseFILEMgr;
 import com.softeng306.FILEMgr.FILEMgr;
-
-
 import com.softeng306.SupportMgr.SupportCourseMgr;
 import com.softeng306.SupportMgr.SupportProfessorMgr;
 
-import java.util.*;
-import java.io.PrintStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class CourseMgr implements ICourseMgr {
     private static final Scanner scanner = new Scanner(System.in);
@@ -145,9 +147,10 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Write course into file
+     *
      * @param courseID The course ID of course being added
-     * @param course The course to be added
-     * @param s The string dependant on if components are added or not
+     * @param course   The course to be added
+     * @param s        The string dependant on if components are added or not
      */
     private void addCourseIntoFile(String courseID, Course course, String s) {
         FILEMgr<Course> courseFileEMgr = new CourseFILEMgr();
@@ -159,6 +162,7 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Ask user to add coursework component?
+     *
      * @return 1 if Yes or 2 if no
      */
     private int promptUserToAddCourseComponent() {
@@ -181,6 +185,7 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Set professor in charge of course
+     *
      * @param courseDepartment The department of current course
      * @return Professor in charge of course
      */
@@ -220,6 +225,7 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Set total lab seats
+     *
      * @param totalSeats    The total seats in course
      * @param totalLabSeats The total lab seats in course
      * @param noOfLabGroups Number of lab groups in course
@@ -250,6 +256,7 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Set tutorial groups for course
+     *
      * @param totalSeats         The total seats in course
      * @param totalTutorialSeats The total tutorial seats in lab group
      * @param noOfTutorialGroups The total number of tutorial groups
@@ -284,6 +291,7 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Set the name of group
+     *
      * @param groups The list of groups
      * @param s1     The type of group
      * @return The name of group
@@ -316,6 +324,7 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Sets the number of groups
+     *
      * @param totalSeats The Total seats in course
      * @param s1         The type of group
      * @param s2         The invalid string output
@@ -344,6 +353,7 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Set the capacity of lecture groups
+     *
      * @return The lecture group capacity
      */
     private int setLectureGroupCapacity() {
@@ -366,6 +376,7 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Set weekly hours for lecture,lab,tutorial
+     *
      * @param AU The AU of the course
      * @param s1 The type of group
      * @return The number of weekly hours
@@ -392,6 +403,7 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Set course type of course
+     *
      * @return The course type of course
      */
     private String setCourseType() {
@@ -411,6 +423,7 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Set department of course
+     *
      * @return The department of course
      */
     private String setDepartment() {
@@ -429,6 +442,7 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Set AU of course
+     *
      * @return The AU of course
      */
     private int setAU() {
@@ -452,6 +466,7 @@ public class CourseMgr implements ICourseMgr {
 
     /**
      * Set total seats in course
+     *
      * @return The total seats in course
      */
     private int setTotalSeats() {

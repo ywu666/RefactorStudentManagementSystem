@@ -1,6 +1,7 @@
 package com.softeng306;
 
-import com.softeng306.FILEMgr.*;
+import com.softeng306.FILEMgr.CourseFILEMgr;
+import com.softeng306.FILEMgr.MarkFILEMgr;
 import com.softeng306.Managers.*;
 import com.softeng306.SupportMgr.SupportCourseMgr;
 import com.softeng306.SupportMgr.SupportCourseRegistrationMgr;
@@ -10,23 +11,16 @@ import com.softeng306.SupportMgr.SupportStudentMgr;
 import java.util.Scanner;
 
 public class Main {
-    public static Scanner scanner = new Scanner(System.in);
-
     /*
         Declare Object managers
      */
     private static final ICourseMgr courseMgr = new CourseMgr();
-
     private static final IMarkMgr markMgr = new MarkMgr();
-
     private static final IStudentMgr studentMgr = new StudentMgr();
-
     private static final ICourseRegistrationMgr courseRegistrationMgr = new CourseRegistrationMgr();
-
     private static final IProfessorMgr professorMgr = new ProfessorMgr();
-
     private static final ICourseComponentMgr courseComponentMgr = new CourseComponentMgr();
-
+    public static Scanner scanner = new Scanner(System.in);
 
     /**
      * The main function of the system.

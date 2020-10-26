@@ -22,11 +22,12 @@ public class SupportDepartmentMgr {
 
     /**
      * Checks whether the inputted department is valid.
+     *
      * @param department The inputted department.
      * @return boolean indicates whether the inputted department is valid.
      */
-    public boolean checkDepartmentValidation(String department){
-        if(getAllDepartment().contains(department)){
+    public boolean checkDepartmentValidation(String department) {
+        if (getAllDepartment().contains(department)) {
             return true;
         }
         System.out.println("The department is invalid. Please re-enter.");

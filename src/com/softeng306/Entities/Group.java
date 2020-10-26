@@ -5,25 +5,21 @@ package com.softeng306.Entities;
  * A course must have at least one lecture group.
  * A course can have many or no tutorial groups and lab groups.
  * Student enrolled in this course must also be enrolled in one of the groups of each type.
-
  */
 
-public class Group implements IGroup{
+public class Group implements IGroup {
     /**
      * The name of this group.
      */
     private final String groupName;
-
-    /**
-     * The availableVacancies of this group.
-     */
-    private int availableVacancies;
-
-
     /**
      * The total seates of this group
      */
     private final int totalSeats;
+    /**
+     * The availableVacancies of this group.
+     */
+    private int availableVacancies;
 
 
     /**
@@ -38,7 +34,7 @@ public class Group implements IGroup{
         this.availableVacancies = availableVacancies;
         this.totalSeats = totalSeats;
     }
-    
+
     public String getGroupName() {
         return this.groupName;
     }

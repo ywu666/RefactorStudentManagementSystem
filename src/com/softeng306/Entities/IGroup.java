@@ -6,24 +6,24 @@ public interface IGroup {
      *
      * @return this group's name.
      */
-     String getGroupName();
+    String getGroupName();
 
     /**
      * Gets the current available vacancies for this group.
      *
      * @return this group's current available vacancy.
      */
-     int getAvailableVacancies();
+    int getAvailableVacancies();
 
     /**
      * Gets the total seats for this group.
      *
      * @return this group's total seats.
      */
-     int getTotalSeats();
+    int getTotalSeats();
 
     /**
      * Updates the available vacancies of this group after someone has registered this group.
      */
-     void enrolledIn();
+    void enrolledIn();
 }

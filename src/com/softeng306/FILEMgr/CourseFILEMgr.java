@@ -2,7 +2,10 @@ package com.softeng306.FILEMgr;
 
 import com.softeng306.Entities.*;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -92,120 +95,6 @@ public class CourseFILEMgr extends FILEMgr<Course> {
      * The header of courseFile.csv.
      */
     private static final String course_HEADER = "courseID,courseName,profInCharge,vacancies,totalSeats,lectureGroups,TutorialGroups,LabGroups,MainComponents,AU,courseDepartment,courseType,lecHr,tutHr,labHr";
-
-    @Override
-    public void writeIntoFile(Course course) {
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = initialiseFileWriter(courseFileName, course_HEADER);
-            appendCourseToFileWriter(fileWriter, course);
-
-        } catch (Exception e) {
-            System.out.println("Error in adding a course to the file.");
-            e.printStackTrace();
-        } finally {
-            printFinallyBlock(fileWriter);
-        }
-
-    }
-
-    @Override
-    public List<Course> loadFromFile() {
-        ArrayList<Course> courses = new ArrayList<Course>(0);
-        BufferedReader fileReader = null;
-        try {
-            String line;
-            Professor currentProfessor = null;
-
-            ProfessorFILEMgr professorFILEMgr = new ProfessorFILEMgr();
-            List<Professor> professors = professorFILEMgr.loadFromFile();
-
-            fileReader = new BufferedReader(new FileReader(courseFileName));
-            fileReader.readLine();//read the header to skip it
-            while ((line = fileReader.readLine()) != null) {
-                String[] tokens = line.split(COMMA_DELIMITER);
-                if (tokens.length > 0) {
-                    String courseID = tokens[courseIdIndex];
-                    String courseName = tokens[courseNameIndex];
-                    String profInCharge = tokens[profInChargeIndex];
-                    for (Professor professor : professors) {
-                        if (professor.getProfID().equals(profInCharge)) {
-                            currentProfessor = professor;
-                            break;
-                        }
-                    }
-                    int vacancies = Integer.parseInt(tokens[vacanciesIndex]);
-                    int totalSeats = Integer.parseInt(tokens[totalSeatsIndex]);
-                    int AU = Integer.parseInt(tokens[AUIndex]);
-                    String courseDepartment = tokens[courseDepartmentIndex];
-                    String courseType = tokens[courseTypeIndex];
-                    int lecWeeklyHr = Integer.parseInt(tokens[lecHrIndex]);
-                    int tutWeeklyHr = Integer.parseInt(tokens[tutHrIndex]);
-                    int labWeeklyHr = Integer.parseInt(tokens[labHrIndex]);
-
-                    String lectureGroupsString = tokens[lectureGroupsIndex];
-                    ArrayList<Group> lectureGroups = new ArrayList<>(0);
-                    splitLine(lectureGroupsString, lectureGroups);
-
-                    Course course = new Course(courseID, courseName, currentProfessor, vacancies, totalSeats, lectureGroups, AU, courseDepartment, courseType, lecWeeklyHr);
-
-                    String tutorialGroupsString = tokens[tutorialGroupIndex];
-                    ArrayList<Group> tutorialGroups = new ArrayList<>(0);
-
-                    if (!tutorialGroupsString.equals("NULL")) {
-                        splitLine(tutorialGroupsString, tutorialGroups);
-                    }
-                    course.setTutorialGroups(tutorialGroups);
-                    course.setTutWeeklyHour(tutWeeklyHr);
-
-                    String labGroupsString = tokens[labGroupIndex];
-                    ArrayList<Group> labGroups = new ArrayList<>(0);
-                    if (!labGroupsString.equals("NULL")) {
-                        splitLine(labGroupsString, labGroups);
-                    }
-                    course.setLabGroups(labGroups);
-                    course.setLabWeeklyHour(labWeeklyHr);
-
-                    String mainComponentsString = tokens[mainComponentsIndex];
-                    ArrayList<MainComponent> mainComponents = new ArrayList<>(0);
-                    if (!mainComponentsString.equals("NULL")) {
-                        String[] eachMainComponentsString = mainComponentsString.split(Pattern.quote(LINE_DELIMITER));
-                        for (int i = 0; i < eachMainComponentsString.length; i++) {
-                            String[] thisMainComponent = eachMainComponentsString[i].split(EQUAL_SIGN);
-                            ArrayList<SubComponent> subComponents = new ArrayList<>(0);
-                            if (thisMainComponent.length > 2) {
-                                String[] subComponentsString = thisMainComponent[2].split(SLASH);
-                                for (int j = 0; j < subComponentsString.length; j++) {
-                                    String[] thisSubComponent = subComponentsString[j].split(HYPHEN);
-                                    subComponents.add(new SubComponent(thisSubComponent[0], Integer.parseInt(thisSubComponent[1])));
-                                }
-                            }
-
-                            mainComponents.add(new MainComponent(thisMainComponent[0], Integer.parseInt(thisMainComponent[1]), subComponents));
-                        }
-                    }
-                    course.setMainComponents(mainComponents);
-                    course.setVacancies(vacancies);
-                    courses.add(course);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error happens when loading courses.");
-            e.printStackTrace();
-        } finally {
-            printFinallyBlock(fileReader);
-        }
-        return courses;
-    }
-
-    private void splitLine(String lectureGroupsString, ArrayList<Group> lectureGroups) {
-        String[] eachLectureGroupsString = lectureGroupsString.split(Pattern.quote(LINE_DELIMITER));
-
-        for (int i = 0; i < eachLectureGroupsString.length; i++) {
-            String[] thisLectureGroup = eachLectureGroupsString[i].split(EQUAL_SIGN);
-            lectureGroups.add(new Group(thisLectureGroup[0], Integer.parseInt(thisLectureGroup[1]), Integer.parseInt(thisLectureGroup[2])));
-        }
-    }
 
     /**
      * Backs up all the changes of courses made into the file.
@@ -331,5 +220,119 @@ public class CourseFILEMgr extends FILEMgr<Course> {
             fileWriter.append("NULL");
         }
         fileWriter.append(COMMA_DELIMITER);
+    }
+
+    @Override
+    public void writeIntoFile(Course course) {
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = initialiseFileWriter(courseFileName, course_HEADER);
+            appendCourseToFileWriter(fileWriter, course);
+
+        } catch (Exception e) {
+            System.out.println("Error in adding a course to the file.");
+            e.printStackTrace();
+        } finally {
+            printFinallyBlock(fileWriter);
+        }
+
+    }
+
+    @Override
+    public List<Course> loadFromFile() {
+        ArrayList<Course> courses = new ArrayList<Course>(0);
+        BufferedReader fileReader = null;
+        try {
+            String line;
+            Professor currentProfessor = null;
+
+            ProfessorFILEMgr professorFILEMgr = new ProfessorFILEMgr();
+            List<Professor> professors = professorFILEMgr.loadFromFile();
+
+            fileReader = new BufferedReader(new FileReader(courseFileName));
+            fileReader.readLine();//read the header to skip it
+            while ((line = fileReader.readLine()) != null) {
+                String[] tokens = line.split(COMMA_DELIMITER);
+                if (tokens.length > 0) {
+                    String courseID = tokens[courseIdIndex];
+                    String courseName = tokens[courseNameIndex];
+                    String profInCharge = tokens[profInChargeIndex];
+                    for (Professor professor : professors) {
+                        if (professor.getProfID().equals(profInCharge)) {
+                            currentProfessor = professor;
+                            break;
+                        }
+                    }
+                    int vacancies = Integer.parseInt(tokens[vacanciesIndex]);
+                    int totalSeats = Integer.parseInt(tokens[totalSeatsIndex]);
+                    int AU = Integer.parseInt(tokens[AUIndex]);
+                    String courseDepartment = tokens[courseDepartmentIndex];
+                    String courseType = tokens[courseTypeIndex];
+                    int lecWeeklyHr = Integer.parseInt(tokens[lecHrIndex]);
+                    int tutWeeklyHr = Integer.parseInt(tokens[tutHrIndex]);
+                    int labWeeklyHr = Integer.parseInt(tokens[labHrIndex]);
+
+                    String lectureGroupsString = tokens[lectureGroupsIndex];
+                    ArrayList<Group> lectureGroups = new ArrayList<>(0);
+                    splitLine(lectureGroupsString, lectureGroups);
+
+                    Course course = new Course(courseID, courseName, currentProfessor, vacancies, totalSeats, lectureGroups, AU, courseDepartment, courseType, lecWeeklyHr);
+
+                    String tutorialGroupsString = tokens[tutorialGroupIndex];
+                    ArrayList<Group> tutorialGroups = new ArrayList<>(0);
+
+                    if (!tutorialGroupsString.equals("NULL")) {
+                        splitLine(tutorialGroupsString, tutorialGroups);
+                    }
+                    course.setTutorialGroups(tutorialGroups);
+                    course.setTutWeeklyHour(tutWeeklyHr);
+
+                    String labGroupsString = tokens[labGroupIndex];
+                    ArrayList<Group> labGroups = new ArrayList<>(0);
+                    if (!labGroupsString.equals("NULL")) {
+                        splitLine(labGroupsString, labGroups);
+                    }
+                    course.setLabGroups(labGroups);
+                    course.setLabWeeklyHour(labWeeklyHr);
+
+                    String mainComponentsString = tokens[mainComponentsIndex];
+                    ArrayList<MainComponent> mainComponents = new ArrayList<>(0);
+                    if (!mainComponentsString.equals("NULL")) {
+                        String[] eachMainComponentsString = mainComponentsString.split(Pattern.quote(LINE_DELIMITER));
+                        for (int i = 0; i < eachMainComponentsString.length; i++) {
+                            String[] thisMainComponent = eachMainComponentsString[i].split(EQUAL_SIGN);
+                            ArrayList<SubComponent> subComponents = new ArrayList<>(0);
+                            if (thisMainComponent.length > 2) {
+                                String[] subComponentsString = thisMainComponent[2].split(SLASH);
+                                for (int j = 0; j < subComponentsString.length; j++) {
+                                    String[] thisSubComponent = subComponentsString[j].split(HYPHEN);
+                                    subComponents.add(new SubComponent(thisSubComponent[0], Integer.parseInt(thisSubComponent[1])));
+                                }
+                            }
+
+                            mainComponents.add(new MainComponent(thisMainComponent[0], Integer.parseInt(thisMainComponent[1]), subComponents));
+                        }
+                    }
+                    course.setMainComponents(mainComponents);
+                    course.setVacancies(vacancies);
+                    courses.add(course);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error happens when loading courses.");
+            e.printStackTrace();
+        } finally {
+            printFinallyBlock(fileReader);
+        }
+        return courses;
+    }
+
+    private void splitLine(String lectureGroupsString, ArrayList<Group> lectureGroups) {
+        String[] eachLectureGroupsString = lectureGroupsString.split(Pattern.quote(LINE_DELIMITER));
+
+        for (int i = 0; i < eachLectureGroupsString.length; i++) {
+            String[] thisLectureGroup = eachLectureGroupsString[i].split(EQUAL_SIGN);
+            lectureGroups.add(new Group(thisLectureGroup[0], Integer.parseInt(thisLectureGroup[1]), Integer.parseInt(thisLectureGroup[2])));
+        }
     }
 }

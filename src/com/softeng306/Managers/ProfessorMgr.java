@@ -1,7 +1,7 @@
 package com.softeng306.Managers;
 
-import com.softeng306.FILEMgr.ProfessorFILEMgr;
 import com.softeng306.Entities.Professor;
+import com.softeng306.FILEMgr.ProfessorFILEMgr;
 import com.softeng306.SupportMgr.SupportProfessorMgr;
 
 import java.util.List;
@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 
 /**
  * Manages all the professor related operations
- *
-
  */
 public class ProfessorMgr implements IProfessorMgr {
     private SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr(this);
@@ -18,13 +16,13 @@ public class ProfessorMgr implements IProfessorMgr {
     /**
      * A list of all the registered professors.
      */
-    private  List<Professor> professors = profFileMgr.loadFromFile();
+    private List<Professor> professors = profFileMgr.loadFromFile();
 
     /**
      * Displays all the professors in the inputted department.
      *
      * @param department The inputted department.
-     * @param printOut Represents whether print out the professor information or not
+     * @param printOut   Represents whether print out the professor information or not
      * @return A list of all the names of professors in the inputted department or else null.
      */
     public List<String> printProfInDepartment(String department, boolean printOut) {

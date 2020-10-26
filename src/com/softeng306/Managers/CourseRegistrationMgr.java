@@ -5,19 +5,17 @@ import com.softeng306.Entities.CourseRegistration;
 import com.softeng306.Entities.Group;
 import com.softeng306.Entities.Student;
 import com.softeng306.FILEMgr.CourseRegistrationFILEMgr;
+import com.softeng306.FILEMgr.FILEMgr;
 import com.softeng306.SupportMgr.SupportCourseMgr;
 import com.softeng306.SupportMgr.SupportCourseRegistrationMgr;
 import com.softeng306.SupportMgr.SupportStudentMgr;
-import com.softeng306.FILEMgr.FILEMgr;
 
 import java.util.*;
 
-import static com.softeng306.Entities.CourseRegistration.LabComparator;
-import static com.softeng306.Entities.CourseRegistration.LecComparator;
-import static com.softeng306.Entities.CourseRegistration.TutComparator;
+import static com.softeng306.Entities.CourseRegistration.*;
 
 
-public class CourseRegistrationMgr implements ICourseRegistrationMgr{
+public class CourseRegistrationMgr implements ICourseRegistrationMgr {
     private static final Scanner scanner = new Scanner(System.in);
     private static final FILEMgr<CourseRegistration> courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
 
@@ -120,7 +118,7 @@ public class CourseRegistrationMgr implements ICourseRegistrationMgr{
         /**
          * This is changed due to the refactor
          */
-        List<CourseRegistration> allStuArray = courseRegistrationFILEMgr.loadFromFile() ;
+        List<CourseRegistration> allStuArray = courseRegistrationFILEMgr.loadFromFile();
 
 
         ArrayList<CourseRegistration> stuArray = new ArrayList<CourseRegistration>(0);

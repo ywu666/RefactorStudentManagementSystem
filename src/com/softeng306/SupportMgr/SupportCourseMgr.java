@@ -2,11 +2,10 @@ package com.softeng306.SupportMgr;
 
 
 import com.softeng306.Entities.Course;
-import com.softeng306.Enum.CourseType;
 import com.softeng306.Entities.MainComponent;
-import com.softeng306.Managers.ICourseMgr;
 import com.softeng306.Entities.SubComponent;
-
+import com.softeng306.Enum.CourseType;
+import com.softeng306.Managers.ICourseMgr;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -21,7 +20,7 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
     public boolean checkValidCourseIDInput(String courseID) {
         String REGEX = "^[A-Z]{2}[0-9]{3,4}$";
         boolean valid = Pattern.compile(REGEX).matcher(courseID).matches();
-        if(!valid){
+        if (!valid) {
             System.out.println("Wrong format of course ID.");
         }
         return valid;
@@ -29,13 +28,14 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
 
     /**
      * Checks whether the inputted group name is in the correct format.
+     *
      * @param groupName The inputted group name.
      * @return boolean indicates whether the inputted group name is valid.
      */
-    public boolean checkValidGroupNameInput(String groupName){
+    public boolean checkValidGroupNameInput(String groupName) {
         String REGEX = "^[a-zA-Z0-9]+$";
-        boolean valid =  Pattern.compile(REGEX).matcher(groupName).matches();
-        if(!valid){
+        boolean valid = Pattern.compile(REGEX).matcher(groupName).matches();
+        if (!valid) {
             System.out.println("Wrong format of group name.");
         }
         return valid;
@@ -62,10 +62,11 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
 
     /**
      * Prints the components of course after adding components
+     *
      * @param currentCourse The course that components were added to
      */
 
-    public void printCourseComponentsAfterAdd(Course currentCourse){
+    public void printCourseComponentsAfterAdd(Course currentCourse) {
         System.out.println(currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " components: ");
         for (MainComponent each_comp : currentCourse.getMainComponents()) {
             System.out.println("    " + each_comp.getComponentName() + " : " + each_comp.getComponentWeight() + "%");
@@ -74,7 +75,6 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
             }
         }
     }
-
 
 
     /**
@@ -91,11 +91,12 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
 
     /**
      * Checks whether the inputted course type is valid.
+     *
      * @param courseType The inputted course type.
      * @return boolean indicates whether the inputted course type is valid.
      */
-    public boolean checkCourseTypeValidation(String courseType){
-        if(getAllCourseType().contains(courseType)){
+    public boolean checkCourseTypeValidation(String courseType) {
+        if (getAllCourseType().contains(courseType)) {
             return true;
         }
         System.out.println("The course type is invalid. Please re-enter.");
@@ -119,15 +120,16 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
 
     /**
      * Prompts the user to input an existing course.
+     *
      * @return the inputted course.
      */
-    public Course checkCourseExists(){
+    public Course checkCourseExists() {
         String courseID;
         Course currentCourse;
-        while(true){
+        while (true) {
             System.out.println("Enter course ID (-h to print all the course ID):");
             courseID = scanner.nextLine();
-            while("-h".equals(courseID)){
+            while ("-h".equals(courseID)) {
                 printAllCourses();
                 courseID = scanner.nextLine();
             }
@@ -137,7 +139,7 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
             if (currentCourse == null) {
                 System.setOut(originalStream);
                 System.out.println("Invalid Course ID. Please re-enter.");
-            }else{
+            } else {
                 break;
             }
         }
@@ -147,12 +149,13 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
 
     /**
      * Checks whether this course ID is used by other courses.
+     *
      * @param courseID The inputted course ID.
      * @return the existing course or else null.
      */
-    public Course checkCourseExists(String courseID){
-        List<Course> anyCourse = courseMgr.getCourses().stream().filter(c->courseID.equals(c.getCourseID())).collect(Collectors.toList());
-        if(anyCourse.size() == 0){
+    public Course checkCourseExists(String courseID) {
+        List<Course> anyCourse = courseMgr.getCourses().stream().filter(c -> courseID.equals(c.getCourseID())).collect(Collectors.toList());
+        if (anyCourse.size() == 0) {
             return null;
         }
         System.out.println("Sorry. The course ID is used. This course already exists.");
