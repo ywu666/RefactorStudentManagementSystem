@@ -37,8 +37,7 @@ public class SupportCourseRegistrationMgr extends SupportDepartmentMgr{
                 courseDepartment = scanner.nextLine();
             }
 
-            SupportDepartmentMgr supportDepartmentMgr = new SupportDepartmentMgr();
-            if(supportDepartmentMgr.checkDepartmentValidation(courseDepartment)){
+            if(checkDepartmentValidation(courseDepartment)){
 
                 List<String> validCourseString;
                 System.setOut(dummyStream);
