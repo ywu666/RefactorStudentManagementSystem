@@ -2,6 +2,8 @@ package com.softeng306.Managers;
 
 import com.softeng306.FILEMgr.ProfessorFILEMgr;
 import com.softeng306.Professor;
+import com.softeng306.SupportMgr.SupportProfessorMgr;
+import com.softeng306.SupportMgr.SupportStudentMgr;
 
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +16,7 @@ import java.util.stream.Collectors;
 
  */
 public class ProfessorMgr implements IProfessorMgr {
-    private Scanner scanner = new Scanner(System.in);
+    private static SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr();
     private ProfessorFILEMgr profFileMgr = new ProfessorFILEMgr();
     /**
      * A list of all the registered professors.
@@ -59,46 +61,7 @@ public class ProfessorMgr implements IProfessorMgr {
                 courseMgr.getAllDepartment();
                 department = scanner.nextLine();
             }
-
-            if (courseMgr.checkDepartmentValidation(department)) {
-                professor.setProfDepartment(department);
-                break;
-            }
         }
-
-
-        return professor;
-    }
-
-
-    /**
-     * Checks whether the inputted professor ID is in the correct format.
-     * @param profID The inputted professor ID.
-     * @return boolean indicates whether the inputted professor ID is valid.
-     */
-    public boolean checkValidProfIDInput(String profID){
-        String REGEX = "^P[0-9]{7}[A-Z]$";
-        boolean valid =  Pattern.compile(REGEX).matcher(profID).matches();
-        if(!valid){
-            System.out.println("Wrong format of prof ID.");
-        }
-        return valid;
-
-    }
-
-    /**
-     * Checks whether this professor ID is used by other professors.
-     * @param profID The inputted professor ID.
-     * @return the existing professor or else null.
-     */
-    public Professor checkProfExists(String profID){
-        List<Professor> anyProf = professors.stream().filter(p->profID.equals(p.getProfID())).collect(Collectors.toList());
-        if(anyProf.size() == 0){
-            return null;
-        }
-        System.out.println("Sorry. The professor ID is used. This professor already exists.");
-        return anyProf.get(0);
-
     }
 
 
@@ -110,7 +73,7 @@ public class ProfessorMgr implements IProfessorMgr {
      * @return A list of all the names of professors in the inputted department or else null.
      */
     public List<String> printProfInDepartment(String department, boolean printOut) {
-        if (courseMgr.checkDepartmentValidation(department)) {
+        if (supportProfessorMgr.checkDepartmentValidation(department)) {
             List<String> validProfString = professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
             if (printOut) {
                 validProfString.forEach(System.out::println);

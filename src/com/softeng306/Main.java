@@ -24,6 +24,14 @@ public class Main {
      * @param args The command line parameters.
      */
     public static void main(String[] args) {
+        /*
+         * this part is changed due to the refactor
+         */
+        FILEMgr<Student> studentFileMgr = new StudentFILEMgr();
+        FILEMgr<CourseRegistration> courseRegistrationFileEMgr = new CourseRegistrationFILEMgr();
+        FILEMgr<Professor> professorFileMgr = new ProfessorFILEMgr();
+        FILEMgr<Course> courseFileMgr = new CourseFILEMgr();
+        FILEMgr<Mark> markFileMgr = new MarkFILEMgr();
 
         courseMgr.setProfessorMgr(professorMgr);
 
@@ -38,7 +46,8 @@ public class Main {
 
         professorMgr.setCourseMgr(courseMgr);
         professorMgr.setStudentMgr(studentMgr);
-
+         // declare object managers
+        ICourseComponentMgr courseComponentManager = new CourseComponentMgr();
         printWelcome();
 
         int choice;
@@ -78,7 +87,7 @@ public class Main {
                     courseRegistrationMgr.printStudents();
                     break;
                 case 6:
-                    courseMgr.enterCourseWorkComponentWeightage(null);
+                    courseComponentManager.enterCourseWorkComponentWeightage(null);
                     break;
                 case 7:
                     markMgr.setCourseWorkMark(false);
@@ -119,6 +128,7 @@ public class Main {
     public static void exitApplication() {
 
         System.out.println("Backing up data before exiting...");
+
         CourseFILEMgr.backUpCourse(courseMgr.getCourses());
         MarkFILEMgr.backUpMarks(markMgr.getMarks());
         System.out.println("********* Bye! Thank you for using Main! *********");

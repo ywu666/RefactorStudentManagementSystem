@@ -35,7 +35,7 @@ public class ProfessorFILEMgr extends FILEMgr<Professor> {
     @Override
     public List<Professor> loadFromFile() {
         BufferedReader fileReader = null;
-        ArrayList<Professor> professors = new ArrayList<Professor>(0);
+        List<Professor> professors = new ArrayList<Professor>(0);
         try {
             String line;
             fileReader = new BufferedReader(new FileReader(professorFileName));
@@ -56,5 +56,10 @@ public class ProfessorFILEMgr extends FILEMgr<Professor> {
             printFinallyBlock(fileReader);
         }
         return professors;
+    }
+
+    @Override
+    public void writeIntoFile(Professor object) {
+        throw new RuntimeException(this.getClass().getSimpleName() + " Cant be added by user");
     }
 }

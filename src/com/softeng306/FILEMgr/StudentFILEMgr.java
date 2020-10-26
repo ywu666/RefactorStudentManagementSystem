@@ -47,7 +47,7 @@ public class StudentFILEMgr extends FILEMgr<Student> {
      * The file name of studentFile.csv.
      */
     private static final String studentFileName = "data/studentFile.csv";
-
+    @Override
     public void writeIntoFile(Student student) {
 
         FileWriter fileWriter = null;
@@ -77,7 +77,7 @@ public class StudentFILEMgr extends FILEMgr<Student> {
     @Override
     public List<Student> loadFromFile() {
         BufferedReader fileReader = null;
-        ArrayList<Student> students = new ArrayList<Student>(0);
+        List<Student> students = new ArrayList<Student>(0);
         try {
             String line;
             fileReader = new BufferedReader(new FileReader(studentFileName));

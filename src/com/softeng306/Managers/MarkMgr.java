@@ -1,7 +1,10 @@
 package com.softeng306.Managers;
 
 import com.softeng306.*;
+import com.softeng306.FILEMgr.FILEMgr;
 import com.softeng306.FILEMgr.MarkFILEMgr;
+import com.softeng306.SupportMgr.SupportCourseMgr;
+import com.softeng306.SupportMgr.SupportStudentMgr;
 
 import java.util.*;
 
@@ -19,6 +22,9 @@ public class MarkMgr implements IMarkMgr{
 
     private ICourseMgr courseMgr;
     private IStudentMgr studentMgr;
+
+    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
+    private static SupportStudentMgr supportStudentMgr = new SupportStudentMgr();
 
     /**
      * Initializes marks for a student when he/she just registered a course.
@@ -44,10 +50,10 @@ public class MarkMgr implements IMarkMgr{
 
         }
         Mark mark = new Mark(student, course, courseWorkMarks, totalMark);
-        /**
-         * This patt is changed due to the refactor
+        /*
+         * This part is changed due to the refactor
          */
-        MarkFILEMgr markFILEMgr = new MarkFILEMgr();
+        FILEMgr<Mark> markFILEMgr = new MarkFILEMgr();
         markFILEMgr.writeIntoFile(mark);
 
         return mark;
@@ -150,8 +156,8 @@ public class MarkMgr implements IMarkMgr{
     public void setCourseWorkMark(boolean isExam) {
         System.out.println("enterCourseWorkMark is called");
 
-        String studentID = studentMgr.checkStudentExists().getStudentID();
-        String courseID = courseMgr.checkCourseExists().getCourseID();
+        String studentID = supportStudentMgr.checkStudentExists().getStudentID();
+        String courseID = supportCourseMgr.checkCourseExists().getCourseID();
 
         for (Mark mark : marks) {
 
@@ -184,6 +190,7 @@ public class MarkMgr implements IMarkMgr{
         System.out.println("This student haven't registered " + courseID);
     }
 
+    //move to the support class
     public void printChoicesForCourseWorkMark(Mark mark){
         ArrayList<String> availableChoices = new ArrayList<>(0);
         ArrayList<Double> weights = new ArrayList<>(0);
@@ -276,7 +283,7 @@ public class MarkMgr implements IMarkMgr{
     public void printCourseStatistics() {
         System.out.println("printCourseStatistics is called");
 
-        Course currentCourse = courseMgr.checkCourseExists();
+        Course currentCourse = supportCourseMgr.checkCourseExists();
         String courseID = currentCourse.getCourseID();
 
         ArrayList<Mark> thisCourseMark = new ArrayList<>(0);
@@ -382,7 +389,7 @@ public class MarkMgr implements IMarkMgr{
      * Prints transcript (Results of course taken) for a particular student
      */
     public void printStudentTranscript() {
-        String studentID = studentMgr.checkStudentExists().getStudentID();
+        String studentID = supportStudentMgr.checkStudentExists().getStudentID();
 
 
         int thisStudentAU = 0;
@@ -415,7 +422,7 @@ public class MarkMgr implements IMarkMgr{
      * print the marks for the student
      *
      * @param  thisStudentMark list of the student's mark
-     * @param  thisStudentAU
+     * @param  thisStudentAU The AU of the student
      *
      */
     public void printMarkForTranscript(ArrayList<Mark> thisStudentMark, int thisStudentAU){

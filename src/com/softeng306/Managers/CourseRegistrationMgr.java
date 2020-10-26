@@ -2,6 +2,11 @@ package com.softeng306.Managers;
 
 import com.softeng306.*;
 import com.softeng306.FILEMgr.CourseRegistrationFILEMgr;
+import com.softeng306.Managers.MarkMgr;
+import com.softeng306.SupportMgr.SupportCourseMgr;
+import com.softeng306.SupportMgr.SupportCourseRegistrationMgr;
+import com.softeng306.SupportMgr.SupportStudentMgr;
+import com.softeng306.FILEMgr.FILEMgr;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,7 +18,11 @@ import static com.softeng306.CourseRegistration.TutComparator;
 
 public class CourseRegistrationMgr implements ICourseRegistrationMgr{
     private static Scanner scanner = new Scanner(System.in);
-    private CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
+    private static final FILEMgr<CourseRegistration> courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
+
+    private static SupportCourseRegistrationMgr supportCourseRegistrationMgr = new SupportCourseRegistrationMgr();
+    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
+    private static SupportStudentMgr supportStudentMgr = new SupportStudentMgr();
     /**
      * A list of all the stored course registrations.
      */
@@ -32,16 +41,16 @@ public class CourseRegistrationMgr implements ICourseRegistrationMgr{
         String selectedTutorialGroupName = null;
         String selectedLabGroupName = null;
 
-        Student currentStudent = studentMgr.checkStudentExists();
+        Student currentStudent = supportStudentMgr.checkStudentExists();
         String studentID = currentStudent.getStudentID();
 
-        courseMgr.checkCourseDepartmentExists();
+        supportCourseRegistrationMgr.checkCourseDepartmentExists();
 
-        Course currentCourse = courseMgr.checkCourseExists();
+        Course currentCourse = supportCourseMgr.checkCourseExists();
         String courseID = currentCourse.getCourseID();
 
 
-        if (checkCourseRegistrationExists(studentID, courseID) != null) {
+        if (supportCourseRegistrationMgr.checkCourseRegistrationExists(studentID, courseID) != null) {
             return;
         }
 
@@ -99,7 +108,7 @@ public class CourseRegistrationMgr implements ICourseRegistrationMgr{
      */
     public void printStudents() {
         System.out.println("printStudent is called");
-        Course currentCourse = courseMgr.checkCourseExists();
+        Course currentCourse = supportCourseMgr.checkCourseExists();
 
         System.out.println("Print student by: ");
         System.out.println("(1) Lecture group");
@@ -244,25 +253,6 @@ public class CourseRegistrationMgr implements ICourseRegistrationMgr{
             }
         }
         return selectedGroupName;
-    }
-
-
-
-
-    /**
-     * Checks whether this course registration record exists.
-     * @param studentID The inputted student ID.
-     * @param courseID The inputted course ID.
-     * @return the existing course registration record or else null.
-     */
-    public CourseRegistration checkCourseRegistrationExists(String studentID, String courseID){
-        List<CourseRegistration> filteredCourseRegistrations = courseRegistrations.stream().filter(cr->studentID.equals(cr.getStudent().getStudentID())).filter(cr->courseID.equals(cr.getCourse().getCourseID())).collect(Collectors.toList());
-        if(filteredCourseRegistrations.size() == 0){
-            return null;
-        }
-        System.out.println("Sorry. This student already registers this course.");
-        return filteredCourseRegistrations.get(0);
-
     }
 
     public void setCourseMgr(ICourseMgr courseMgr) {
