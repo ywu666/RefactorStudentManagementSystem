@@ -7,7 +7,16 @@ package com.softeng306.Entities;
 
  *
  */
-public class SubComponent extends CourseworkComponent {
+public class SubComponent implements CourseworkComponent {
+
+    /**
+     * The name of this coursework.
+     */
+    private final String componentName;
+    /**
+     * The weight of this course component.
+     */
+    private final int componentWeight;
     /**
      * Creates a sub-component with this sub-component's name and this sub-component's weightage.
      * This function makes use of the interface {@code CourseWorkComponent}.
@@ -15,13 +24,26 @@ public class SubComponent extends CourseworkComponent {
      * @param componentWeight This sub-component's weightage.
      */
     public SubComponent(String componentName, int componentWeight) {
-        super(componentName, componentWeight);
+        this.componentName = componentName;
+        this.componentWeight = componentWeight;
     }
 
     /**
-     * Displays the type of this component, which is a sub-component.
+     * Gets the component name
+     *
+     * @return the name of this component
      */
-    public void printComponentType() {
-        System.out.println("This is a sub-component.");
+    public String getComponentName() {
+        return this.componentName;
     }
+
+    /**
+     * Gets the weight of this component
+     *
+     * @return the weight of this component
+     */
+    public int getComponentWeight() {
+        return this.componentWeight;
+    }
+
 }
