@@ -6,16 +6,13 @@ import com.softeng306.FILEMgr.MarkFILEMgr;
 import com.softeng306.SupportMgr.SupportCourseMgr;
 import com.softeng306.SupportMgr.SupportStudentMgr;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Manages all the mark related operations.
  */
 
-public class MarkMgr implements IMarkMgr {
+public class MarkMgr implements IMarkMgr{
     private static Scanner scanner = new Scanner(System.in);
     private MarkFILEMgr markFILEMgr = new MarkFILEMgr();
     /**
@@ -127,7 +124,7 @@ public class MarkMgr implements IMarkMgr {
             if (!(courseworkComponent instanceof MainComponent)) {
                 continue;
             }
-            if (((MainComponent) courseworkComponent).getSubComponents().size() == 0) {
+            if ( ((MainComponent) courseworkComponent).getSubComponents().size() == 0 ) {
                 continue;
             }
 
@@ -145,6 +142,7 @@ public class MarkMgr implements IMarkMgr {
 
         }
     }
+
 
 
     /**
@@ -190,13 +188,13 @@ public class MarkMgr implements IMarkMgr {
     }
 
     //move to the support class
-    public void printChoicesForCourseWorkMark(Mark mark) {
+    public void printChoicesForCourseWorkMark(Mark mark){
         ArrayList<String> availableChoices = new ArrayList<>(0);
         ArrayList<Double> weights = new ArrayList<>(0);
         ArrayList<Boolean> isMainAss = new ArrayList<>(0);
         for (HashMap.Entry<CourseworkComponent, Double> assessmentResult : mark.getCourseWorkMarks().entrySet()) {
             CourseworkComponent key = assessmentResult.getKey();
-            if (!(key instanceof MainComponent)) {
+            if ( !(key instanceof MainComponent) ){
                 continue;
             }
 
@@ -319,7 +317,7 @@ public class MarkMgr implements IMarkMgr {
 
     }
 
-    public void printAssessmentComponent(Course currentCourse, ArrayList<Mark> thisCourseMark) {
+    public void printAssessmentComponent(Course currentCourse, ArrayList<Mark> thisCourseMark){
 
         int examWeight = 0;
         boolean hasExam = false;
@@ -364,16 +362,16 @@ public class MarkMgr implements IMarkMgr {
         }
 
         if (hasExam) {
-            printExamComponent(examWeight, thisCourseMark);
+            printExamComponent (examWeight, thisCourseMark );
         } else {
             System.out.println("This course does not have final exam.");
         }
 
     }
 
-    public void printExamComponent(int examWeight, ArrayList<Mark> thisCourseMark) {
+    public void printExamComponent (int examWeight, ArrayList<Mark> thisCourseMark ){
 
-        double averageMark = 0;
+        double averageMark = 0 ;
         System.out.print("Final Exam");
         System.out.print("\tWeight: " + examWeight + "%");
 
@@ -420,10 +418,11 @@ public class MarkMgr implements IMarkMgr {
      * helper function for printStudentTranscript()
      * print the marks for the student
      *
-     * @param thisStudentMark list of the student's mark
-     * @param thisStudentAU   The AU of the student
+     * @param  thisStudentMark list of the student's mark
+     * @param  thisStudentAU The AU of the student
+     *
      */
-    public void printMarkForTranscript(ArrayList<Mark> thisStudentMark, int thisStudentAU) {
+    public void printMarkForTranscript(ArrayList<Mark> thisStudentMark, int thisStudentAU){
         double studentGPA = 0d;
         for (Mark mark : thisStudentMark) {
             System.out.print("Course ID: " + mark.getCourse().getCourseID());
@@ -433,7 +432,7 @@ public class MarkMgr implements IMarkMgr {
                 CourseworkComponent assessment = entry.getKey();
                 Double result = entry.getValue();
 
-                if (!(assessment instanceof MainComponent)) {
+                if ( !(assessment instanceof MainComponent) ){
                     continue;
                 }
 

@@ -9,7 +9,7 @@ import com.softeng306.SupportMgr.SupportCourseMgr;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CourseComponentMgr implements ICourseComponentMgr {
+public class CourseComponentMgr implements ICourseComponentMgr{
     private static final Scanner scanner = new Scanner(System.in);
 
     private SupportCourseMgr supportCourseMgr;
@@ -49,7 +49,7 @@ public class CourseComponentMgr implements ICourseComponentMgr {
                 for (int i = 0; i < numberOfMain; i++) {
                     ArrayList<SubComponent> subComponents = new ArrayList<>(0);
 //                  set main component name
-                    mainComponentName = setComponentName(mainComponents, totalWeightage, i, ": ", "main");
+                    mainComponentName = setComponentName(mainComponents, totalWeightage, i,": ","main");
 //                    set main component weight
                     weight = setComponentWeight(totalWeightage, i, "Enter main component ", " weightage:");
                     scanner.nextLine();
@@ -63,7 +63,7 @@ public class CourseComponentMgr implements ICourseComponentMgr {
                         int sub_totWeight = 100;
                         for (int j = 0; j < noOfSub; j++) {
 //                            set subcomponent name
-                            subComponentName = setComponentName(subComponents, sub_totWeight, j, " to sub component: ", "sub");
+                            subComponentName = setComponentName(subComponents,sub_totWeight,j," to sub component: ","sub");
 //                          set sub component weight
                             sub_weight = setComponentWeight(sub_totWeight, j, "Enter sub component ", " weightage (out of the main component): ");
                             scanner.nextLine();
@@ -108,10 +108,8 @@ public class CourseComponentMgr implements ICourseComponentMgr {
         supportCourseMgr.printCourseComponentsAfterAdd(currentCourse);
         // Update course into course.csv
     }
-
     /**
      * Ask user for exam. If yes add to main components list.
-     *
      * @param mainComponents The main components list of the course
      * @return The total weight of Exam mark. If no exam, then weight = 0.
      */
@@ -149,7 +147,6 @@ public class CourseComponentMgr implements ICourseComponentMgr {
 
     /**
      * Sets the number of sub components in main component from user
-     *
      * @param i The index of main component
      * @return The number of sub components under main component
      */
@@ -174,11 +171,10 @@ public class CourseComponentMgr implements ICourseComponentMgr {
 
     /**
      * Set weight of components (either sub or main)
-     *
      * @param totalWeightage The total weight of main componenets or subcomponents
-     * @param i              The index of component
-     * @param s              Place holder string
-     * @param s2             Sub component or main component
+     * @param i The index of component
+     * @param s Place holder string
+     * @param s2 Sub component or main component
      * @return The weight of the component
      */
     private int setComponentWeight(int totalWeightage, int i, String s, String s2) {
@@ -202,12 +198,11 @@ public class CourseComponentMgr implements ICourseComponentMgr {
 
     /**
      * Set the name of sub or main component
-     *
-     * @param components     The array of sub or main components
+     * @param components The array of sub or main components
      * @param totalWeightage The total weightage of sub or main components
-     * @param i              Index of component
-     * @param s1             Placeholder string
-     * @param s2             Placeholder string fro main or sub
+     * @param i Index of component
+     * @param s1 Placeholder string
+     * @param s2 Placeholder string fro main or sub
      * @return The name of component
      */
     private String setComponentName(ArrayList<? extends CourseworkComponent> components, int totalWeightage, int i, String s1, String s2) {
@@ -216,7 +211,7 @@ public class CourseComponentMgr implements ICourseComponentMgr {
         do {
             componentExist = false;
             System.out.println("Total weightage left to assign" + s1 + totalWeightage);
-            System.out.println("Enter " + s2 + " component " + (i + 1) + " name: ");
+            System.out.println("Enter " + s2 +  " component " + (i + 1) + " name: ");
             ComponentName = scanner.nextLine();
 
             if (components.size() == 0) {
@@ -240,7 +235,6 @@ public class CourseComponentMgr implements ICourseComponentMgr {
 
     /**
      * Set number of main components in course
-     *
      * @return The number of main components in course
      */
     private int setNumberOfMainComponents() {

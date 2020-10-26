@@ -3,9 +3,7 @@ package com.softeng306.FILEMgr;
 import com.softeng306.Entities.Student;
 import com.softeng306.Managers.StudentMgr;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +47,6 @@ public class StudentFILEMgr extends FILEMgr<Student> {
      * The file name of studentFile.csv.
      */
     private static final String studentFileName = "data/studentFile.csv";
-
     @Override
     public void writeIntoFile(Student student) {
 

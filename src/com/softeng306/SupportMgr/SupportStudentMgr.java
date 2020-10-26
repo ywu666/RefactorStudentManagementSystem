@@ -1,8 +1,8 @@
 package com.softeng306.SupportMgr;
 
-import com.softeng306.Entities.Student;
 import com.softeng306.Enum.Gender;
 import com.softeng306.Managers.IStudentMgr;
+import com.softeng306.Entities.Student;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -20,7 +20,7 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
     public boolean checkValidStudentIDInput(String studentID) {
         String REGEX = "^U[0-9]{7}[A-Z]$";
         boolean valid = Pattern.compile(REGEX).matcher(studentID).matches();
-        if (!valid) {
+        if(!valid){
             System.out.println("Wrong format of student ID.");
         }
         return valid;
@@ -30,14 +30,13 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
     /**
      * Checks whether the inputted person name is in the correct format.
      * This person can be professor or student.
-     *
      * @param personName The inputted person name.
      * @return boolean indicates whether the inputted person name is valid.
      */
-    public boolean checkValidPersonNameInput(String personName) {
+    public boolean checkValidPersonNameInput(String personName){
         String REGEX = "^[ a-zA-Z]+$";
-        boolean valid = Pattern.compile(REGEX).matcher(personName).matches();
-        if (!valid) {
+        boolean valid =  Pattern.compile(REGEX).matcher(personName).matches();
+        if(!valid){
             System.out.println("Wrong format of name.");
         }
         return valid;
@@ -45,12 +44,11 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
 
     /**
      * Checks whether the inputted gender is valid.
-     *
      * @param gender The inputted gender.
      * @return boolean indicates whether the inputted gender is valid.
      */
-    public boolean checkGenderValidation(String gender) {
-        if (getAllGender().contains(gender)) {
+    public boolean checkGenderValidation(String gender){
+        if(getAllGender().contains(gender)){
             return true;
         }
         System.out.println("The gender is invalid. Please re-enter.");
@@ -92,13 +90,12 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
 
     /**
      * Checks whether this student ID is used by other students.
-     *
      * @param studentID This student's ID.
      * @return the existing student or else null.
      */
-    public Student checkStudentExists(String studentID) {
-        List<Student> anyStudent = studentMgr.getStudents().stream().filter(s -> studentID.equals(s.getStudentID())).collect(Collectors.toList());
-        if (anyStudent.size() == 0) {
+    public Student checkStudentExists(String studentID){
+        List<Student> anyStudent = studentMgr.getStudents().stream().filter(s->studentID.equals(s.getStudentID())).collect(Collectors.toList());
+        if(anyStudent.size() == 0){
             return null;
         }
         System.out.println("Sorry. The student ID is used. This student already exists.");
@@ -107,16 +104,15 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
 
     /**
      * Prompts the user to input an existing student.
-     *
      * @return the inputted student.
      */
-    public Student checkStudentExists() {
+    public Student checkStudentExists(){
         String studentID;
         Student currentStudent = null;
         while (true) {
             System.out.println("Enter Student ID (-h to print all the student ID):");
             studentID = scanner.nextLine();
-            while ("-h".equals(studentID)) {
+            while("-h".equals(studentID)){
                 printAllStudents();
                 studentID = scanner.nextLine();
             }
@@ -126,7 +122,7 @@ public class SupportStudentMgr extends SupportDepartmentMgr {
             System.setOut(originalStream);
             if (currentStudent == null) {
                 System.out.println("Invalid Student ID. Please re-enter.");
-            } else {
+            }else {
                 break;
             }
 

@@ -1,15 +1,18 @@
 package com.softeng306.Managers;
 
 
-import com.softeng306.Entities.Student;
+
 import com.softeng306.FILEMgr.FILEMgr;
 import com.softeng306.FILEMgr.StudentFILEMgr;
+import com.softeng306.Entities.Student;
+
+import java.util.List;
+import java.util.Scanner;
+
 import com.softeng306.SupportMgr.SupportStudentMgr;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * Manages the student related operations.
@@ -17,14 +20,8 @@ import java.util.Scanner;
  */
 
 public class StudentMgr implements IStudentMgr {
-    public static int lastGeneratedIDNum = 1800000;
     private static Scanner scanner = new Scanner(System.in);
-    private static PrintStream originalStream = System.out;
-    private static PrintStream dummyStream = new PrintStream(new OutputStream() {
-        public void write(int b) {
-            // NO-OP
-        }
-    });
+    public static int lastGeneratedIDNum = 1800000;
     private StudentFILEMgr studentFileMgr = new StudentFILEMgr();
     /**
      * A list of all the registered students.
@@ -40,6 +37,13 @@ public class StudentMgr implements IStudentMgr {
     public static void setLastGeneratedIDNum(int lastGeneratedIDNum) {
         StudentMgr.lastGeneratedIDNum = lastGeneratedIDNum;
     }
+
+    private static PrintStream originalStream = System.out;
+    private static PrintStream dummyStream = new PrintStream(new OutputStream() {
+        public void write(int b) {
+            // NO-OP
+        }
+    });
 
     /**
      * Adds a student and put the student into file
@@ -189,7 +193,7 @@ public class StudentMgr implements IStudentMgr {
                 studentGender = scanner.nextLine();
             }
 
-            if (supportStudentMgr.checkGenderValidation(studentGender)) {
+                if (supportStudentMgr.checkGenderValidation(studentGender)) {
                 currentStudent.setGender(studentGender);
                 break;
             }

@@ -4,9 +4,7 @@ import com.softeng306.Entities.Course;
 import com.softeng306.Entities.CourseRegistration;
 import com.softeng306.Entities.Student;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
