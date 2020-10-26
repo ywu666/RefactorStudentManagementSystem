@@ -3,6 +3,7 @@ package com.softeng306.Managers;
 import com.softeng306.*;
 import com.softeng306.FILEMgr.CourseRegistrationFILEMgr;
 import com.softeng306.Managers.MarkMgr;
+import com.softeng306.FILEMgr.FILEMgr;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ import static com.softeng306.CourseRegistration.TutComparator;
 
 public class CourseRegistrationMgr {
     private static Scanner scanner = new Scanner(System.in);
-    private static CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
+    private static final FILEMgr<CourseRegistration> courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
 
     /**
      * Registers a course for a student

@@ -37,20 +37,23 @@ public class Main {
      * @param args The command line parameters.
      */
     public static void main(String[] args) {
-        /**
+        /*
          * this part is changed due to the refactor
          */
-        StudentFILEMgr studentFILEMgr = new StudentFILEMgr();
-        CourseRegistrationFILEMgr courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
-        ProfessorFILEMgr professorFILEMgr = new ProfessorFILEMgr();
-        CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
-        MarkFILEMgr markFILEMgr = new MarkFILEMgr();
+        FILEMgr<Student> studentFileMgr = new StudentFILEMgr();
+        FILEMgr<CourseRegistration> courseRegistrationFileEMgr = new CourseRegistrationFILEMgr();
+        FILEMgr<Professor> professorFileMgr = new ProfessorFILEMgr();
+        FILEMgr<Course> courseFileMgr = new CourseFILEMgr();
+        FILEMgr<Mark> markFileMgr = new MarkFILEMgr();
 
-        students = studentFILEMgr.loadFromFile();
-        courses = courseFILEMgr.loadFromFile();
-        courseRegistrations = courseRegistrationFILEMgr.loadFromFile();
-        marks = markFILEMgr.loadFromFile();
-        professors = professorFILEMgr.loadFromFile();
+         // declare object managers
+        ICourseComponentMgr courseComponentManager = new CourseComponentMgr();
+
+        students = studentFileMgr.loadFromFile();
+        courses = courseFileMgr.loadFromFile();
+        courseRegistrations = courseRegistrationFileEMgr.loadFromFile();
+        marks = markFileMgr.loadFromFile();
+        professors = professorFileMgr.loadFromFile();
 
         printWelcome();
 
@@ -91,7 +94,7 @@ public class Main {
                     CourseRegistrationMgr.printStudents();
                     break;
                 case 6:
-                    CourseMgr.enterCourseWorkComponentWeightage(null);
+                    courseComponentManager.enterCourseWorkComponentWeightage(null);
                     break;
                 case 7:
                     MarkMgr.setCourseWorkMark(false);

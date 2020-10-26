@@ -28,7 +28,7 @@ public abstract class SupportMgr {
      */
     public static List<String> getAllDepartment() {
         Set<Department> departmentEnumSet = EnumSet.allOf(Department.class);
-        List<String> departmentStringList = new ArrayList<String>(0);
+        List<String> departmentStringList = new ArrayList<>(0);
         Iterator iter = departmentEnumSet.iterator();
         while (iter.hasNext()) {
             departmentStringList.add(iter.next().toString());
