@@ -4,7 +4,7 @@ package com.softeng306.Managers;
 
 import com.softeng306.FILEMgr.FILEMgr;
 import com.softeng306.FILEMgr.StudentFILEMgr;
-import com.softeng306.Student;
+import com.softeng306.Entities.Student;
 
 import java.util.List;
 import java.util.Scanner;

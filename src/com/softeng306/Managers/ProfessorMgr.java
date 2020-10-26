@@ -1,13 +1,10 @@
 package com.softeng306.Managers;
 
 import com.softeng306.FILEMgr.ProfessorFILEMgr;
-import com.softeng306.Professor;
+import com.softeng306.Entities.Professor;
 import com.softeng306.SupportMgr.SupportProfessorMgr;
-import com.softeng306.SupportMgr.SupportStudentMgr;
 
 import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**

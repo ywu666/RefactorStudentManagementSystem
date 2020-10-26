@@ -1,9 +1,8 @@
 package com.softeng306.SupportMgr;
 
 import com.softeng306.Enum.Gender;
-import com.softeng306.Main;
 import com.softeng306.Managers.IStudentMgr;
-import com.softeng306.Student;
+import com.softeng306.Entities.Student;
 
 import java.util.*;
 import java.util.regex.Pattern;

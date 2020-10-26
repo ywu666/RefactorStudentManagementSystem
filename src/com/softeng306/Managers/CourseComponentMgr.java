@@ -1,9 +1,9 @@
 package com.softeng306.Managers;
 
-import com.softeng306.Course;
-import com.softeng306.CourseworkComponent;
-import com.softeng306.MainComponent;
-import com.softeng306.SubComponent;
+import com.softeng306.Entities.Course;
+import com.softeng306.Entities.CourseworkComponent;
+import com.softeng306.Entities.MainComponent;
+import com.softeng306.Entities.SubComponent;
 import com.softeng306.SupportMgr.SupportCourseMgr;
 
 import java.util.ArrayList;

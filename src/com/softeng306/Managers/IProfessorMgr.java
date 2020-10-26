@@ -1,9 +1,8 @@
 package com.softeng306.Managers;
 
-import com.softeng306.Professor;
+import com.softeng306.Entities.Professor;
 import com.softeng306.SupportMgr.SupportProfessorMgr;
 
-import java.util.Arrays;
 import java.util.List;
 
 public interface IProfessorMgr {

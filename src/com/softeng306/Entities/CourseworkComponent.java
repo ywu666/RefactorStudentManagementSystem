@@ -1,4 +1,4 @@
-package com.softeng306;
+package com.softeng306.Entities;
 
 public abstract class CourseworkComponent {
     /**

@@ -1,11 +1,11 @@
 package com.softeng306.Managers;
 
 
+import com.softeng306.Entities.*;
 import  com.softeng306.FILEMgr.CourseFILEMgr;
 import com.softeng306.FILEMgr.FILEMgr;
 
 
-import com.softeng306.*;
 import com.softeng306.SupportMgr.SupportCourseMgr;
 import com.softeng306.SupportMgr.SupportProfessorMgr;
 

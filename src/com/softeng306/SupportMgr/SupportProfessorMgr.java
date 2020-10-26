@@ -1,7 +1,7 @@
 package com.softeng306.SupportMgr;
 
 import com.softeng306.Managers.IProfessorMgr;
-import com.softeng306.Professor;
+import com.softeng306.Entities.Professor;
 
 import java.util.List;
 import java.util.stream.Collectors;

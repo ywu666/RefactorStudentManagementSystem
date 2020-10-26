@@ -1,6 +1,6 @@
 package com.softeng306.FILEMgr;
 
-import com.softeng306.Professor;
+import com.softeng306.Entities.Professor;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -1,8 +1,7 @@
 package com.softeng306.SupportMgr;
 
-import com.softeng306.Course;
+import com.softeng306.Entities.Course;
 import com.softeng306.Enum.Department;
-import com.softeng306.Main;
 import com.softeng306.Managers.ICourseMgr;
 
 import java.io.OutputStream;

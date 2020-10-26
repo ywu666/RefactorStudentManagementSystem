@@ -1,12 +1,11 @@
 package com.softeng306.SupportMgr;
 
 
-import com.softeng306.Course;
+import com.softeng306.Entities.Course;
 import com.softeng306.Enum.CourseType;
-import com.softeng306.Main;
-import com.softeng306.MainComponent;
+import com.softeng306.Entities.MainComponent;
 import com.softeng306.Managers.ICourseMgr;
-import com.softeng306.SubComponent;
+import com.softeng306.Entities.SubComponent;
 
 
 import java.util.*;

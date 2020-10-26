@@ -1,8 +1,8 @@
 package com.softeng306.FILEMgr;
 
-import com.softeng306.Course;
-import com.softeng306.CourseRegistration;
-import com.softeng306.Student;
+import com.softeng306.Entities.Course;
+import com.softeng306.Entities.CourseRegistration;
+import com.softeng306.Entities.Student;
 
 import java.io.*;
 import java.util.ArrayList;

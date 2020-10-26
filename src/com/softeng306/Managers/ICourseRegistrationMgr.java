@@ -1,6 +1,6 @@
 package com.softeng306.Managers;
 
-import com.softeng306.CourseRegistration;
+import com.softeng306.Entities.CourseRegistration;
 import com.softeng306.SupportMgr.SupportCourseMgr;
 import com.softeng306.SupportMgr.SupportCourseRegistrationMgr;
 import com.softeng306.SupportMgr.SupportStudentMgr;
