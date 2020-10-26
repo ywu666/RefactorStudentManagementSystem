@@ -10,6 +10,8 @@ import com.softeng306.Enum.CourseType;
 import com.softeng306.Enum.Department;
 
 import com.softeng306.*;
+import com.softeng306.SupportMgr.SupportCourseMgr;
+import com.softeng306.SupportMgr.SupportProfessorMgr;
 
 import java.util.*;
 import java.io.PrintStream;
@@ -26,6 +28,10 @@ public class CourseMgr {
             // NO-OP
         }
     });
+
+    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
+    private static SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr();
+
     /**
      * Creates a new course and stores it in the file.
      */
@@ -38,7 +44,7 @@ public class CourseMgr {
             System.out.println("Give this course an ID: ");
             courseID = scanner.nextLine();
 
-        } while (!CourseMgr.checkValidCourseIDInput(courseID) || CourseMgr.checkCourseExists(courseID) != null);
+        } while (!supportCourseMgr.checkValidCourseIDInput(courseID) || supportCourseMgr.checkCourseExists(courseID) != null);
 
 
         System.out.println("Enter course Name: ");
@@ -147,7 +153,7 @@ public class CourseMgr {
         courseFileEMgr.writeIntoFile(course);
         Main.courses.add(course);
         System.out.println("Course " + courseID + s);
-        printCourses();
+        supportCourseMgr.printCourses();
     }
 
     /**
@@ -193,7 +199,7 @@ public class CourseMgr {
             }
 
             System.setOut(dummyStream);
-            profInCharge = ProfessorMgr.checkProfExists(profID);
+            profInCharge = supportProfessorMgr.checkProfExists(profID);
             System.setOut(originalStream);
             if (profInCharge != null) {
                 assert professorsInDepartment != null;
@@ -289,7 +295,7 @@ public class CourseMgr {
             groupNameExists = false;
             System.out.println("Enter a group Name: ");
             GroupName = scanner.nextLine();
-            if (!CourseMgr.checkValidGroupNameInput(GroupName)) {
+            if (!supportCourseMgr.checkValidGroupNameInput(GroupName)) {
                 groupNameExists = true;
                 continue;
             }
@@ -394,10 +400,10 @@ public class CourseMgr {
             System.out.println("Enter -h to print all the course types.");
             courseType = scanner.nextLine();
             while (courseType.equals("-h")) {
-                CourseMgr.printAllCourseType();
+                supportCourseMgr.printAllCourseType();
                 courseType = scanner.nextLine();
             }
-        } while (!CourseMgr.checkCourseTypeValidation(courseType));
+        } while (!supportCourseMgr.checkCourseTypeValidation(courseType));
         return courseType;
     }
 
@@ -413,10 +419,10 @@ public class CourseMgr {
             System.out.println("Enter -h to print all the departments.");
             courseDepartment = scanner.nextLine();
             while ("-h".equals(courseDepartment)) {
-                CourseMgr.printAllDepartment();
+                supportCourseMgr.printAllDepartment();
                 courseDepartment = scanner.nextLine();
             }
-        } while (!CourseMgr.checkDepartmentValidation(courseDepartment));
+        } while (!supportCourseMgr.checkDepartmentValidation(courseDepartment));
         return courseDepartment;
     }
 
@@ -475,7 +481,7 @@ public class CourseMgr {
         Course currentCourse;
 
         do {
-            currentCourse = CourseMgr.checkCourseExists();
+            currentCourse = supportCourseMgr.checkCourseExists();
             if (currentCourse != null) {
                 System.out.println(currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " (Available/Total): " + currentCourse.getVacancies() + "/" + currentCourse.getTotalSeats());
                 System.out.println("--------------------------------------------");
@@ -502,269 +508,251 @@ public class CourseMgr {
         } while (true);
 
     }
-    /**
-     * Prints the list of courses
-     */
-    public static void printCourses() {
-        System.out.println("Course List: ");
-        System.out.println("| Course ID | Course Name | Professor in Charge |");
-        for (Course course : Main.courses) {
-            System.out.println("| " + course.getCourseID() + " | " + course.getCourseName() + " | " + course.getProfInCharge().getProfName() + " |");
-        }
-        System.out.println();
-    }
-
 
     /**
-     * Displays all the professors in the inputted department.
-     *
-     * @param department The inputted department.
-     * @param printOut Represents whether print out the professor information or not
-     * @return A list of all the names of professors in the inputted department or else null.
+     * Ask user for exam. If yes add to main components list.
+     * @param mainComponents The main components list of the course
+     * @return The total weight of Exam mark. If no exam, then weight = 0.
      */
-    public static List<String> printProfInDepartment(String department, boolean printOut) {
-        if (CourseMgr.checkDepartmentValidation(department)) {
-            List<String> validProfString = Main.professors.stream().filter(p -> String.valueOf(department).equals(p.getProfDepartment())).map(p -> p.getProfID()).collect(Collectors.toList());
-            if (printOut) {
-                validProfString.forEach(System.out::println);
-            }
-            return validProfString;
-        }
-        System.out.println("None.");
-        return null;
-    }
-
-
-    /**
-     * Displays a list of all the departments.
-     */
-    public static void printAllDepartment() {
-        int index = 1;
-        for (Department department : Department.values()) {
-            System.out.println(index + ": " + department);
-            index++;
-        }
-
-    }
-
-
-
-    /**
-     * Displays a list of all the course types.
-     */
-    public static void printAllCourseType() {
-        int index = 1;
-        for (CourseType courseType : CourseType.values()) {
-            System.out.println(index + ": " + courseType);
-            index++;
-        }
-    }
-
-
-
-
-    /**
-     * Gets all the departments as an array list.
-     *
-     * @return an array list of all the departments.
-     */
-    public static ArrayList<String> getAllDepartment() {
-        Set<Department> departmentEnumSet = EnumSet.allOf(Department.class);
-        ArrayList<String> departmentStringList = new ArrayList<String>(0);
-        Iterator iter = departmentEnumSet.iterator();
-        while (iter.hasNext()) {
-            departmentStringList.add(iter.next().toString());
-        }
-        return departmentStringList;
-
-    }
-
-
-
-    /**
-     * Gets all the course types as an array list.
-     *
-     * @return an array list of all the course types.
-     */
-    public static ArrayList<String> getAllCourseType() {
-        Set<CourseType> courseTypeEnumSet = EnumSet.allOf(CourseType.class);
-        ArrayList<String> courseTypeStringSet = new ArrayList<String>(0);
-        Iterator iter = courseTypeEnumSet.iterator();
-        while (iter.hasNext()) {
-            courseTypeStringSet.add(iter.next().toString());
-        }
-        return courseTypeStringSet;
-    }
-
-
-    /**
-     * Displays a list of all the courses in the inputted department.
-     *
-     * @param department The inputted department.
-     * @return a list of all the department values.
-     */
-    public static List<String> printCourseInDepartment(String department) {
-        List<Course> validCourses = Main.courses.stream().filter(c -> department.equals(c.getCourseDepartment())).collect(Collectors.toList());
-        List<String> validCourseString = validCourses.stream().map(c -> c.getCourseID()).collect(Collectors.toList());
-        validCourseString.forEach(System.out::println);
-        if (validCourseString.size() == 0) {
-            System.out.println("None.");
-        }
-        return validCourseString;
-    }
-
-
-    /**
-     * Displays a list of IDs of all the courses.
-     */
-    public static void printAllCourses() {
-        Main.courses.stream().map(c -> c.getCourseID()).forEach(System.out::println);
-
-    }
-
-
-
-    /**
-     * Checks whether the inputted department is valid.
-     * @param department The inputted department.
-     * @return boolean indicates whether the inputted department is valid.
-     */
-    public static boolean checkDepartmentValidation(String department){
-        if(CourseMgr.getAllDepartment().contains(department)){
-            return true;
-        }
-        System.out.println("The department is invalid. Please re-enter.");
-        return false;
-    }
-
-
-
-    /**
-     * Checks whether the inputted course type is valid.
-     * @param courseType The inputted course type.
-     * @return boolean indicates whether the inputted course type is valid.
-     */
-    public static boolean checkCourseTypeValidation(String courseType){
-        if(CourseMgr.getAllCourseType().contains(courseType)){
-            return true;
-        }
-        System.out.println("The course type is invalid. Please re-enter.");
-        return false;
-    }
-
-
-    /**
-     * Checks whether the inputted course ID is in the correct format.
-     * @param courseID The inputted course ID.
-     * @return boolean indicates whether the inputted course ID is valid.
-     */
-    public static boolean checkValidCourseIDInput(String courseID){
-        String REGEX = "^[A-Z]{2}[0-9]{3,4}$";
-        boolean valid = Pattern.compile(REGEX).matcher(courseID).matches();
-        if(!valid){
-            System.out.println("Wrong format of course ID.");
-        }
-        return valid;
-
-    }
-
-
-    /**
-     * Checks whether the inputted group name is in the correct format.
-     * @param groupName The inputted group name.
-     * @return boolean indicates whether the inputted group name is valid.
-     */
-    public static boolean checkValidGroupNameInput(String groupName){
-        String REGEX = "^[a-zA-Z0-9]+$";
-        boolean valid =  Pattern.compile(REGEX).matcher(groupName).matches();
-        if(!valid){
-            System.out.println("Wrong format of group name.");
-        }
-        return valid;
-    }
-
-
-    /**
-     * Prompts the user to input an existing course.
-     * @return the inputted course.
-     */
-    public static Course checkCourseExists(){
-        String courseID;
-        Course currentCourse;
-        while(true){
-            System.out.println("Enter course ID (-h to print all the course ID):");
-            courseID = scanner.nextLine();
-            while("-h".equals(courseID)){
-                CourseMgr.printAllCourses();
-                courseID = scanner.nextLine();
-            }
-
-            System.setOut(dummyStream);
-            currentCourse = CourseMgr.checkCourseExists(courseID);
-            if (currentCourse == null) {
-                System.setOut(originalStream);
-                System.out.println("Invalid Course ID. Please re-enter.");
-            }else{
+    private  static int setExamWeight(ArrayList<MainComponent> mainComponents) {
+        int hasFinalExamChoice;
+        int examWeight = 0;
+        while (true) {
+            System.out.println("Does this course have a final exam? Enter your choice:");
+            System.out.println("1. Yes! ");
+            System.out.println("2. No, all CAs.");
+            hasFinalExamChoice = scanner.nextInt();
+            scanner.nextLine();
+            if (hasFinalExamChoice == 1) {
+                System.out.println("Please enter weight of the exam: ");
+                examWeight = scanner.nextInt();
+                scanner.nextLine();
+                while (examWeight > 80 || examWeight <= 0) {
+                    if (examWeight > 80 && examWeight <= 100) {
+                        System.out.println("According to the course assessment policy, final exam cannot take up more than 80%...");
+                    }
+                    System.out.println("Weight entered is invalid, please enter again: ");
+                    examWeight = scanner.nextInt();
+                    scanner.nextLine();
+                }
+                MainComponent exam = new MainComponent("Exam", examWeight, new ArrayList<SubComponent>(0));
+                mainComponents.add(exam);
+                break;
+            } else if (hasFinalExamChoice == 2) {
+                System.out.println("Okay, please enter some continuous assessments");
                 break;
             }
         }
-        System.setOut(originalStream);
-        return currentCourse;
+        return examWeight;
+    }
+    /**
+     * Sets the course work component weightage of a course.
+     *
+     * @param currentCourse The course which course work component is to be set.
+     */
+    public static void enterCourseWorkComponentWeightage(Course currentCourse) {
+        // Assume when course is created, no components are added yet
+        // Assume once components are created and set, cannot be changed.
+        int numberOfMain;
+        int weight;
+        int noOfSub;
+        int sub_weight;
+
+        System.out.println("enterCourseWorkComponentWeightage is called");
+//        if entered from main -- get user to input current course
+        if (currentCourse == null) {
+            currentCourse = supportCourseMgr.checkCourseExists();
+        }
+
+        ArrayList<MainComponent> mainComponents = new ArrayList<>(0);
+        // Check if mainComponent is empty
+        if (currentCourse.getMainComponents().size() == 0) {
+            // empty course
+            System.out.println("Currently course " + currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " does not have any assessment component.");
+
+//          set exam weight if there is a exam
+            int examWeight = setExamWeight(mainComponents);
+//            set number of main components
+            numberOfMain = setNumberOfMainComponents();
+            scanner.nextLine();
+            /*                                 Add course work main components                                                             */
+            String mainComponentName;
+            String subComponentName;
+            do {
+                int totalWeightage = 100 - examWeight;
+//                loop through each main component and add sub components
+                for (int i = 0; i < numberOfMain; i++) {
+                    ArrayList<SubComponent> subComponents = new ArrayList<>(0);
+//                  set main component name
+                    mainComponentName = setComponentName(mainComponents, totalWeightage, i,": ","main");
+//                    set main component weight
+                    weight = setComponentWeight(totalWeightage, i, "Enter main component ", " weightage:");
+                    scanner.nextLine();
+                    totalWeightage -= weight;
+//                    set number of sub components
+                    noOfSub = setNoOfSub(i);
+                    scanner.nextLine();
+
+                    boolean flagSub = true;
+                    while (flagSub) {
+                        int sub_totWeight = 100;
+                        for (int j = 0; j < noOfSub; j++) {
+//                            set subcomponent name
+                            subComponentName = setComponentName(subComponents,sub_totWeight,j," to sub component: ","sub");
+//                          set sub component weight
+                            sub_weight = setComponentWeight(sub_totWeight, j, "Enter sub component ", " weightage (out of the main component): ");
+                            scanner.nextLine();
+
+                            //Create Subcomponent
+                            SubComponent sub = new SubComponent(subComponentName, sub_weight);
+                            subComponents.add(sub);
+                            sub_totWeight -= sub_weight;
+                        }
+                        if (sub_totWeight != 0 && noOfSub != 0) {
+                            System.out.println("ERROR! sub component weightage does not tally to 100");
+                            System.out.println("You have to reassign!");
+                            subComponents.clear();
+                            flagSub = true;
+                        } else {
+                            flagSub = false;
+                        }
+                        //exit if weight is fully allocated
+                    }
+                    //Create main component and add
+                    MainComponent main = new MainComponent(mainComponentName, weight, subComponents);
+                    mainComponents.add(main);
+                }
+
+                if (totalWeightage != 0) {
+                    // weightage assign is not tallied
+                    System.out.println("Weightage assigned does not tally to 100!");
+                    System.out.println("You have to reassign!");
+                    mainComponents.clear();
+                } else {
+                    break;
+                }
+            } while (true);
+
+            //set main component to course
+            currentCourse.setMainComponents(mainComponents);
+
+        } else {
+            System.out.println("Course Assessment has been settled already!");
+        }
+//        print course components after add
+        supportCourseMgr.printCourseComponentsAfterAdd(currentCourse);
+        // Update course into course.csv
     }
 
-
+    /**
+     * Sets the number of sub components in main component from user
+     * @param i The index of main component
+     * @return The number of sub components under main component
+     */
+    private static int setNoOfSub(int i) {
+        int noOfSub;
+        do {
+            System.out.println("Enter number of sub component under main component " + (i + 1) + ":");
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.println("Sorry. " + input + " is not an integer.");
+                System.out.println("Enter number of sub component under main component " + (i + 1) + ":");
+            }
+            noOfSub = scanner.nextInt();
+            if (noOfSub < 0) {
+                System.out.println("Please enter a valid integer:");
+                continue;
+            }
+            break;
+        } while (true);
+        return noOfSub;
+    }
 
     /**
-     * Prompts the user to input an existing department.
-     * @return the inputted department.
+     * Set weight of components (either sub or main)
+     * @param totalWeightage The total weight of main componenets or subcomponents
+     * @param i The index of component
+     * @param s Place holder string
+     * @param s2 Sub component or main component
+     * @return The weight of the component
      */
-    public static String checkCourseDepartmentExists(){
-        String courseDepartment;
-        while(true){
-            System.out.println("Which department's courses are you interested? (-h to print all the departments)");
-            courseDepartment = scanner.nextLine();
-            while("-h".equals(courseDepartment)){
-                CourseMgr.printAllDepartment();
-                courseDepartment = scanner.nextLine();
+    private static int setComponentWeight(int totalWeightage, int i, String s, String s2) {
+        int weight;
+        do {
+            System.out.println(s + (i + 1) + " weightage: ");
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.println("Sorry. " + input + " is not an integer.");
+                System.out.println(s + (i + 1) + s2);
             }
+            weight = scanner.nextInt();
+            if (weight < 0 || weight > totalWeightage) {
+                System.out.println("Please enter a weight between 0 ~ " + totalWeightage + ":");
+                continue;
+            }
+            break;
+        } while (true);
+        return weight;
+    }
 
-            if(CourseMgr.checkDepartmentValidation(courseDepartment)){
+    /**
+     * Set the name of sub or main component
+     * @param components The array of sub or main components
+     * @param totalWeightage The total weightage of sub or main components
+     * @param i Index of component
+     * @param s1 Placeholder string
+     * @param s2 Placeholder string fro main or sub
+     * @return The name of component
+     */
+    private static String setComponentName(ArrayList<? extends CourseworkComponent> components, int totalWeightage, int i,String s1, String s2) {
+        boolean componentExist;
+        String ComponentName;
+        do {
+            componentExist = false;
+            System.out.println("Total weightage left to assign" + s1 + totalWeightage);
+            System.out.println("Enter " + s2 +  " component " + (i + 1) + " name: ");
+            ComponentName = scanner.nextLine();
 
-                List<String> validCourseString;
-                System.setOut(dummyStream);
-                validCourseString = CourseMgr.printCourseInDepartment(courseDepartment);
-
-                System.out.println("validCourseString = " + validCourseString );
-                System.out.println("validCourseString size = " + validCourseString.size() );
-
-                System.setOut(originalStream);
-                if(validCourseString.size() == 0){
-                    System.out.println("Invalid choice of department.");
-                }else{
+            if (components.size() == 0) {
+                break;
+            }
+            if (ComponentName.equals("Exam")) {
+                System.out.println("Exam is a reserved assessment.");
+                componentExist = true;
+                continue;
+            }
+            for (CourseworkComponent mainComponent : components) {
+                if (mainComponent.getComponentName().equals(ComponentName)) {
+                    componentExist = true;
+                    System.out.println("This sub component already exist. Please enter.");
                     break;
                 }
             }
-        }
-        return courseDepartment;
+        } while (componentExist);
+        return ComponentName;
     }
-
-
 
     /**
-     * Checks whether this course ID is used by other courses.
-     * @param courseID The inputted course ID.
-     * @return the existing course or else null.
+     * Set number of main components in course
+     * @return The number of main components in course
      */
-    public static Course checkCourseExists(String courseID){
-        List<Course> anyCourse = Main.courses.stream().filter(c->courseID.equals(c.getCourseID())).collect(Collectors.toList());
-        if(anyCourse.size() == 0){
-            return null;
-        }
-        System.out.println("Sorry. The course ID is used. This course already exists.");
-        return anyCourse.get(0);
-
+    private static int setNumberOfMainComponents() {
+        int numberOfMain;
+        do {
+            System.out.println("Enter number of main component(s) to add:");
+            while (!scanner.hasNextInt()) {
+                String input = scanner.next();
+                System.out.println("Sorry. " + input + " is not an integer.");
+                System.out.println("Enter number of main component(s) to add:");
+            }
+            numberOfMain = scanner.nextInt();
+            if (numberOfMain < 0) {
+                System.out.println("Please enter a valid positive integer:");
+                continue;
+            }
+            break;
+        } while (true);
+        return numberOfMain;
     }
-
-
 
 }

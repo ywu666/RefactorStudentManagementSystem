@@ -3,6 +3,8 @@ package com.softeng306.Managers;
 import com.softeng306.*;
 import com.softeng306.FILEMgr.FILEMgr;
 import com.softeng306.FILEMgr.MarkFILEMgr;
+import com.softeng306.SupportMgr.SupportCourseMgr;
+import com.softeng306.SupportMgr.SupportStudentMgr;
 
 import java.util.*;
 
@@ -12,6 +14,9 @@ import java.util.*;
 
 public class MarkMgr {
     private static Scanner scanner = new Scanner(System.in);
+
+    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
+    private static SupportStudentMgr supportStudentMgr = new SupportStudentMgr();
 
     /**
      * Initializes marks for a student when he/she just registered a course.
@@ -143,8 +148,8 @@ public class MarkMgr {
     public static void setCourseWorkMark(boolean isExam) {
         System.out.println("enterCourseWorkMark is called");
 
-        String studentID = StudentMgr.checkStudentExists().getStudentID();
-        String courseID = CourseMgr.checkCourseExists().getCourseID();
+        String studentID = supportStudentMgr.checkStudentExists().getStudentID();
+        String courseID = supportCourseMgr.checkCourseExists().getCourseID();
 
         for (Mark mark : Main.marks) {
 
@@ -177,6 +182,7 @@ public class MarkMgr {
         System.out.println("This student haven't registered " + courseID);
     }
 
+    //move to the support class
     public static void printChoicesForCourseWorkMark(Mark mark){
         ArrayList<String> availableChoices = new ArrayList<String>(0);
         ArrayList<Double> weights = new ArrayList<Double>(0);
@@ -269,7 +275,7 @@ public class MarkMgr {
     public static void printCourseStatistics() {
         System.out.println("printCourseStatistics is called");
 
-        Course currentCourse = CourseMgr.checkCourseExists();
+        Course currentCourse = supportCourseMgr.checkCourseExists();
         String courseID = currentCourse.getCourseID();
 
         ArrayList<Mark> thisCourseMark = new ArrayList<Mark>(0);
@@ -375,7 +381,7 @@ public class MarkMgr {
      * Prints transcript (Results of course taken) for a particular student
      */
     public static void printStudentTranscript() {
-        String studentID = StudentMgr.checkStudentExists().getStudentID();
+        String studentID = supportStudentMgr.checkStudentExists().getStudentID();
 
 
         int thisStudentAU = 0;
@@ -504,6 +510,8 @@ public class MarkMgr {
             // F
             return 0d;
         }
+
+
 
     }
 }

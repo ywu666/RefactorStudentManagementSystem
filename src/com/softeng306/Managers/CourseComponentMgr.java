@@ -4,12 +4,15 @@ import com.softeng306.Course;
 import com.softeng306.CourseworkComponent;
 import com.softeng306.MainComponent;
 import com.softeng306.SubComponent;
+import com.softeng306.SupportMgr.SupportCourseMgr;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CourseComponentMgr implements ICourseComponentMgr{
     private static final Scanner scanner = new Scanner(System.in);
+
+    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
 
     @Override
     public void enterCourseWorkComponentWeightage(Course currentCourse) {
@@ -23,7 +26,7 @@ public class CourseComponentMgr implements ICourseComponentMgr{
         System.out.println("enterCourseWorkComponentWeightage is called");
 //        if entered from main -- get user to input current course
         if (currentCourse == null) {
-            currentCourse = CourseMgr.checkCourseExists();
+            currentCourse = supportCourseMgr.checkCourseExists();
         }
 
         ArrayList<MainComponent> mainComponents = new ArrayList<>(0);
