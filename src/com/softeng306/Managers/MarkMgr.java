@@ -20,11 +20,8 @@ public class MarkMgr implements IMarkMgr{
      */
     private List<Mark> marks = markFILEMgr.loadFromFile();
 
-    private ICourseMgr courseMgr;
-    private IStudentMgr studentMgr;
-
-    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
-    private static SupportStudentMgr supportStudentMgr = new SupportStudentMgr();
+    private SupportCourseMgr supportCourseMgr;
+    private SupportStudentMgr supportStudentMgr;
 
     /**
      * Initializes marks for a student when he/she just registered a course.
@@ -529,11 +526,11 @@ public class MarkMgr implements IMarkMgr{
         return marks;
     }
 
-    public void setCourseMgr(ICourseMgr courseMgr) {
-        this.courseMgr = courseMgr;
+    public void setSupportCourseMgr(SupportCourseMgr supportCourseMgr) {
+        this.supportCourseMgr = supportCourseMgr;
     }
 
-    public void setStudentMgr(IStudentMgr studentMgr) {
-        this.studentMgr = studentMgr;
+    public void setSupportStudentMgr(SupportStudentMgr supportStudentMgr) {
+        this.supportStudentMgr = supportStudentMgr;
     }
 }

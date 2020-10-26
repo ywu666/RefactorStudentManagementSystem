@@ -3,10 +3,9 @@ package com.softeng306.SupportMgr;
 
 import com.softeng306.Course;
 import com.softeng306.Enum.CourseType;
-import com.softeng306.Enum.Department;
 import com.softeng306.Main;
 import com.softeng306.MainComponent;
-import com.softeng306.Managers.CourseMgr;
+import com.softeng306.Managers.ICourseMgr;
 import com.softeng306.SubComponent;
 
 
@@ -15,6 +14,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class SupportCourseMgr extends SupportDepartmentMgr {
+
+    public SupportCourseMgr(ICourseMgr courseMgr) {
+        this.courseMgr = courseMgr;
+    }
 
     public boolean checkValidCourseIDInput(String courseID) {
         String REGEX = "^[A-Z]{2}[0-9]{3,4}$";
@@ -43,7 +46,7 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
      * Displays a list of IDs of all the courses.
      */
     public void printAllCourses() {
-        Main.courses.stream().map(c -> c.getCourseID()).forEach(System.out::println);
+        courseMgr.getCourses().stream().map(c -> c.getCourseID()).forEach(System.out::println);
 
     }
 
@@ -81,7 +84,7 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
     public void printCourses() {
         System.out.println("Course List: ");
         System.out.println("| Course ID | Course Name | Professor in Charge |");
-        for (Course course : Main.courses) {
+        for (Course course : courseMgr.getCourses()) {
             System.out.println("| " + course.getCourseID() + " | " + course.getCourseName() + " | " + course.getProfInCharge().getProfName() + " |");
         }
         System.out.println();
@@ -149,7 +152,7 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
      * @return the existing course or else null.
      */
     public Course checkCourseExists(String courseID){
-        List<Course> anyCourse = Main.courses.stream().filter(c->courseID.equals(c.getCourseID())).collect(Collectors.toList());
+        List<Course> anyCourse = courseMgr.getCourses().stream().filter(c->courseID.equals(c.getCourseID())).collect(Collectors.toList());
         if(anyCourse.size() == 0){
             return null;
         }
@@ -157,5 +160,6 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
         return anyCourse.get(0);
 
     }
+
 
 }

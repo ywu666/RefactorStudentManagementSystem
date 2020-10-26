@@ -6,6 +6,7 @@ import com.softeng306.FILEMgr.FILEMgr;
 import com.softeng306.FILEMgr.StudentFILEMgr;
 import com.softeng306.Student;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.softeng306.SupportMgr.SupportStudentMgr;
@@ -26,10 +27,7 @@ public class StudentMgr implements IStudentMgr {
      * A list of all the registered students.
      */
     private List<Student> students = studentFileMgr.loadFromFile();
-    private static SupportStudentMgr supportStudentMgr = new SupportStudentMgr();
-
-
-    private ICourseMgr courseMgr;
+    private SupportStudentMgr supportStudentMgr;
 
     /**
      * Sets the lastGeneratedID variable of this  class. USed for generating new ID.
@@ -247,7 +245,12 @@ public class StudentMgr implements IStudentMgr {
         }
     }
 
-    public void setCourseMgr(ICourseMgr courseMgr) {
-        this.courseMgr = courseMgr;
+    public List<Student> getStudents() {
+        return students;
     }
+
+    public void setSupportStudentMgr(SupportStudentMgr supportStudentMgr) {
+        this.supportStudentMgr = supportStudentMgr;
+    }
+
 }

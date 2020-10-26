@@ -2,12 +2,19 @@ package com.softeng306;
 
 import com.softeng306.FILEMgr.*;
 import com.softeng306.Managers.*;
+import com.softeng306.SupportMgr.SupportCourseMgr;
+import com.softeng306.SupportMgr.SupportCourseRegistrationMgr;
+import com.softeng306.SupportMgr.SupportProfessorMgr;
+import com.softeng306.SupportMgr.SupportStudentMgr;
 
 import java.util.Scanner;
 
 public class Main {
     public static Scanner scanner = new Scanner(System.in);
 
+    /*
+        Declare Object managers
+     */
     private static ICourseMgr courseMgr = new CourseMgr();
 
     private static IMarkMgr markMgr = new MarkMgr();
@@ -18,36 +25,42 @@ public class Main {
 
     private static IProfessorMgr professorMgr = new ProfessorMgr();
 
+    private static ICourseComponentMgr courseComponentMgr = new CourseComponentMgr();
+
+
     /**
      * The main function of the system.
      * Command line interface.
+     *
      * @param args The command line parameters.
      */
     public static void main(String[] args) {
-        /*
-         * this part is changed due to the refactor
-         */
-        FILEMgr<Student> studentFileMgr = new StudentFILEMgr();
-        FILEMgr<CourseRegistration> courseRegistrationFileEMgr = new CourseRegistrationFILEMgr();
-        FILEMgr<Professor> professorFileMgr = new ProfessorFILEMgr();
-        FILEMgr<Course> courseFileMgr = new CourseFILEMgr();
-        FILEMgr<Mark> markFileMgr = new MarkFILEMgr();
 
+        // Set dependent object managers
         courseMgr.setProfessorMgr(professorMgr);
 
-        studentMgr.setCourseMgr(courseMgr);
-
-        markMgr.setCourseMgr(courseMgr);
-        markMgr.setStudentMgr(studentMgr);
-
-        courseRegistrationMgr.setCourseMgr(courseMgr);
         courseRegistrationMgr.setMarkMgr(markMgr);
-        courseRegistrationMgr.setStudentMgr(studentMgr);
 
-        professorMgr.setCourseMgr(courseMgr);
-        professorMgr.setStudentMgr(studentMgr);
-         // declare object managers
-        ICourseComponentMgr courseComponentManager = new CourseComponentMgr();
+        // Create support object managers and set them in the object managers
+        SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr(professorMgr);
+        professorMgr.setSupportProfessorMgr(supportProfessorMgr);
+        courseMgr.setSupportProfessorMgr(supportProfessorMgr);
+
+        SupportCourseMgr supportCourseMgr = new SupportCourseMgr(courseMgr);
+        courseMgr.setSupportCourseMgr(supportCourseMgr);
+        courseRegistrationMgr.setSupportCourseMgr(supportCourseMgr);
+        markMgr.setSupportCourseMgr(supportCourseMgr);
+        courseComponentMgr.setSupportCourseMgr(supportCourseMgr);
+
+        SupportStudentMgr supportStudentMgr = new SupportStudentMgr(studentMgr);
+        studentMgr.setSupportStudentMgr(supportStudentMgr);
+        courseRegistrationMgr.setSupportStudentMgr(supportStudentMgr);
+        markMgr.setSupportStudentMgr(supportStudentMgr);
+
+        SupportCourseRegistrationMgr supportCourseRegistrationMgr = new SupportCourseRegistrationMgr(courseRegistrationMgr, courseMgr);
+        courseRegistrationMgr.setSupportCourseRegistrationMgr(supportCourseRegistrationMgr);
+
+
         printWelcome();
 
         int choice;
@@ -87,7 +100,7 @@ public class Main {
                     courseRegistrationMgr.printStudents();
                     break;
                 case 6:
-                    courseComponentManager.enterCourseWorkComponentWeightage(null);
+                    courseComponentMgr.enterCourseWorkComponentWeightage(null);
                     break;
                 case 7:
                     markMgr.setCourseWorkMark(false);
@@ -122,6 +135,7 @@ public class Main {
         System.out.println("******************************************************************************************************************************");
         System.out.println();
     }
+
     /**
      * Displays the exiting message.
      */

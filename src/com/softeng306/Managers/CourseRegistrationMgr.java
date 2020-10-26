@@ -20,17 +20,17 @@ public class CourseRegistrationMgr implements ICourseRegistrationMgr{
     private static Scanner scanner = new Scanner(System.in);
     private static final FILEMgr<CourseRegistration> courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
 
-    private static SupportCourseRegistrationMgr supportCourseRegistrationMgr = new SupportCourseRegistrationMgr();
-    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
-    private static SupportStudentMgr supportStudentMgr = new SupportStudentMgr();
+
     /**
      * A list of all the stored course registrations.
      */
     private List<CourseRegistration> courseRegistrations = courseRegistrationFILEMgr.loadFromFile();
 
-    private ICourseMgr courseMgr;
     private IMarkMgr markMgr;
-    private IStudentMgr studentMgr;
+
+    private SupportCourseRegistrationMgr supportCourseRegistrationMgr;
+    private SupportCourseMgr supportCourseMgr;
+    private SupportStudentMgr supportStudentMgr;
 
     /**
      * Registers a course for a student
@@ -255,15 +255,23 @@ public class CourseRegistrationMgr implements ICourseRegistrationMgr{
         return selectedGroupName;
     }
 
-    public void setCourseMgr(ICourseMgr courseMgr) {
-        this.courseMgr = courseMgr;
-    }
-
     public void setMarkMgr(IMarkMgr markMgr) {
         this.markMgr = markMgr;
     }
 
-    public void setStudentMgr(IStudentMgr studentMgr) {
-        this.studentMgr = studentMgr;
+    public List<CourseRegistration> getCourseRegistrations() {
+        return courseRegistrations;
+    }
+
+    public void setSupportCourseRegistrationMgr(SupportCourseRegistrationMgr supportCourseRegistrationMgr) {
+        this.supportCourseRegistrationMgr = supportCourseRegistrationMgr;
+    }
+
+    public void setSupportCourseMgr(SupportCourseMgr supportCourseMgr) {
+        this.supportCourseMgr = supportCourseMgr;
+    }
+
+    public void setSupportStudentMgr(SupportStudentMgr supportStudentMgr) {
+        this.supportStudentMgr = supportStudentMgr;
     }
 }

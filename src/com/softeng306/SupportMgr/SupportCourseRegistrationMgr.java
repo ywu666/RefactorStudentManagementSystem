@@ -2,11 +2,21 @@ package com.softeng306.SupportMgr;
 
 import com.softeng306.CourseRegistration;
 import com.softeng306.Main;
+import com.softeng306.Managers.ICourseMgr;
+import com.softeng306.Managers.ICourseRegistrationMgr;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class SupportCourseRegistrationMgr extends SupportDepartmentMgr{
+
+    private ICourseRegistrationMgr courseRegistrationMgr;
+
+    public SupportCourseRegistrationMgr(ICourseRegistrationMgr courseRegistrationMgr, ICourseMgr courseMgr) {
+        this.courseRegistrationMgr = courseRegistrationMgr;
+        this.courseMgr = courseMgr;
+    }
+
     /**
      * Checks whether this course registration record exists.
      * @param studentID The inputted student ID.
@@ -14,7 +24,7 @@ public class SupportCourseRegistrationMgr extends SupportDepartmentMgr{
      * @return the existing course registration record or else null.
      */
     public CourseRegistration checkCourseRegistrationExists(String studentID, String courseID){
-        List<CourseRegistration> courseRegistrations = Main.courseRegistrations.stream().filter(cr->studentID.equals(cr.getStudent().getStudentID())).filter(cr->courseID.equals(cr.getCourse().getCourseID())).collect(Collectors.toList());
+        List<CourseRegistration> courseRegistrations = courseRegistrationMgr.getCourseRegistrations().stream().filter(cr->studentID.equals(cr.getStudent().getStudentID())).filter(cr->courseID.equals(cr.getCourse().getCourseID())).collect(Collectors.toList());
         if(courseRegistrations.size() == 0){
             return null;
         }

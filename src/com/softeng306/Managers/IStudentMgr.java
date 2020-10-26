@@ -1,27 +1,15 @@
 package com.softeng306.Managers;
 
 import com.softeng306.Student;
+import com.softeng306.SupportMgr.SupportStudentMgr;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface IStudentMgr {
 
     void addStudent();
 
-    void printAllStudents();
+    List<Student> getStudents();
 
-    boolean checkValidPersonNameInput(String personName);
-
-    boolean checkValidStudentIDInput(String studentID);
-
-    void printAllGender();
-
-    ArrayList<String> getAllGender();
-
-    boolean checkGenderValidation(String Gender);
-
-    Student checkStudentExists();
-
-    void setCourseMgr(ICourseMgr courseMgr);
-
+    void setSupportStudentMgr(SupportStudentMgr supportStudentMgr);
 }

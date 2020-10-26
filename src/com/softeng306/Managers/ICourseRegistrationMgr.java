@@ -1,6 +1,11 @@
 package com.softeng306.Managers;
 
 import com.softeng306.CourseRegistration;
+import com.softeng306.SupportMgr.SupportCourseMgr;
+import com.softeng306.SupportMgr.SupportCourseRegistrationMgr;
+import com.softeng306.SupportMgr.SupportStudentMgr;
+
+import java.util.List;
 
 public interface ICourseRegistrationMgr {
 
@@ -8,11 +13,13 @@ public interface ICourseRegistrationMgr {
 
     void printStudents();
 
-    CourseRegistration checkCourseRegistrationExists(String studentID, String courseID);
-
-    void setCourseMgr(ICourseMgr courseMgr);
-
     void setMarkMgr(IMarkMgr markMgr);
 
-    void setStudentMgr(IStudentMgr studentMgr);
+    List<CourseRegistration> getCourseRegistrations();
+
+    void setSupportCourseRegistrationMgr(SupportCourseRegistrationMgr supportCourseRegistrationMgr);
+
+    void setSupportStudentMgr(SupportStudentMgr supportStudentMgr);
+
+    void setSupportCourseMgr(SupportCourseMgr supportCourseMgr);
 }

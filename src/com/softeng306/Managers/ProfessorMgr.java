@@ -16,54 +16,12 @@ import java.util.stream.Collectors;
 
  */
 public class ProfessorMgr implements IProfessorMgr {
-    private static SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr();
+    private SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr(this);
     private ProfessorFILEMgr profFileMgr = new ProfessorFILEMgr();
     /**
      * A list of all the registered professors.
      */
     private  List<Professor> professors = profFileMgr.loadFromFile();
-
-    private ICourseMgr courseMgr;
-    private IStudentMgr studentMgr;
-
-    /**
-     * Adds a professor.
-     *
-     * @return a newly added professor
-     */
-    public Professor addProfessor() {
-        String department, profID;
-        while (true) {
-            System.out.println("Give this professor an ID: ");
-            profID = scanner.nextLine();
-            if (checkValidProfIDInput(profID)) {
-                if (checkProfExists(profID) == null) {
-                    break;
-                }
-            }
-        }
-
-        String profName;
-        while (true) {
-            System.out.println("Enter the professor's name: ");
-            profName = scanner.nextLine();
-            if (studentMgr.checkValidPersonNameInput(profName)) {
-                break;
-            }
-        }
-
-        Professor professor = new Professor(profID, profName);
-        while (true) {
-            System.out.println("Enter professor's Department: ");
-            System.out.println("Enter -h to print all the departments.");
-            department = scanner.nextLine();
-            while (department.equals("-h")) {
-                courseMgr.getAllDepartment();
-                department = scanner.nextLine();
-            }
-        }
-    }
-
 
     /**
      * Displays all the professors in the inputted department.
@@ -85,12 +43,12 @@ public class ProfessorMgr implements IProfessorMgr {
 
     }
 
-    public void setCourseMgr(ICourseMgr courseMgr) {
-        this.courseMgr = courseMgr;
+    public void setSupportProfessorMgr(SupportProfessorMgr supportProfessorMgr) {
+        this.supportProfessorMgr = supportProfessorMgr;
     }
 
-    public void setStudentMgr(IStudentMgr studentMgr) {
-        this.studentMgr = studentMgr;
+    public List<Professor> getProfessors() {
+        return professors;
     }
 
 }

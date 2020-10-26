@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class CourseComponentMgr implements ICourseComponentMgr{
     private static final Scanner scanner = new Scanner(System.in);
 
-    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
+    private SupportCourseMgr supportCourseMgr;
 
     @Override
     public void enterCourseWorkComponentWeightage(Course currentCourse) {
@@ -113,7 +113,7 @@ public class CourseComponentMgr implements ICourseComponentMgr{
      * @param mainComponents The main components list of the course
      * @return The total weight of Exam mark. If no exam, then weight = 0.
      */
-    private  static int setExamWeight(ArrayList<MainComponent> mainComponents) {
+    private int setExamWeight(ArrayList<MainComponent> mainComponents) {
         int hasFinalExamChoice;
         int examWeight = 0;
         while (true) {
@@ -162,7 +162,7 @@ public class CourseComponentMgr implements ICourseComponentMgr{
      * @param i The index of main component
      * @return The number of sub components under main component
      */
-    private static int setNoOfSub(int i) {
+    private int setNoOfSub(int i) {
         int noOfSub;
         do {
             System.out.println("Enter number of sub component under main component " + (i + 1) + ":");
@@ -189,7 +189,7 @@ public class CourseComponentMgr implements ICourseComponentMgr{
      * @param s2 Sub component or main component
      * @return The weight of the component
      */
-    private static int setComponentWeight(int totalWeightage, int i, String s, String s2) {
+    private int setComponentWeight(int totalWeightage, int i, String s, String s2) {
         int weight;
         do {
             System.out.println(s + (i + 1) + " weightage: ");
@@ -217,7 +217,7 @@ public class CourseComponentMgr implements ICourseComponentMgr{
      * @param s2 Placeholder string fro main or sub
      * @return The name of component
      */
-    private static String setComponentName(ArrayList<? extends CourseworkComponent> components, int totalWeightage, int i, String s1, String s2) {
+    private String setComponentName(ArrayList<? extends CourseworkComponent> components, int totalWeightage, int i, String s1, String s2) {
         boolean componentExist;
         String ComponentName;
         do {
@@ -249,7 +249,7 @@ public class CourseComponentMgr implements ICourseComponentMgr{
      * Set number of main components in course
      * @return The number of main components in course
      */
-    private static int setNumberOfMainComponents() {
+    private int setNumberOfMainComponents() {
         int numberOfMain;
         do {
             System.out.println("Enter number of main component(s) to add:");
@@ -266,6 +266,10 @@ public class CourseComponentMgr implements ICourseComponentMgr{
             break;
         } while (true);
         return numberOfMain;
+    }
+
+    public void setSupportCourseMgr(SupportCourseMgr supportCourseMgr) {
+        this.supportCourseMgr = supportCourseMgr;
     }
 
 }

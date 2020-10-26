@@ -5,10 +5,6 @@ import  com.softeng306.FILEMgr.CourseFILEMgr;
 import com.softeng306.FILEMgr.FILEMgr;
 
 
-
-import com.softeng306.Enum.CourseType;
-import com.softeng306.Enum.Department;
-
 import com.softeng306.*;
 import com.softeng306.SupportMgr.SupportCourseMgr;
 import com.softeng306.SupportMgr.SupportProfessorMgr;
@@ -16,9 +12,6 @@ import com.softeng306.SupportMgr.SupportProfessorMgr;
 import java.util.*;
 import java.io.PrintStream;
 import java.io.OutputStream;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 
 public class CourseMgr implements ICourseMgr {
     private static final Scanner scanner = new Scanner(System.in);
@@ -37,8 +30,8 @@ public class CourseMgr implements ICourseMgr {
 
     private IProfessorMgr professorMgr;
 
-    private static SupportCourseMgr supportCourseMgr = new SupportCourseMgr();
-    private static SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr();
+    private SupportCourseMgr supportCourseMgr;
+    private SupportProfessorMgr supportProfessorMgr;
 
     /**
      * Creates a new course and stores it in the file.
@@ -771,6 +764,14 @@ public class CourseMgr implements ICourseMgr {
 
     public void setProfessorMgr(IProfessorMgr professorMgr) {
         this.professorMgr = professorMgr;
+    }
+
+    public void setSupportProfessorMgr(SupportProfessorMgr supportProfessorMgr) {
+        this.supportProfessorMgr = supportProfessorMgr;
+    }
+
+    public void setSupportCourseMgr(SupportCourseMgr supportCourseMgr) {
+        this.supportCourseMgr = supportCourseMgr;
     }
 
 }

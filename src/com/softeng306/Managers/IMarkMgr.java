@@ -3,6 +3,8 @@ package com.softeng306.Managers;
 import com.softeng306.Course;
 import com.softeng306.Mark;
 import com.softeng306.Student;
+import com.softeng306.SupportMgr.SupportCourseMgr;
+import com.softeng306.SupportMgr.SupportStudentMgr;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +23,11 @@ public interface IMarkMgr {
 
     double gpaCalculator(double result);
 
-    void setCourseMgr(ICourseMgr courseMgr);
-
-    void setStudentMgr(IStudentMgr studentMgr);
-
     List<Mark> getMarks();
 
     void addMark(Mark mark);
+
+    void setSupportCourseMgr(SupportCourseMgr supportCourseMgr);
+
+    void setSupportStudentMgr(SupportStudentMgr supportStudentMgr);
 }
