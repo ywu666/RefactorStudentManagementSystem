@@ -313,7 +313,7 @@ public class CourseFILEMgr extends FILEMgr<Course> {
         }
     }
 
-    private static void appendGroupToFile(FileWriter fileWriter, List<? extends Group> groups) throws IOException {
+    private static void appendGroupToFile(FileWriter fileWriter, List<Group> groups) throws IOException {
         if (groups.size() != 0) {
             int index = 0;
             for (Group group : groups) {
