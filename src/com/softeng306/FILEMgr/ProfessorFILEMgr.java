@@ -57,4 +57,9 @@ public class ProfessorFILEMgr extends FILEMgr<Professor> {
         }
         return professors;
     }
+
+    @Override
+    public void writeIntoFile(Professor object) {
+        throw new RuntimeException(this.getClass().getSimpleName() + " Cant be added by user");
+    }
 }

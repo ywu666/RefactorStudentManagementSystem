@@ -4,11 +4,11 @@ import java.util.Comparator;
 
 
 public class CourseRegistration {
-    private Student student;
-    private Course course;
-    private String lectureGroup;
-    private String tutorialGroup;
-    private String labGroup;
+    private final Student student;
+    private final Course course;
+    private final String lectureGroup;
+    private final String tutorialGroup;
+    private final String labGroup;
 
     public CourseRegistration(Student student, Course course, String lectureGroup, String tutorialGroup, String labGroup) {
         this.student = student;

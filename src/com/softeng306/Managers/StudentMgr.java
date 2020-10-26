@@ -2,6 +2,7 @@ package com.softeng306.Managers;
 
 
 
+import com.softeng306.FILEMgr.FILEMgr;
 import com.softeng306.FILEMgr.StudentFILEMgr;
 import com.softeng306.Main;
 import com.softeng306.Student;
@@ -98,8 +99,8 @@ public class StudentMgr {
         //student year
         setStudentYear(currentStudent);
 //        write into file
-        StudentFILEMgr studentFILEMgr = new StudentFILEMgr();
-        studentFILEMgr.writeIntoFile(currentStudent);
+        FILEMgr<Student> studentFileEMgr = new StudentFILEMgr();
+        studentFileEMgr.writeIntoFile(currentStudent);
 
         Main.students.add(currentStudent);
 //        print out current students after added

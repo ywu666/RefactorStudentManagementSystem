@@ -1,7 +1,15 @@
 package com.softeng306.SupportMgr;
 
-import com.softeng306.*;
+
+import com.softeng306.Course;
 import com.softeng306.Enum.CourseType;
+import com.softeng306.Enum.Department;
+import com.softeng306.Main;
+import com.softeng306.MainComponent;
+import com.softeng306.Managers.CourseMgr;
+import com.softeng306.SubComponent;
+
+
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -54,7 +62,8 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
      * Prints the components of course after adding components
      * @param currentCourse The course that components were added to
      */
-    public void printCourseComponentsAfterAdd(Course currentCourse) {
+
+    public void printCourseComponentsAfterAdd(Course currentCourse){
         System.out.println(currentCourse.getCourseID() + " " + currentCourse.getCourseName() + " components: ");
         for (MainComponent each_comp : currentCourse.getMainComponents()) {
             System.out.println("    " + each_comp.getComponentName() + " : " + each_comp.getComponentWeight() + "%");
@@ -63,6 +72,7 @@ public class SupportCourseMgr extends SupportDepartmentMgr {
             }
         }
     }
+
 
 
     /**
