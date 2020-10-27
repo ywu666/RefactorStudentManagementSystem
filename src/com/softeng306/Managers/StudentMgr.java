@@ -21,7 +21,7 @@ import java.io.PrintStream;
 
 public class StudentMgr implements IStudentMgr {
     private static Scanner scanner = new Scanner(System.in);
-    public static int lastGeneratedIDNum = 1800000;
+    private static int lastGeneratedIDNum = 1800000;
     private StudentFILEMgr studentFileMgr = new StudentFILEMgr();
     /**
      * A list of all the registered students.
