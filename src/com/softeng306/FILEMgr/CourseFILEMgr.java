@@ -268,6 +268,29 @@ public class CourseFILEMgr extends FILEMgr<Course> {
             appendGroupToFile(fileWriter, labGroups);
 
             List<MainComponent> mainComponents = course.getMainComponents();
+
+            appendMainComponentToCourse(mainComponents, fileWriter);
+
+            fileWriter.append(COMMA_DELIMITER);
+            fileWriter.append(String.valueOf(course.getAU()));
+            fileWriter.append(COMMA_DELIMITER);
+            fileWriter.append(course.getCourseDepartment());
+            fileWriter.append(COMMA_DELIMITER);
+            fileWriter.append(course.getCourseType());
+            fileWriter.append(COMMA_DELIMITER);
+            fileWriter.append(String.valueOf(course.getLecWeeklyHour()));
+            fileWriter.append(COMMA_DELIMITER);
+            fileWriter.append(String.valueOf(course.getTutWeeklyHour()));
+            fileWriter.append(COMMA_DELIMITER);
+            fileWriter.append(String.valueOf(course.getLabWeeklyHour()));
+            fileWriter.append(NEW_LINE_SEPARATOR);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void appendMainComponentToCourse(List<MainComponent> mainComponents, FileWriter fileWriter){
+        try {
             if (mainComponents.size() != 0) {
                 int index = 0;
                 for (MainComponent mainComponent : mainComponents) {
@@ -294,25 +317,12 @@ public class CourseFILEMgr extends FILEMgr<Course> {
             } else {
                 fileWriter.append("NULL");
             }
-            fileWriter.append(COMMA_DELIMITER);
 
-            fileWriter.append(String.valueOf(course.getAU()));
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(course.getCourseDepartment());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(course.getCourseType());
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(course.getLecWeeklyHour()));
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(course.getTutWeeklyHour()));
-            fileWriter.append(COMMA_DELIMITER);
-            fileWriter.append(String.valueOf(course.getLabWeeklyHour()));
-            fileWriter.append(NEW_LINE_SEPARATOR);
-        } catch (IOException e) {
+        }catch (IOException e){
             e.printStackTrace();
         }
-    }
 
+    }
     private static void appendGroupToFile(FileWriter fileWriter, List<Group> groups) throws IOException {
         if (groups.size() != 0) {
             int index = 0;
