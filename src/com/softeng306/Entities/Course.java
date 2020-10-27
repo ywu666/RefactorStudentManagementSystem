@@ -14,8 +14,8 @@ public class Course {
      */
     private final String courseName;
 
-    /** The AU of this course.
-     *
+    /**
+     * The AU of this course.
      */
     private final int AU;
 
@@ -33,28 +33,22 @@ public class Course {
      * The type of this course.
      */
     private final String courseType;
-
-    /**
-     * The current vacancy of this course.
-     */
-    private int vacancies;
-
     /**
      * The total seats of this course.
      */
     private final int totalSeats;
-
     /**
      * The weekly lecture hour of this course.
      */
     private final int lecWeeklyHour;
-
     /**
      * The lecture groups of this course.
      */
     private final ArrayList<Group> lectureGroups;
-
-
+    /**
+     * The current vacancy of this course.
+     */
+    private int vacancies;
     /**
      * The weekly tutorial hour of this course.
      */
@@ -84,16 +78,17 @@ public class Course {
 
     /**
      * Creates the course with course ID, course name, professor in charge, current vacancies, total seats lectures groups, AU, course department, course type and weekly lecture hour
-     * @param courseID The ID of this course.
-     * @param courseName The name of this course.
-     * @param profInCharge The professor in charge of this course.
-     * @param vacancies The current vacancy of this course.
-     * @param totalSeats The total seats of this course.
-     * @param lectureGroups The lecture groups of this course.
-     * @param AU The AU of this course.
+     *
+     * @param courseID         The ID of this course.
+     * @param courseName       The name of this course.
+     * @param profInCharge     The professor in charge of this course.
+     * @param vacancies        The current vacancy of this course.
+     * @param totalSeats       The total seats of this course.
+     * @param lectureGroups    The lecture groups of this course.
+     * @param AU               The AU of this course.
      * @param courseDepartment The course department of this course.
-     * @param courseType The course type of this course.
-     * @param lecWeeklyHour The lecture weekly hour of this course.
+     * @param courseType       The course type of this course.
+     * @param lecWeeklyHour    The lecture weekly hour of this course.
      */
     public Course(String courseID, String courseName, Professor profInCharge, int vacancies, int totalSeats, ArrayList<Group> lectureGroups, int AU, String courseDepartment, String courseType, int lecWeeklyHour) {
         this.courseID = courseID;
@@ -110,20 +105,21 @@ public class Course {
 
     /**
      * Creates the course with course ID, course name, professor in charge, current vacancies, total seats lectures groups, tutorial groups, lab groups, AU, course department, course type, weekly lecture hour, weekly tutorial hour, weekly lab hour
-     * @param courseID The ID of this course.
-     * @param courseName The name of this course.
-     * @param profInCharge The professor in charge of this course.
-     * @param vacancies The current vacancy of this course.
-     * @param totalSeats The total seats of this course.
-     * @param lectureGroups The lecture groups of this course.
-     * @param tutorialGroups The tutorial groups of this course.
-     * @param labGroups The lab groups of this course.
-     * @param AU The AU of this course.
+     *
+     * @param courseID         The ID of this course.
+     * @param courseName       The name of this course.
+     * @param profInCharge     The professor in charge of this course.
+     * @param vacancies        The current vacancy of this course.
+     * @param totalSeats       The total seats of this course.
+     * @param lectureGroups    The lecture groups of this course.
+     * @param tutorialGroups   The tutorial groups of this course.
+     * @param labGroups        The lab groups of this course.
+     * @param AU               The AU of this course.
      * @param courseDepartment The course department of this course.
-     * @param courseType The course type of this course.
-     * @param lecWeeklyHour The lecture weekly hour of this course.
-     * @param tutWeeklyHour The tutorial weekly hour of this course.
-     * @param labWeeklyHour The lab weekly hour of this course.
+     * @param courseType       The course type of this course.
+     * @param lecWeeklyHour    The lecture weekly hour of this course.
+     * @param tutWeeklyHour    The tutorial weekly hour of this course.
+     * @param labWeeklyHour    The lab weekly hour of this course.
      */
     public Course(String courseID, String courseName, Professor profInCharge, int vacancies, int totalSeats, ArrayList<Group> lectureGroups, ArrayList<Group> tutorialGroups, ArrayList<Group> labGroups, int AU, String courseDepartment, String courseType, int lecWeeklyHour, int tutWeeklyHour, int labWeeklyHour) {
         this.courseID = courseID;
@@ -144,6 +140,7 @@ public class Course {
 
     /**
      * Gets the course's ID.
+     *
      * @return the ID of this course.
      */
     public String getCourseID() {
@@ -152,6 +149,7 @@ public class Course {
 
     /**
      * Gets the course's name.
+     *
      * @return the name of this course.
      */
     public String getCourseName() {
@@ -160,12 +158,16 @@ public class Course {
 
     /**
      * Gets the course's AU.
+     *
      * @return the AU of this course.
      */
-    public int getAU() { return AU; }
+    public int getAU() {
+        return AU;
+    }
 
     /**
      * Gets the course's professor in charge.
+     *
      * @return the professor in charge of this course.
      */
     public Professor getProfInCharge() {
@@ -174,12 +176,25 @@ public class Course {
 
     /**
      * Gets the course's current vacancy.
+     *
      * @return the current vacancy of this course.
      */
-    public int getVacancies() { return vacancies; }
+    public int getVacancies() {
+        return vacancies;
+    }
+
+    /**
+     * Sets the course's current current vacancy.
+     *
+     * @param vacancies this course's vacancy.
+     */
+    public void setVacancies(int vacancies) {
+        this.vacancies = vacancies;
+    }
 
     /**
      * Gets the course's total seats.
+     *
      * @return the total seats of this course.
      */
     public int getTotalSeats() {
@@ -188,46 +203,70 @@ public class Course {
 
     /**
      * Gets the course's department.
+     *
      * @return the department of this course.
      */
-    public String getCourseDepartment(){
+    public String getCourseDepartment() {
         return courseDepartment;
     }
 
     /**
      * Gets the course's type.
+     *
      * @return the type of this course.
      */
-    public String getCourseType(){
+    public String getCourseType() {
         return courseType;
     }
 
     /**
      * Gets the course's weekly lecture hour.
+     *
      * @return the weekly lecture hour of this course.
      */
-    public int getLecWeeklyHour(){
+    public int getLecWeeklyHour() {
         return lecWeeklyHour;
     }
 
     /**
      * Gets the course's weekly tutorial hour.
+     *
      * @return the weekly tutorial hour of this course.
      */
-    public int getTutWeeklyHour(){
+    public int getTutWeeklyHour() {
         return tutWeeklyHour;
     }
 
     /**
+     * Sets the weekly hour of the tutorials.
+     *
+     * @param tutWeeklyHour this course's weekly tutorial hour.
+     */
+    public void setTutWeeklyHour(int tutWeeklyHour) {
+        this.tutWeeklyHour = tutWeeklyHour;
+    }
+
+    /**
      * Gets the course's weekly lab hour.
+     *
      * @return the weekly lab hour of this course.
      */
-    public int getLabWeeklyHour(){
+    public int getLabWeeklyHour() {
         return labWeeklyHour;
     }
 
     /**
+     * Sets the weekly hour of the labs.
+     *
+     * @param labWeeklyHour this course's weekly lab hour.
+     */
+    public void setLabWeeklyHour(int labWeeklyHour) {
+        this.labWeeklyHour = labWeeklyHour;
+    }
+
+    /**
      * Gets the course's lecture groups.
+     *
      * @return the lecture groups of this course.
      */
     public ArrayList<Group> getLectureGroups() {
@@ -236,6 +275,7 @@ public class Course {
 
     /**
      * Gets the course's tutorial groups
+     *
      * @return the tutorial groups of this course
      */
     public ArrayList<Group> getTutorialGroups() {
@@ -243,36 +283,8 @@ public class Course {
     }
 
     /**
-     * Gets the course's lab groups.
-     * @return the lab groups of this course.
-     */
-    public ArrayList<Group> getLabGroups() {
-        return this.labGroups;
-    }
-
-    /**
-     * Gets the course's main assessment components.
-     * @return the main assessment components of this course.
-     */
-    public ArrayList<MainComponent> getMainComponents() {
-        return this.mainComponents;
-    }
-
-    /**
-     * Sets the course's current current vacancy.
-     * @param vacancies this course's vacancy.
-     */
-    public void setVacancies(int vacancies) {
-        this.vacancies = vacancies;
-    }
-
-    /**
-     * Updates the available vacancies of this course after someone has registered this group.
-     */
-    public void enrolledIn() { this.vacancies = vacancies - 1; }
-
-    /**
      * Sets the tutorial groups of the lecture groups.
+     *
      * @param tutorialGroups this course's tutorial groups.
      */
     public void setTutorialGroups(ArrayList<Group> tutorialGroups) {
@@ -280,7 +292,17 @@ public class Course {
     }
 
     /**
+     * Gets the course's lab groups.
+     *
+     * @return the lab groups of this course.
+     */
+    public ArrayList<Group> getLabGroups() {
+        return this.labGroups;
+    }
+
+    /**
      * Sets the lab groups of the lecture groups.
+     *
      * @param labGroups this course's lab groups.
      */
     public void setLabGroups(ArrayList<Group> labGroups) {
@@ -288,7 +310,17 @@ public class Course {
     }
 
     /**
+     * Gets the course's main assessment components.
+     *
+     * @return the main assessment components of this course.
+     */
+    public ArrayList<MainComponent> getMainComponents() {
+        return this.mainComponents;
+    }
+
+    /**
      * Sets the main assessment of the lecture groups.
+     *
      * @param mainComponents this course's main assessment.
      */
     public void setMainComponents(ArrayList<MainComponent> mainComponents) {
@@ -296,19 +328,10 @@ public class Course {
     }
 
     /**
-     * Sets the weekly hour of the tutorials.
-     * @param tutWeeklyHour this course's weekly tutorial hour.
+     * Updates the available vacancies of this course after someone has registered this group.
      */
-    public void setTutWeeklyHour(int tutWeeklyHour){
-        this.tutWeeklyHour = tutWeeklyHour;
-    }
-
-    /**
-     * Sets the weekly hour of the labs.
-     * @param labWeeklyHour this course's weekly lab hour.
-     */
-    public void setLabWeeklyHour(int labWeeklyHour){
-        this.labWeeklyHour = labWeeklyHour;
+    public void enrolledIn() {
+        this.vacancies = vacancies - 1;
     }
 
 }

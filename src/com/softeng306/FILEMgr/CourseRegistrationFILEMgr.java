@@ -100,7 +100,7 @@ public class CourseRegistrationFILEMgr extends FILEMgr<CourseRegistration> {
                     }
                     String courseID = tokens[courseIdInRegistrationIndex];
 
-                    /**
+                    /*
                      * This part is changed due to refactor
                      */
                     CourseFILEMgr courseFILEMgr = new CourseFILEMgr();

@@ -9,12 +9,12 @@ public class Professor {
      * this professor's ID
      */
 
-    private String profID;
+    private final String profID;
 
     /**
      * this professor's Name
      */
-    private String profName;
+    private final String profName;
 
     /**
      * this professor's department
@@ -23,7 +23,8 @@ public class Professor {
 
     /**
      * Creates professor with professor ID and professor name.
-     * @param profID the ID of the professor
+     *
+     * @param profID   the ID of the professor
      * @param profName the name of the professor
      */
     public Professor(String profID, String profName) {
@@ -33,6 +34,7 @@ public class Professor {
 
     /**
      * Gets this professor's ID
+     *
      * @return the ID of this professor
      */
 
@@ -42,6 +44,7 @@ public class Professor {
 
     /**
      * Gets this professor's name
+     *
      * @return the name of this professor
      */
     public String getProfName() {
@@ -50,14 +53,16 @@ public class Professor {
 
     /**
      * Gets this professor's department
+     *
      * @return the department of this professor
      */
-    public String getProfDepartment(){
+    public String getProfDepartment() {
         return profDepartment;
     }
 
     /**
      * Sets the department of the professor
+     *
      * @param profDepartment this professor's department
      */
     public void setProfDepartment(String profDepartment) {

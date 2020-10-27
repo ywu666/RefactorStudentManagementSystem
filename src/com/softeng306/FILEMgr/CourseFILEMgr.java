@@ -172,7 +172,7 @@ public class CourseFILEMgr extends FILEMgr<Course> {
                         String[] eachMainComponentsString = mainComponentsString.split(Pattern.quote(LINE_DELIMITER));
                         for (int i = 0; i < eachMainComponentsString.length; i++) {
                             String[] thisMainComponent = eachMainComponentsString[i].split(EQUAL_SIGN);
-                            ArrayList<SubComponent> subComponents = new ArrayList<SubComponent>(0);
+                            ArrayList<SubComponent> subComponents = new ArrayList<>(0);
                             if (thisMainComponent.length > 2) {
                                 String[] subComponentsString = thisMainComponent[2].split(SLASH);
                                 for (int j = 0; j < subComponentsString.length; j++) {
@@ -313,7 +313,7 @@ public class CourseFILEMgr extends FILEMgr<Course> {
         }
     }
 
-    private static void appendGroupToFile(FileWriter fileWriter, List<? extends Group> groups) throws IOException {
+    private static void appendGroupToFile(FileWriter fileWriter, List<Group> groups) throws IOException {
         if (groups.size() != 0) {
             int index = 0;
             for (Group group : groups) {

@@ -175,7 +175,7 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
      * @param mark
      * @throws IOException
      */
-    public static void appendMarkToFile(FileWriter fileWriter, Mark mark) throws IOException {
+    private static void appendMarkToFile(FileWriter fileWriter, Mark mark) throws IOException {
         fileWriter.append(mark.getStudent().getStudentID());
         fileWriter.append(COMMA_DELIMITER);
         fileWriter.append(mark.getCourse().getCourseID());

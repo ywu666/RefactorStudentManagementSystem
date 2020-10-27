@@ -15,13 +15,9 @@ public interface IMarkMgr {
 
     void setCourseWorkMark(boolean isExam);
 
-    double computeMark(ArrayList<Mark> thisCourseMark, String thisComponentName);
-
     void printCourseStatistics();
 
     void printStudentTranscript();
-
-    double gpaCalculator(double result);
 
     List<Mark> getMarks();
 

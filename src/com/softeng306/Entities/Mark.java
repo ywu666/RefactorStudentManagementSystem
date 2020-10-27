@@ -11,15 +11,15 @@ public class Mark {
     /**
      * The student of this student mark record.
      */
-    private Student student;
+    private final Student student;
     /**
      * The course of this student mark record.
      */
-    private Course course;
+    private final Course course;
     /**
      * The course work marks of this student mark record.
      */
-    private HashMap<CourseworkComponent, Double> courseWorkMarks;
+    private final HashMap<CourseworkComponent, Double> courseWorkMarks;
     /**
      * The total mark of this student mark record.
      */
@@ -77,10 +77,9 @@ public class Mark {
         return totalMark;
     }
 
-    public void setTotalMark(double totalMark){
+    public void setTotalMark(double totalMark) {
         this.totalMark = totalMark;
     }
-
 
 
 }

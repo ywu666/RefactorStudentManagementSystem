@@ -62,7 +62,7 @@ public class MarkMgr implements IMarkMgr{
      * @param courseWorkName The name of this main course work.
      * @param result         The mark obtained in this main course work.
      */
-    public void setMainCourseWorkMarks(Mark mark, String courseWorkName, double result) {
+    private void setMainCourseWorkMarks(Mark mark, String courseWorkName, double result) {
         HashMap<CourseworkComponent, Double> courseWorkMarks = mark.getCourseWorkMarks();
         double totalMark = mark.getTotalMark();
 
@@ -96,7 +96,7 @@ public class MarkMgr implements IMarkMgr{
      * @param courseWorkName The name of this sub course work.
      * @param result         The mark obtained in this sub course work.
      */
-    public void setSubCourseWorkMarks(Mark mark, String courseWorkName, double result) {
+    private void setSubCourseWorkMarks(Mark mark, String courseWorkName, double result) {
         HashMap<CourseworkComponent, Double> courseWorkMarks = mark.getCourseWorkMarks();
         double totalMark = mark.getTotalMark();
 
@@ -188,7 +188,7 @@ public class MarkMgr implements IMarkMgr{
     }
 
     //move to the support class
-    public void printChoicesForCourseWorkMark(Mark mark){
+    private void printChoicesForCourseWorkMark(Mark mark){
         ArrayList<String> availableChoices = new ArrayList<>(0);
         ArrayList<Double> weights = new ArrayList<>(0);
         ArrayList<Boolean> isMainAss = new ArrayList<>(0);
@@ -258,7 +258,7 @@ public class MarkMgr implements IMarkMgr{
      * @param thisComponentName the component name interested.
      * @return the sum of component marks
      */
-    public double computeMark(ArrayList<Mark> thisCourseMark, String thisComponentName) {
+    private double computeMark(ArrayList<Mark> thisCourseMark, String thisComponentName) {
         double averageMark = 0;
         for (Mark mark : thisCourseMark) {
             HashMap<CourseworkComponent, Double> thisComponentMarks = mark.getCourseWorkMarks();
@@ -317,7 +317,7 @@ public class MarkMgr implements IMarkMgr{
 
     }
 
-    public void printAssessmentComponent(Course currentCourse, ArrayList<Mark> thisCourseMark){
+    private void printAssessmentComponent(Course currentCourse, ArrayList<Mark> thisCourseMark){
 
         int examWeight = 0;
         boolean hasExam = false;
@@ -369,7 +369,7 @@ public class MarkMgr implements IMarkMgr{
 
     }
 
-    public void printExamComponent (int examWeight, ArrayList<Mark> thisCourseMark ){
+    private void printExamComponent (int examWeight, ArrayList<Mark> thisCourseMark ){
 
         double averageMark = 0 ;
         System.out.print("Final Exam");
@@ -422,7 +422,7 @@ public class MarkMgr implements IMarkMgr{
      * @param  thisStudentAU The AU of the student
      *
      */
-    public void printMarkForTranscript(ArrayList<Mark> thisStudentMark, int thisStudentAU){
+    private void printMarkForTranscript(ArrayList<Mark> thisStudentMark, int thisStudentAU){
         double studentGPA = 0d;
         for (Mark mark : thisStudentMark) {
             System.out.print("Course ID: " + mark.getCourse().getCourseID());
@@ -483,7 +483,7 @@ public class MarkMgr implements IMarkMgr{
      * @param result result of this course
      * @return the grade (in A, B ... )
      */
-    public double gpaCalculator(double result) {
+    private double gpaCalculator(double result) {
         if (result > 85) {
             // A+, A
             return 5d;

@@ -4,40 +4,6 @@ import java.util.Comparator;
 
 
 public class CourseRegistration {
-    private final Student student;
-    private final Course course;
-    private final String lectureGroup;
-    private final String tutorialGroup;
-    private final String labGroup;
-
-    public CourseRegistration(Student student, Course course, String lectureGroup, String tutorialGroup, String labGroup) {
-        this.student = student;
-        this.course = course;
-        this.lectureGroup = lectureGroup;
-        this.tutorialGroup = tutorialGroup;
-        this.labGroup = labGroup;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public String getLectureGroup() {
-        return lectureGroup;
-    }
-
-    public String getTutorialGroup() {
-        return tutorialGroup;
-    }
-
-    public String getLabGroup() {
-        return labGroup;
-    }
-
     public static Comparator<CourseRegistration> LecComparator = new Comparator<CourseRegistration>() {
         @Override
         public int compare(CourseRegistration o1, CourseRegistration o2) {
@@ -72,4 +38,37 @@ public class CourseRegistration {
         }
 
     };
+    private final Student student;
+    private final Course course;
+    private final String lectureGroup;
+    private final String tutorialGroup;
+    private final String labGroup;
+
+    public CourseRegistration(Student student, Course course, String lectureGroup, String tutorialGroup, String labGroup) {
+        this.student = student;
+        this.course = course;
+        this.lectureGroup = lectureGroup;
+        this.tutorialGroup = tutorialGroup;
+        this.labGroup = labGroup;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public String getLectureGroup() {
+        return lectureGroup;
+    }
+
+    public String getTutorialGroup() {
+        return tutorialGroup;
+    }
+
+    public String getLabGroup() {
+        return labGroup;
+    }
 }
