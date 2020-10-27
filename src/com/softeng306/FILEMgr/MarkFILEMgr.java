@@ -56,7 +56,7 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
     @Override
     public  List<Mark> loadFromFile() {
         BufferedReader fileReader = null;
-        ArrayList<Mark> marks = new ArrayList<Mark>(0);
+        ArrayList<Mark> marks = new ArrayList<>(0);
         try {
             String line;
 
@@ -76,7 +76,7 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
                 Student currentStudent = null;
                 Course currentCourse = null;
 
-                HashMap<CourseworkComponent, Double> courseWorkMarks = new HashMap<CourseworkComponent, Double>(0);
+                HashMap<CourseworkComponent, Double> courseWorkMarks = new HashMap<>(0);
                 String[] thisCourseWorkMark;
 
                 String[] tokens = line.split(COMMA_DELIMITER);
@@ -106,8 +106,8 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
                     for (int i = 0; i < eachCourseWorkMark.length; i++) {
                         thisCourseWorkMark = eachCourseWorkMark[i].split(EQUAL_SIGN);
 
-                        ArrayList<SubComponent> subComponents = new ArrayList<SubComponent>(0);
-                        HashMap<SubComponent, Double> subComponentMarks = new HashMap<SubComponent, Double>();
+                        ArrayList<SubComponent> subComponents = new ArrayList<>(0);
+                        HashMap<SubComponent, Double> subComponentMarks = new HashMap<>();
                         for (int j = 3; j < thisCourseWorkMark.length; j++) {
                             if (thisCourseWorkMark[3].equals("")) {
                                 break;
