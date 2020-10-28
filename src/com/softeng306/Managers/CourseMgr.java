@@ -57,12 +57,15 @@ public class CourseMgr implements ICourseMgr {
         String courseDepartment = setDepartment();
         //  set courseType
         String courseType = setCourseType();
+
+
+        /*      Lecture groups       */
         //  set number of lecture groups
         int noOfLectureGroups = setNoOfGroups(totalSeats, "lecture", "Number of lecture group must be positive but less than total seats in this course.");
         //  set number of weekly lecture hours
         int lecWeeklyHour = setWeeklyHour(AU, "lecture");
 
-        /*      Lecture groups       */
+
         ArrayList<Group> lectureGroups = new ArrayList<>();
         String lectureGroupName;
         int lectureGroupCapacity;
@@ -102,6 +105,7 @@ public class CourseMgr implements ICourseMgr {
             tutorialGroupName = setGroupName(tutorialGroups, "tutorial");
             totalTutorialSeats = getTotalTutorialSeats(totalSeats, totalTutorialSeats, noOfTutorialGroups, tutorialGroups, tutorialGroupName, i);
         }
+
 
         /*         lab groups       */
         int totalLabSeats = 0;
@@ -327,7 +331,7 @@ public class CourseMgr implements ICourseMgr {
             if (scanner.hasNextInt()) {
                 noOfGroups = scanner.nextInt();
                 scanner.nextLine();
-                if (noOfGroups >= 0 && noOfGroups <= totalSeats) {
+                if (noOfGroups > 0 && noOfGroups <= totalSeats) {
                     break;
                 }
                 System.out.println("Invalid input.");
