@@ -144,13 +144,13 @@ public class CourseFILEMgr extends FILEMgr<Course> {
                     int labWeeklyHr = Integer.parseInt(tokens[labHrIndex]);
 
                     String lectureGroupsString = tokens[lectureGroupsIndex];
-                    ArrayList<Group> lectureGroups = new ArrayList<>(0);
+                    ArrayList<IGroup> lectureGroups = new ArrayList<>(0);
                     splitLine(lectureGroupsString, lectureGroups);
 
                     Course course = new Course(courseID, courseName, currentProfessor, vacancies, totalSeats, lectureGroups, AU, courseDepartment, courseType, lecWeeklyHr);
 
                     String tutorialGroupsString = tokens[tutorialGroupIndex];
-                    ArrayList<Group> tutorialGroups = new ArrayList<>(0);
+                    ArrayList<IGroup> tutorialGroups = new ArrayList<>(0);
 
                     if (!tutorialGroupsString.equals("NULL")) {
                         splitLine(tutorialGroupsString, tutorialGroups);
@@ -159,7 +159,7 @@ public class CourseFILEMgr extends FILEMgr<Course> {
                     course.setTutWeeklyHour(tutWeeklyHr);
 
                     String labGroupsString = tokens[labGroupIndex];
-                    ArrayList<Group> labGroups = new ArrayList<>(0);
+                    ArrayList<IGroup> labGroups = new ArrayList<>(0);
                     if (!labGroupsString.equals("NULL")) {
                         splitLine(labGroupsString, labGroups);
                     }
@@ -198,7 +198,7 @@ public class CourseFILEMgr extends FILEMgr<Course> {
         return courses;
     }
 
-    private void splitLine(String lectureGroupsString, ArrayList<Group> lectureGroups) {
+    private void splitLine(String lectureGroupsString, ArrayList<IGroup> lectureGroups) {
         String[] eachLectureGroupsString = lectureGroupsString.split(Pattern.quote(LINE_DELIMITER));
 
         for (int i = 0; i < eachLectureGroupsString.length; i++) {
@@ -258,13 +258,13 @@ public class CourseFILEMgr extends FILEMgr<Course> {
             fileWriter.append(String.valueOf(course.getTotalSeats()));
             fileWriter.append(COMMA_DELIMITER);
 
-            List<Group> lectureGroups = course.getLectureGroups();
+            List<IGroup> lectureGroups = course.getLectureGroups();
             appendGroupToFile(fileWriter, lectureGroups);
 
-            List<Group> tutorialGroups = course.getTutorialGroups();
+            List<IGroup> tutorialGroups = course.getTutorialGroups();
             appendGroupToFile(fileWriter, tutorialGroups);
 
-            List<Group> labGroups = course.getLabGroups();
+            List<IGroup> labGroups = course.getLabGroups();
             appendGroupToFile(fileWriter, labGroups);
 
             List<MainComponent> mainComponents = course.getMainComponents();
@@ -323,10 +323,10 @@ public class CourseFILEMgr extends FILEMgr<Course> {
         }
 
     }
-    private static void appendGroupToFile(FileWriter fileWriter, List<Group> groups) throws IOException {
+    private static void appendGroupToFile(FileWriter fileWriter, List<IGroup> groups) throws IOException {
         if (groups.size() != 0) {
             int index = 0;
-            for (Group group : groups) {
+            for (IGroup group : groups) {
                 fileWriter.append(group.getGroupName());
                 fileWriter.append(EQUAL_SIGN);
                 fileWriter.append(String.valueOf(group.getAvailableVacancies()));
