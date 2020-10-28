@@ -306,10 +306,10 @@ public class CourseMgr implements ICourseMgr {
             if (groups.size() == 0) {
                 break;
             }
-            for (Group tutorialGroup : groups) {
-                if (tutorialGroup.getGroupName().equals(GroupName)) {
+            for (Group group : groups) {
+                if (group.getGroupName().equals(GroupName)) {
                     groupNameExists = true;
-                    System.out.println("This tutorial group already exist for this course.");
+                    System.out.println("This " + s1 +  " group already exist for this course.");
                     break;
                 }
             }
