@@ -79,8 +79,8 @@ public class CourseMgr implements ICourseMgr {
                 //  check if valid, if yes create new lecture group and add to array
                 seatsLeft -= lectureGroupCapacity;
                 if ((seatsLeft > 0 && i != (noOfLectureGroups - 1)) || (seatsLeft == 0 && i == noOfLectureGroups - 1)) {
-                    Group lectureGroup = new Group(lectureGroupName, lectureGroupCapacity, lectureGroupCapacity);
-                    lectureGroups.add(lectureGroup);
+                    IGroup lectureGroup = new Group(lectureGroupName, lectureGroupCapacity, lectureGroupCapacity);
+                    lectureGroups.add((Group)lectureGroup);
                     break;
                 } else {
                     System.out.println("Sorry, the total capacity you allocated for all the lecture groups exceeds or does not add up to the total seats for this course.");
