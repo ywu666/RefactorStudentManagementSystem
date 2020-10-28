@@ -9,7 +9,7 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SupportDepartmentMgr {
+public abstract class SupportDepartmentMgr {
 
     protected static Scanner scanner = new Scanner(System.in);
     protected static PrintStream originalStream = System.out;
