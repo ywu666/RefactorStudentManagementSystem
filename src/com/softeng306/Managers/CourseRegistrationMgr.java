@@ -1,9 +1,6 @@
 package com.softeng306.Managers;
 
-import com.softeng306.Entities.Course;
-import com.softeng306.Entities.CourseRegistration;
-import com.softeng306.Entities.Group;
-import com.softeng306.Entities.Student;
+import com.softeng306.Entities.*;
 import com.softeng306.FILEMgr.CourseRegistrationFILEMgr;
 import com.softeng306.SupportMgr.SupportCourseMgr;
 import com.softeng306.SupportMgr.SupportCourseRegistrationMgr;
@@ -68,17 +65,17 @@ public class CourseRegistrationMgr implements ICourseRegistrationMgr{
         System.out.println("Student " + currentStudent.getStudentName() + " with ID: " + currentStudent.getStudentID() +
                 " wants to register " + currentCourse.getCourseID() + " " + currentCourse.getCourseName());
 
-        ArrayList<Group> lecGroups = new ArrayList<>(0);
+        ArrayList<IGroup> lecGroups = new ArrayList<>(0);
         lecGroups.addAll(currentCourse.getLectureGroups());
 
         selectedLectureGroupName = printGroupWithVacancyInfo("lecture", lecGroups);
 
-        ArrayList<Group> tutGroups = new ArrayList<>(0);
+        ArrayList<IGroup> tutGroups = new ArrayList<>(0);
         tutGroups.addAll(currentCourse.getTutorialGroups());
 
         selectedTutorialGroupName = printGroupWithVacancyInfo("tutorial", tutGroups);
 
-        ArrayList<Group> labGroups = new ArrayList<>(0);
+        ArrayList<IGroup> labGroups = new ArrayList<>(0);
         labGroups.addAll(currentCourse.getLabGroups());
 
         selectedLabGroupName = printGroupWithVacancyInfo("lab", labGroups);
@@ -209,7 +206,7 @@ public class CourseRegistrationMgr implements ICourseRegistrationMgr{
      * @param groups    An array list of a certain type of groups in a course.
      * @return the name of the group chosen by the user.
      */
-    public String printGroupWithVacancyInfo(String groupType, ArrayList<Group> groups) {
+    public String printGroupWithVacancyInfo(String groupType, ArrayList<IGroup> groups) {
         int index;
         HashMap<String, Integer> groupAssign = new HashMap<String, Integer>(0);
         int selectedGroupNum;
@@ -219,7 +216,7 @@ public class CourseRegistrationMgr implements ICourseRegistrationMgr{
             System.out.println("Here is a list of all the " + groupType + " groups with available slots:");
             do {
                 index = 0;
-                for (Group group : groups) {
+                for (IGroup group : groups) {
                     if (group.getAvailableVacancies() == 0) {
                         continue;
                     }
@@ -246,7 +243,7 @@ public class CourseRegistrationMgr implements ICourseRegistrationMgr{
                 }
             }
 
-            for (Group group : groups) {
+            for (IGroup group : groups) {
                 if (group.getGroupName().equals(selectedGroupName)) {
                     group.enrolledIn();
                     break;

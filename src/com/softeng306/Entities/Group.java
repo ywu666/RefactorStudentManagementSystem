@@ -13,7 +13,7 @@ public class Group implements IGroup {
      */
     private final String groupName;
     /**
-     * The total seates of this group
+     * The total seats of this group
      */
     private final int totalSeats;
     /**
