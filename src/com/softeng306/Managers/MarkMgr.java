@@ -334,6 +334,11 @@ public class MarkMgr implements IMarkMgr{
 
     }
 
+    /**
+     * Prints the information about each of the components
+     * @param currentCourse The Course to have its components printed
+     * @param thisCourseMark The marks for this course
+     */
     private void printAssessmentComponent(Course currentCourse, ArrayList<Mark> thisCourseMark){
 
         int examWeight = 0;
@@ -386,6 +391,11 @@ public class MarkMgr implements IMarkMgr{
 
     }
 
+    /**
+     *  Prints the information about the exam component
+     * @param examWeight The exam weight (percentage)
+     * @param thisCourseMark The marks for this course
+     */
     private void printExamComponent (int examWeight, ArrayList<Mark> thisCourseMark ){
 
         double averageMark = 0 ;
