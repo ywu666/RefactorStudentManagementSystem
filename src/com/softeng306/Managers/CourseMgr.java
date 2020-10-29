@@ -41,7 +41,7 @@ public class CourseMgr implements ICourseMgr {
     public void addCourse() {
         String courseID;
         String courseName;
-        //int seatsLeft;
+
         // Can make the sameCourseID as boolean, set to false.
         do {
             System.out.println("Give this course an ID: ");

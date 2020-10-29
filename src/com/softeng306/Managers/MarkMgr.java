@@ -40,6 +40,9 @@ public class MarkMgr implements IMarkMgr{
     private final double C_MINUS_BOUNDARY = 50;
     private final double D_BOUNDARY = 45;
 
+    // maximum mark allowed
+    private final int MAX_MARK = 100;
+
     /**
      * Initializes marks for a student when he/she just registered a course.
      *
@@ -188,7 +191,7 @@ public class MarkMgr implements IMarkMgr{
                 System.out.println("Enter exam mark:");
                 examMark = scanner.nextDouble();
                 scanner.nextLine();
-                while (examMark > 100 || examMark < 0) {
+                while (examMark > MAX_MARK || examMark < 0) {
                     System.out.println("Please enter mark in range 0 ~ 100.");
                     examMark = scanner.nextDouble();
                     scanner.nextLine();
@@ -253,7 +256,7 @@ public class MarkMgr implements IMarkMgr{
         System.out.println("Enter the mark for this assessment:");
         assessmentMark = scanner.nextDouble();
         scanner.nextLine();
-        while (assessmentMark > 100 || assessmentMark < 0) {
+        while (assessmentMark > MAX_MARK || assessmentMark < 0) {
             System.out.println("Please enter mark in range 0 ~ 100.");
             assessmentMark = scanner.nextDouble();
             scanner.nextLine();

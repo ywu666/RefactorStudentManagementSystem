@@ -122,6 +122,7 @@ public class StudentMgr implements IStudentMgr {
         boolean studentIDUsed;
 
         do {
+            // generates a random number that represents ASCII value for a character between A and L
             int rand = (int) (Math.random() * ((76 - 65) + 1)) + 65;
             String lastPlace = Character.toString((char) rand);
             lastGeneratedIDNum += 1;

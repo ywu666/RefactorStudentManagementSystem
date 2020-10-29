@@ -14,6 +14,9 @@ public class CourseComponentMgr implements ICourseComponentMgr{
 
     private SupportCourseMgr supportCourseMgr;
 
+    // maximum exam weight allowed
+    private final double MAX_EXAM_WEIGHT = 80;
+
     @Override
     public void enterCourseWorkComponentWeightage(Course currentCourse) {
         // Assume when course is created, no components are added yet
@@ -126,8 +129,8 @@ public class CourseComponentMgr implements ICourseComponentMgr{
                 System.out.println("Please enter weight of the exam: ");
                 examWeight = scanner.nextInt();
                 scanner.nextLine();
-                while (examWeight > 80 || examWeight <= 0) {
-                    if (examWeight > 80 && examWeight <= 100) {
+                while (examWeight > MAX_EXAM_WEIGHT || examWeight <= 0) {
+                    if (examWeight > MAX_EXAM_WEIGHT && examWeight <= 100) {
                         System.out.println("According to the course assessment policy, final exam cannot take up more than 80%...");
                     }
                     System.out.println("Weight entered is invalid, please enter again: ");
