@@ -29,6 +29,17 @@ public class MarkMgr implements IMarkMgr{
     private final double SECOND_LOWERCLASS_BOUNDARY = 3.5;
     private final double THIRD_CLASS_BOUNDARY= 3;
 
+    // grade boundaries
+    private final double A_BOUNDARY = 85;
+    private final double A_MINUS_BOUNDARY = 80;
+    private final double B_PLUS_BOUNDARY = 75;
+    private final double B_BOUNDARY = 70;
+    private final double B_MINUS_BOUNDARY = 65;
+    private final double C_PLUS_BOUNDARY = 60;
+    private final double C_BOUNDARY = 55;
+    private final double C_MINUS_BOUNDARY = 50;
+    private final double D_BOUNDARY = 45;
+
     /**
      * Initializes marks for a student when he/she just registered a course.
      *
@@ -490,31 +501,31 @@ public class MarkMgr implements IMarkMgr{
      * @return the grade (in A, B ... )
      */
     private double gpaCalculator(double result) {
-        if (result > 85) {
+        if (result > A_BOUNDARY) {
             // A+, A
             return 5d;
-        } else if (result > 80) {
+        } else if (result > A_MINUS_BOUNDARY) {
             // A-
             return 4.5;
-        } else if (result > 75) {
+        } else if (result > B_PLUS_BOUNDARY) {
             // B+
             return 4d;
-        } else if (result > 70) {
+        } else if (result > B_BOUNDARY) {
             // B
             return 3.5;
-        } else if (result > 65) {
+        } else if (result > B_MINUS_BOUNDARY) {
             // B-
             return 3d;
-        } else if (result > 60) {
+        } else if (result > C_PLUS_BOUNDARY) {
             // C+
             return 2.5d;
-        } else if (result > 55) {
+        } else if (result > C_BOUNDARY) {
             // C
             return 2d;
-        } else if (result > 50) {
+        } else if (result > C_MINUS_BOUNDARY) {
             // D+
             return 1.5d;
-        } else if (result > 45) {
+        } else if (result > D_BOUNDARY) {
             // D
             return 1d;
         } else {
