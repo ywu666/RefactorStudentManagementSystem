@@ -33,7 +33,7 @@ public class CourseMgr implements ICourseMgr {
     private SupportProfessorMgr supportProfessorMgr;
 
     // the maximum number of academic units a course may have
-    private final int maxNumAU = 10;
+    private final int MAX_NUM_AU = 10;
 
     /**
      * Creates a new course and stores it in the file.
@@ -65,10 +65,13 @@ public class CourseMgr implements ICourseMgr {
         ArrayList<IGroup> tutorialGroups = new ArrayList<>();
         ArrayList<IGroup> labGroups = new ArrayList<>();
 
+        // sets up the lecture groups for the specified course
         int lecWeeklyHour = setLectureGroupsForCourse(totalSeats, AU, lectureGroups);
 
+        // sets up the tutorial groups for the specified course
         int tutWeeklyHour = setTutorialGroupsForCourse(totalSeats, AU, tutorialGroups);
 
+        // sets up the lab groups for the specified course
         int labWeeklyHour = setLabGroupsForCourse(totalSeats, AU, labGroups);
 
         //   set professor in charge
@@ -76,17 +79,10 @@ public class CourseMgr implements ICourseMgr {
 
 
         Course course = new Course(courseID, courseName, profInCharge, totalSeats, totalSeats, lectureGroups, tutorialGroups, labGroups, AU, courseDepartment, courseType, lecWeeklyHour, tutWeeklyHour, labWeeklyHour);
-        // ask user to input course component --- 1: yes, 2: no
-        int addCourseComponentChoice = promptUserToAddCourseComponent();
-        if (addCourseComponentChoice == 2) {
-            //add course into file without adding components
-            addCourseIntoFile(courseID, course, " is added, but assessment components are not initialized.");
-            return;
-        }
-        //        if 1: yes enter now and add course components
-        //initialize course component
-        ICourseComponentMgr courseComponentMgr = new CourseComponentMgr();
-        courseComponentMgr.enterCourseWorkComponentWeightage(course);
+
+        // sets up the course components for the specified course (if requested to do now)
+        setCourseComponentsForCourse(courseID, course);
+
         //add course into file
         addCourseIntoFile(courseID, course, " is added");
     }
@@ -387,7 +383,7 @@ public class CourseMgr implements ICourseMgr {
             if (scanner.hasNextInt()) {
                 AU = scanner.nextInt();
                 scanner.nextLine();
-                if (AU < 0 || AU > maxNumAU) {
+                if (AU < 0 || AU > MAX_NUM_AU) {
                     System.out.println("AU out of bound. Please re-enter.");
                 } else {
                     break;
@@ -459,6 +455,13 @@ public class CourseMgr implements ICourseMgr {
 
     }
 
+    /**
+     *
+     * @param totalSeats The total number of seats for this course
+     * @param AU The number of academic units
+     * @param lectureGroups The empty list of lecture groups
+     * @return number of lecture hours per week
+     */
     private int setLectureGroupsForCourse(int totalSeats, int AU, ArrayList<IGroup> lectureGroups) {
         /*      Lecture groups       */
         //  set number of lecture groups
@@ -491,6 +494,13 @@ public class CourseMgr implements ICourseMgr {
         return lecWeeklyHour;
     }
 
+    /**
+     *
+     * @param totalSeats The total number of seats for the course
+     * @param AU The number of academic units
+     * @param tutorialGroups The empty list of tutorial groups
+     * @return number of tutorial hours per week
+     */
     private int setTutorialGroupsForCourse(int totalSeats, int AU, ArrayList<IGroup> tutorialGroups) {
         /*   Tutorial groups    */
         int totalTutorialSeats = 0;
@@ -509,6 +519,13 @@ public class CourseMgr implements ICourseMgr {
         return tutWeeklyHour;
     }
 
+    /**
+     *
+     * @param totalSeats The total number of seats for this course
+     * @param AU The number of academic units
+     * @param labGroups The empty list of lab groups
+     * @return The number of lab hours per week
+     */
     private int setLabGroupsForCourse(int totalSeats, int AU, ArrayList<IGroup> labGroups) {
         /*         lab groups       */
         int totalLabSeats = 0;
@@ -528,6 +545,25 @@ public class CourseMgr implements ICourseMgr {
             totalLabSeats = getTotalLabSeats(totalSeats, totalLabSeats, noOfLabGroups, labGroups, labGroupName, i);
         }
         return labWeeklyHour;
+    }
+
+    /**
+     * Checks if the user would like the course components to be set up now and if so, calls the method to set them up
+     * @param courseID The course id of the course being added
+     * @param course The Course being added
+     */
+    private void setCourseComponentsForCourse(String courseID, Course course) {
+        // ask user to input course component --- 1: yes, 2: no
+        int addCourseComponentChoice = promptUserToAddCourseComponent();
+        if (addCourseComponentChoice == 2) {
+            //add course into file without adding components
+            addCourseIntoFile(courseID, course, " is added, but assessment components are not initialized.");
+            return;
+        }
+        //        if 1: yes enter now and add course components
+        //initialize course component
+        ICourseComponentMgr courseComponentMgr = new CourseComponentMgr();
+        courseComponentMgr.enterCourseWorkComponentWeightage(course);
     }
 
     public List<Course> getCourses() {
