@@ -41,7 +41,7 @@ public class CourseMgr implements ICourseMgr {
     public void addCourse() {
         String courseID;
         String courseName;
-        int seatsLeft;
+        //int seatsLeft;
         // Can make the sameCourseID as boolean, set to false.
         do {
             System.out.println("Give this course an ID: ");
@@ -58,75 +58,18 @@ public class CourseMgr implements ICourseMgr {
         int AU = setAU();
         // set department
         String courseDepartment = setDepartment();
-        //  set courseType
+        //  set courseType2
         String courseType = setCourseType();
 
-
-        /*      Lecture groups       */
-        //  set number of lecture groups
-        int noOfLectureGroups = setNoOfGroups(totalSeats, "lecture", "Number of lecture group must be positive but less than total seats in this course.");
-        //  set number of weekly lecture hours
-        int lecWeeklyHour = setWeeklyHour(AU, "lecture");
-
-
         ArrayList<IGroup> lectureGroups = new ArrayList<>();
-        String lectureGroupName;
-        int lectureGroupCapacity;
-        seatsLeft = totalSeats;
-        for (int i = 0; i < noOfLectureGroups; i++) {
-
-            lectureGroupName = setGroupName(lectureGroups, "lecture");
-            do {
-                //  set lecture group capacity
-                lectureGroupCapacity = setLectureGroupCapacity();
-                //  check if valid, if yes create new lecture group and add to array
-                seatsLeft -= lectureGroupCapacity;
-                if ((seatsLeft > 0 && i != (noOfLectureGroups - 1)) || (seatsLeft == 0 && i == noOfLectureGroups - 1)) {
-                    IGroup lectureGroup = new Group(lectureGroupName, lectureGroupCapacity, lectureGroupCapacity);
-                    lectureGroups.add(lectureGroup);
-                    break;
-                } else {
-                    System.out.println("Sorry, the total capacity you allocated for all the lecture groups exceeds or does not add up to the total seats for this course.");
-                    System.out.println("Please re-enter the capacity for the last lecture group " + lectureGroupName + " you have entered.");
-                    seatsLeft += lectureGroupCapacity;
-                }
-            } while (true);
-        }
-
-        /*   Tutorial groups    */
-        int totalTutorialSeats = 0;
-        // set number of tutorial groups
-        int noOfTutorialGroups = setNoOfGroups(totalSeats, "tutorial", "Number of tutorial group must be non-negative.");
-        // set tutorial weekly hours
-        int tutWeeklyHour = 0;
-        if (noOfTutorialGroups != 0) {
-            tutWeeklyHour = setWeeklyHour(AU, "tutorial");
-        }
         ArrayList<IGroup> tutorialGroups = new ArrayList<>();
-        String tutorialGroupName;
-        for (int i = 0; i < noOfTutorialGroups; i++) {
-            tutorialGroupName = setGroupName(tutorialGroups, "tutorial");
-            totalTutorialSeats = getTotalTutorialSeats(totalSeats, totalTutorialSeats, noOfTutorialGroups, tutorialGroups, tutorialGroupName, i);
-        }
-
-
-        /*         lab groups       */
-        int totalLabSeats = 0;
-        // set number of lab groups
-        int noOfLabGroups = setNoOfGroups(totalSeats, "lab", "Number of lab group must be non-negative.");
-        // set lab weekly hours
-        int labWeeklyHour = 0;
-        if (noOfLabGroups != 0) {
-            labWeeklyHour = setWeeklyHour(AU, "lab");
-        }
         ArrayList<IGroup> labGroups = new ArrayList<>();
-        String labGroupName;
-        for (int i = 0; i < noOfLabGroups; i++) {
-        //  set lab group name
-            labGroupName = setGroupName(labGroups, "lab");
-        //  set lab seats
-            totalLabSeats = getTotalLabSeats(totalSeats, totalLabSeats, noOfLabGroups, labGroups, labGroupName, i);
-        }
+
+        int lecWeeklyHour = setLectureGroupsForCourse(totalSeats, AU, lectureGroups);
+
+        int tutWeeklyHour = setTutorialGroupsForCourse(totalSeats, AU, tutorialGroups);
+
+        int labWeeklyHour = setLabGroupsForCourse(totalSeats, AU, labGroups);
 
         //   set professor in charge
         Professor profInCharge = setProfessorInCharge(courseDepartment);
@@ -514,6 +457,77 @@ public class CourseMgr implements ICourseMgr {
             }
         } while (true);
 
+    }
+
+    private int setLectureGroupsForCourse(int totalSeats, int AU, ArrayList<IGroup> lectureGroups) {
+        /*      Lecture groups       */
+        //  set number of lecture groups
+        int noOfLectureGroups = setNoOfGroups(totalSeats, "lecture", "Number of lecture group must be positive but less than total seats in this course.");
+        //  set number of weekly lecture hours
+        int lecWeeklyHour = setWeeklyHour(AU, "lecture");
+
+        String lectureGroupName;
+        int lectureGroupCapacity;
+        int seatsLeft = totalSeats;
+        for (int i = 0; i < noOfLectureGroups; i++) {
+
+            lectureGroupName = setGroupName(lectureGroups, "lecture");
+            do {
+                //  set lecture group capacity
+                lectureGroupCapacity = setLectureGroupCapacity();
+                //  check if valid, if yes create new lecture group and add to array
+                seatsLeft -= lectureGroupCapacity;
+                if ((seatsLeft > 0 && i != (noOfLectureGroups - 1)) || (seatsLeft == 0 && i == noOfLectureGroups - 1)) {
+                    IGroup lectureGroup = new Group(lectureGroupName, lectureGroupCapacity, lectureGroupCapacity);
+                    lectureGroups.add(lectureGroup);
+                    break;
+                } else {
+                    System.out.println("Sorry, the total capacity you allocated for all the lecture groups exceeds or does not add up to the total seats for this course.");
+                    System.out.println("Please re-enter the capacity for the last lecture group " + lectureGroupName + " you have entered.");
+                    seatsLeft += lectureGroupCapacity;
+                }
+            } while (true);
+        }
+        return lecWeeklyHour;
+    }
+
+    private int setTutorialGroupsForCourse(int totalSeats, int AU, ArrayList<IGroup> tutorialGroups) {
+        /*   Tutorial groups    */
+        int totalTutorialSeats = 0;
+        // set number of tutorial groups
+        int noOfTutorialGroups = setNoOfGroups(totalSeats, "tutorial", "Number of tutorial group must be non-negative.");
+        // set tutorial weekly hours
+        int tutWeeklyHour = 0;
+        if (noOfTutorialGroups != 0) {
+            tutWeeklyHour = setWeeklyHour(AU, "tutorial");
+        }
+        String tutorialGroupName;
+        for (int i = 0; i < noOfTutorialGroups; i++) {
+            tutorialGroupName = setGroupName(tutorialGroups, "tutorial");
+            totalTutorialSeats = getTotalTutorialSeats(totalSeats, totalTutorialSeats, noOfTutorialGroups, tutorialGroups, tutorialGroupName, i);
+        }
+        return tutWeeklyHour;
+    }
+
+    private int setLabGroupsForCourse(int totalSeats, int AU, ArrayList<IGroup> labGroups) {
+        /*         lab groups       */
+        int totalLabSeats = 0;
+        // set number of lab groups
+        int noOfLabGroups = setNoOfGroups(totalSeats, "lab", "Number of lab group must be non-negative.");
+        // set lab weekly hours
+        int labWeeklyHour = 0;
+        if (noOfLabGroups != 0) {
+            labWeeklyHour = setWeeklyHour(AU, "lab");
+        }
+
+        String labGroupName;
+        for (int i = 0; i < noOfLabGroups; i++) {
+            //  set lab group name
+            labGroupName = setGroupName(labGroups, "lab");
+            //  set lab seats
+            totalLabSeats = getTotalLabSeats(totalSeats, totalLabSeats, noOfLabGroups, labGroups, labGroupName, i);
+        }
+        return labWeeklyHour;
     }
 
     public List<Course> getCourses() {
