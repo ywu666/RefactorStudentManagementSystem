@@ -32,6 +32,9 @@ public class CourseMgr implements ICourseMgr {
 
     private SupportProfessorMgr supportProfessorMgr;
 
+    // the maximum number of academic units a course may have
+    private final int maxNumAU = 10;
+
     /**
      * Creates a new course and stores it in the file.
      */
@@ -441,7 +444,7 @@ public class CourseMgr implements ICourseMgr {
             if (scanner.hasNextInt()) {
                 AU = scanner.nextInt();
                 scanner.nextLine();
-                if (AU < 0 || AU > 10) {
+                if (AU < 0 || AU > maxNumAU) {
                     System.out.println("AU out of bound. Please re-enter.");
                 } else {
                     break;
