@@ -23,6 +23,12 @@ public class MarkMgr implements IMarkMgr{
     private SupportCourseMgr supportCourseMgr;
     private SupportStudentMgr supportStudentMgr;
 
+    // honours gpa boundaries
+    private final double FIRST_CLASS_BOUNDARY = 4.50;
+    private final double SECOND_UPPERCLASS_BOUNDARY = 4.0;
+    private final double SECOND_LOWERCLASS_BOUNDARY = 3.5;
+    private final double THIRD_CLASS_BOUNDARY= 3;
+
     /**
      * Initializes marks for a student when he/she just registered a course.
      *
@@ -462,13 +468,13 @@ public class MarkMgr implements IMarkMgr{
 
         studentGPA /= thisStudentAU;
         System.out.println("GPA for this semester: " + studentGPA);
-        if (studentGPA >= 4.50) {
+        if (studentGPA >= FIRST_CLASS_BOUNDARY) {
             System.out.println("On track of First Class Honor!");
-        } else if (studentGPA >= 4.0) {
+        } else if (studentGPA >= SECOND_UPPERCLASS_BOUNDARY) {
             System.out.println("On track of Second Upper Class Honor!");
-        } else if (studentGPA >= 3.5) {
+        } else if (studentGPA >= SECOND_LOWERCLASS_BOUNDARY) {
             System.out.println("On track of Second Lower Class Honor!");
-        } else if (studentGPA >= 3) {
+        } else if (studentGPA >= THIRD_CLASS_BOUNDARY) {
             System.out.println("On track of Third Class Honor!");
         } else {
             System.out.println("Advice: Study hard");
