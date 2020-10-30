@@ -73,7 +73,7 @@ public class Course {
     /**
      * The assessment components of this course.
      */
-    private ArrayList<MainComponent> mainComponents = new ArrayList<MainComponent>(0);
+    private ArrayList<MainComponent> mainComponents = new ArrayList<>(0);
 
 
     /**

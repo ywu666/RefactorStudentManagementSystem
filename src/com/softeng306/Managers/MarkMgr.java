@@ -23,6 +23,26 @@ public class MarkMgr implements IMarkMgr{
     private SupportCourseMgr supportCourseMgr;
     private SupportStudentMgr supportStudentMgr;
 
+    // honours gpa boundaries
+    private final double FIRST_CLASS_BOUNDARY = 4.50;
+    private final double SECOND_UPPERCLASS_BOUNDARY = 4.0;
+    private final double SECOND_LOWERCLASS_BOUNDARY = 3.5;
+    private final double THIRD_CLASS_BOUNDARY= 3;
+
+    // grade boundaries
+    private final double A_BOUNDARY = 85;
+    private final double A_MINUS_BOUNDARY = 80;
+    private final double B_PLUS_BOUNDARY = 75;
+    private final double B_BOUNDARY = 70;
+    private final double B_MINUS_BOUNDARY = 65;
+    private final double C_PLUS_BOUNDARY = 60;
+    private final double C_BOUNDARY = 55;
+    private final double C_MINUS_BOUNDARY = 50;
+    private final double D_BOUNDARY = 45;
+
+    // maximum mark allowed
+    private final int MAX_MARK = 100;
+
     /**
      * Initializes marks for a student when he/she just registered a course.
      *
@@ -171,7 +191,7 @@ public class MarkMgr implements IMarkMgr{
                 System.out.println("Enter exam mark:");
                 examMark = scanner.nextDouble();
                 scanner.nextLine();
-                while (examMark > 100 || examMark < 0) {
+                while (examMark > MAX_MARK || examMark < 0) {
                     System.out.println("Please enter mark in range 0 ~ 100.");
                     examMark = scanner.nextDouble();
                     scanner.nextLine();
@@ -236,7 +256,7 @@ public class MarkMgr implements IMarkMgr{
         System.out.println("Enter the mark for this assessment:");
         assessmentMark = scanner.nextDouble();
         scanner.nextLine();
-        while (assessmentMark > 100 || assessmentMark < 0) {
+        while (assessmentMark > MAX_MARK || assessmentMark < 0) {
             System.out.println("Please enter mark in range 0 ~ 100.");
             assessmentMark = scanner.nextDouble();
             scanner.nextLine();
@@ -317,6 +337,11 @@ public class MarkMgr implements IMarkMgr{
 
     }
 
+    /**
+     * Prints the information about each of the components
+     * @param currentCourse The Course to have its components printed
+     * @param thisCourseMark The marks for this course
+     */
     private void printAssessmentComponent(Course currentCourse, ArrayList<Mark> thisCourseMark){
 
         int examWeight = 0;
@@ -369,6 +394,11 @@ public class MarkMgr implements IMarkMgr{
 
     }
 
+    /**
+     *  Prints the information about the exam component
+     * @param examWeight The exam weight (percentage)
+     * @param thisCourseMark The marks for this course
+     */
     private void printExamComponent (int examWeight, ArrayList<Mark> thisCourseMark ){
 
         double averageMark = 0 ;
@@ -462,13 +492,13 @@ public class MarkMgr implements IMarkMgr{
 
         studentGPA /= thisStudentAU;
         System.out.println("GPA for this semester: " + studentGPA);
-        if (studentGPA >= 4.50) {
+        if (studentGPA >= FIRST_CLASS_BOUNDARY) {
             System.out.println("On track of First Class Honor!");
-        } else if (studentGPA >= 4.0) {
+        } else if (studentGPA >= SECOND_UPPERCLASS_BOUNDARY) {
             System.out.println("On track of Second Upper Class Honor!");
-        } else if (studentGPA >= 3.5) {
+        } else if (studentGPA >= SECOND_LOWERCLASS_BOUNDARY) {
             System.out.println("On track of Second Lower Class Honor!");
-        } else if (studentGPA >= 3) {
+        } else if (studentGPA >= THIRD_CLASS_BOUNDARY) {
             System.out.println("On track of Third Class Honor!");
         } else {
             System.out.println("Advice: Study hard");
@@ -484,31 +514,31 @@ public class MarkMgr implements IMarkMgr{
      * @return the grade (in A, B ... )
      */
     private double gpaCalculator(double result) {
-        if (result > 85) {
+        if (result > A_BOUNDARY) {
             // A+, A
             return 5d;
-        } else if (result > 80) {
+        } else if (result > A_MINUS_BOUNDARY) {
             // A-
             return 4.5;
-        } else if (result > 75) {
+        } else if (result > B_PLUS_BOUNDARY) {
             // B+
             return 4d;
-        } else if (result > 70) {
+        } else if (result > B_BOUNDARY) {
             // B
             return 3.5;
-        } else if (result > 65) {
+        } else if (result > B_MINUS_BOUNDARY) {
             // B-
             return 3d;
-        } else if (result > 60) {
+        } else if (result > C_PLUS_BOUNDARY) {
             // C+
             return 2.5d;
-        } else if (result > 55) {
+        } else if (result > C_BOUNDARY) {
             // C
             return 2d;
-        } else if (result > 50) {
+        } else if (result > C_MINUS_BOUNDARY) {
             // D+
             return 1.5d;
-        } else if (result > 45) {
+        } else if (result > D_BOUNDARY) {
             // D
             return 1d;
         } else {

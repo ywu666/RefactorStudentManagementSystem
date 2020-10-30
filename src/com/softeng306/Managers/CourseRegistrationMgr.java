@@ -35,9 +35,7 @@ public class CourseRegistrationMgr implements ICourseRegistrationMgr{
      */
     public void registerCourse() {
         System.out.println("registerCourse is called");
-        String selectedLectureGroupName = null;
-        String selectedTutorialGroupName = null;
-        String selectedLabGroupName = null;
+        String selectedLectureGroupName, selectedTutorialGroupName, selectedLabGroupName;
 
         Student currentStudent = supportStudentMgr.checkStudentExists();
         String studentID = currentStudent.getStudentID();
