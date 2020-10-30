@@ -29,6 +29,12 @@ public class StudentMgr implements IStudentMgr {
     private List<Student> students = studentFileMgr.loadFromFile();
     private SupportStudentMgr supportStudentMgr;
 
+    // the lower bound for the random letter
+    private final int FIRST_LETTER = 'A';
+
+    // the upper bound for the random letter
+    private final int LAST_LETTER = 'L';
+
     /**
      * Sets the lastGeneratedID variable of this  class. USed for generating new ID.
      *
@@ -122,11 +128,12 @@ public class StudentMgr implements IStudentMgr {
         boolean studentIDUsed;
 
         do {
-            // generates a random number that represents ASCII value for a character between A and L
-            int rand = (int) (Math.random() * ((76 - 65) + 1)) + 65;
-            String lastPlace = Character.toString((char) rand);
+            // generates a random number that represents the ASCII decimal value for a character between
+            // first_letter and last_letter
+            int rand = (int) (Math.random() * ((LAST_LETTER - FIRST_LETTER) + 1)) + FIRST_LETTER;
+            String lastPlaceLetter = Character.toString((char) rand);
             lastGeneratedIDNum += 1;
-            generateStudentID = "U" + lastGeneratedIDNum + lastPlace;
+            generateStudentID = "U" + lastGeneratedIDNum + lastPlaceLetter;
 
             studentIDUsed = false;
             for (Student student : students) {
