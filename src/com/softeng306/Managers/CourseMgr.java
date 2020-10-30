@@ -58,7 +58,7 @@ public class CourseMgr implements ICourseMgr {
         int AU = setAU();
         // set department
         String courseDepartment = setDepartment();
-        //  set courseType2
+        //  set courseType
         String courseType = setCourseType();
 
         ArrayList<IGroup> lectureGroups = new ArrayList<>();
@@ -73,6 +73,7 @@ public class CourseMgr implements ICourseMgr {
 
         // sets up the lab groups for the specified course
         int labWeeklyHour = setLabGroupsForCourse(totalSeats, AU, labGroups);
+
 
         //   set professor in charge
         Professor profInCharge = setProfessorInCharge(courseDepartment);
@@ -164,67 +165,38 @@ public class CourseMgr implements ICourseMgr {
     }
 
     /**
-     * Set total lab seats
-     * @param totalSeats    The total seats in course
-     * @param totalLabSeats The total lab seats in course
-     * @param noOfLabGroups Number of lab groups in course
-     * @param labGroups     Array containing labGroups
-     * @param labGroupName  Current labGroup
-     * @param i             index of lab group being added
-     * @return The total number of lab seats
+     * This methods the total lab or tutorial seats in a group
+     * @param totalSeats The total seats in a course
+     * @param totalGroupSeats The total Group seats that is updated
+     * @param noOfGroups The number of Groups for lab or tutorials
+     * @param Groups The List of Groups
+     * @param GroupName The name of group being assigned seats
+     * @param i The index of Group being updated
+     * @param typeOfGroup The type of group. "lab" or "tutorial"
+     * @return The capacity of group
      */
-    private int getTotalLabSeats(int totalSeats, int totalLabSeats, int noOfLabGroups, ArrayList<IGroup> labGroups, String labGroupName, int i) {
-        int labGroupCapacity;
+    private int getTotalLabTutorialGroupsSeats(int totalSeats, int totalGroupSeats, int noOfGroups, ArrayList<IGroup> Groups, String GroupName, int i, String typeOfGroup) {
+        int GroupCapacity;
         do {
-            System.out.println("Enter this lab group's capacity: ");
-            labGroupCapacity = scanner.nextInt();
-            scanner.nextLine();
-            totalLabSeats += labGroupCapacity;
-            if ((i != noOfLabGroups - 1) || (totalLabSeats >= totalSeats)) {
-                IGroup labGroup = new Group(labGroupName, labGroupCapacity, labGroupCapacity);
-                labGroups.add(labGroup);
-                break;
-            } else {
-                System.out.println("Sorry, the total capacity you allocated for all the lab groups is not enough for this course.");
-                System.out.println("Please re-enter the capacity for the last lab group " + labGroupName + " you have entered.");
-                totalLabSeats -= labGroupCapacity;
-            }
-        } while (true);
-        return totalLabSeats;
-    }
-
-    /**
-     * Set tutorial groups for course
-     * @param totalSeats         The total seats in course
-     * @param totalTutorialSeats The total tutorial seats in lab group
-     * @param noOfTutorialGroups The total number of tutorial groups
-     * @param tutorialGroups     The list of tutorial groups
-     * @param tutorialGroupName  The current name of the tutorial group
-     * @param i                  The index of current tutorial group
-     * @return The total tutorial seats in lab group
-     */
-    private int getTotalTutorialSeats(int totalSeats, int totalTutorialSeats, int noOfTutorialGroups, ArrayList<IGroup> tutorialGroups, String tutorialGroupName, int i) {
-        int tutorialGroupCapacity;
-        do {
-            System.out.println("Enter this tutorial group's capacity: ");
+            System.out.println("Enter this " + typeOfGroup +  " group's capacity: ");
             if (scanner.hasNextInt()) {
-                tutorialGroupCapacity = scanner.nextInt();
+                GroupCapacity = scanner.nextInt();
                 scanner.nextLine();
-                totalTutorialSeats += tutorialGroupCapacity;
-                if ((i != noOfTutorialGroups - 1) || (totalTutorialSeats >= totalSeats)) {
-                    IGroup tutorialGroup = new Group(tutorialGroupName, tutorialGroupCapacity, tutorialGroupCapacity);
-                    tutorialGroups.add(tutorialGroup);
+                totalGroupSeats += GroupCapacity;
+                if ((i != noOfGroups - 1) || (totalGroupSeats >= totalSeats)) {
+                    IGroup tutorialGroup = new Group(GroupName, GroupCapacity, GroupCapacity);
+                    Groups.add(tutorialGroup);
                     break;
                 } else {
-                    System.out.println("Sorry, the total capacity you allocated for all the tutorial groups is not enough for this course.");
-                    System.out.println("Please re-enter the capacity for the last tutorial group " + tutorialGroupName + " you have entered.");
-                    totalTutorialSeats -= tutorialGroupCapacity;
+                    System.out.println("Sorry, the total capacity you allocated for all the " + typeOfGroup + " groups is not enough for this course.");
+                    System.out.println("Please re-enter the capacity for the last tutorial group " + GroupName + " you have entered.");
+                    totalGroupSeats -= GroupCapacity;
                 }
             } else {
                 System.out.println("Your input " + scanner.nextLine() + " is not an integer.");
             }
         } while (true);
-        return totalTutorialSeats;
+        return totalGroupSeats;
     }
 
     /**
@@ -513,8 +485,10 @@ public class CourseMgr implements ICourseMgr {
         }
         String tutorialGroupName;
         for (int i = 0; i < noOfTutorialGroups; i++) {
+            // get tutorial group name name
             tutorialGroupName = setGroupName(tutorialGroups, "tutorial");
-            totalTutorialSeats = getTotalTutorialSeats(totalSeats, totalTutorialSeats, noOfTutorialGroups, tutorialGroups, tutorialGroupName, i);
+            //get total tutorial seats seats
+            totalTutorialSeats = getTotalLabTutorialGroupsSeats(totalSeats, totalTutorialSeats, noOfTutorialGroups, tutorialGroups, tutorialGroupName, i, "tutorial");
         }
         return tutWeeklyHour;
     }
@@ -536,13 +510,12 @@ public class CourseMgr implements ICourseMgr {
         if (noOfLabGroups != 0) {
             labWeeklyHour = setWeeklyHour(AU, "lab");
         }
-
         String labGroupName;
         for (int i = 0; i < noOfLabGroups; i++) {
             //  set lab group name
             labGroupName = setGroupName(labGroups, "lab");
             //  set lab seats
-            totalLabSeats = getTotalLabSeats(totalSeats, totalLabSeats, noOfLabGroups, labGroups, labGroupName, i);
+            totalLabSeats = getTotalLabTutorialGroupsSeats(totalSeats, totalLabSeats, noOfLabGroups, labGroups, labGroupName, i,"lab");
         }
         return labWeeklyHour;
     }
