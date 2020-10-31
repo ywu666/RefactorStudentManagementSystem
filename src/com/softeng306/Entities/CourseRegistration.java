@@ -6,6 +6,9 @@ import java.util.Comparator;
  * This class represents the registration of one student into one course.
  */
 public class CourseRegistration {
+
+    //Below comparators are used to order students when student lists are printed.
+
     public static Comparator<CourseRegistration> LecComparator = new Comparator<CourseRegistration>() {
         @Override
         public int compare(CourseRegistration o1, CourseRegistration o2) {
