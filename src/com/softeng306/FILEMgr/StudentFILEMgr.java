@@ -47,6 +47,11 @@ public class StudentFILEMgr extends FILEMgr<Student> {
      * The file name of studentFile.csv.
      */
     private static final String studentFileName = "data/studentFile.csv";
+
+    /**
+     * This method is intended to write a single student into the student file.
+     * @param student The student object to write.
+     */
     @Override
     public void writeIntoFile(Student student) {
 
@@ -74,6 +79,11 @@ public class StudentFILEMgr extends FILEMgr<Student> {
         }
     }
 
+    /**
+     * This method is intended to load all the information from the Student file into the system, and correctly
+     * load this information as Student objects.
+     * @return A list of the generated Student objects.
+     */
     @Override
     public List<Student> loadFromFile() {
         BufferedReader fileReader = null;

@@ -1,37 +1,39 @@
 studentID,courseID,courseWorkMarks,totalMark
-U1722744J,SE2001,Coursework=40=70.0=Assignment/70/100.0=ClassPart/30/0.0|Exam=60=100.0=,88.0
-U1234567L,SE2001,Coursework=40=88.0=Assignment/70/100.0=ClassPart/30/60.0|Exam=60=100.0=,95.2
-U1822832L,SE2005,Lab Assignments=40=75.0=Oral Assessment/25/90.0=Lab Report/75/70.0|Exam=60=75.0=,75.0
-U1723456K,SE2005,Exam=60=75.0=|Lab Assignments=40=75.0=Oral Assessment/25/90.0=Lab Report/75/70.0|,75.0
-U1234567J,SE2005,Lab Assignments=40=92.5=Oral Assessment/25/100.0=Lab Report/75/90.0|Exam=60=95.0=|,94.0
+U1722744J,SE2001,Coursework=40=70.0=Assignment/70/100.0=ClassPart/30/0.0|Exam=60=100.0=|,88.0
+U1234567L,SE2001,Exam=60=100.0=|Coursework=40=88.0=Assignment/70/100.0=ClassPart/30/60.0|,95.2
+U1822832L,SE2005,Exam=60=75.0=|Lab Assignments=40=75.0=Oral Assessment/25/90.0=Lab Report/75/70.0,75.0
+U1723456K,SE2005,Lab Assignments=40=75.0=Oral Assessment/25/90.0=Lab Report/75/70.0|Exam=60=75.0=|,75.0
+U1234567J,SE2005,Lab Assignments=40=92.5=Oral Assessment/25/100.0=Lab Report/75/90.0|Exam=60=95.0=,94.0
 U1822835D,SE2005,Exam=60=90.0=|Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|,88.0
-U1822836B,SE2005,Exam=60=90.0=|Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|,88.0
-U1822837K,SE2005,Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|Exam=60=90.0=,88.0
-U1822838J,SE2005,Exam=60=85.0=|Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|,85.0
-U1822839K,SE2005,Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|Exam=60=85.0=|,85.0
-U1822840D,SE2005,Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|Exam=60=85.0=|,85.0
-U1822841A,SE2005,Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|Exam=60=90.0=|,88.0
-U1822842F,SE2005,Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|Exam=60=90.0=,88.0
-U1822843I,SE2005,Exam=60=90.0=|Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|,88.0
-U1822821E,SE2005,Exam=60=90.0=|Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|,88.0
-U1712312B,SE2005,Lab Assignments=40=92.5=Oral Assessment/25/100.0=Lab Report/75/90.0|Exam=60=95.0=|,94.0
-U1812312D,SE2005,Lab Assignments=40=92.5=Oral Assessment/25/100.0=Lab Report/75/90.0|Exam=60=95.0=|,94.0
-U1829392I,SE2005,Lab Assignments=40=92.5=Oral Assessment/25/100.0=Lab Report/75/90.0|Exam=60=95.0=|,94.0
+U1822836B,SE2005,Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|Exam=60=90.0=,88.0
+U1822837K,SE2005,Exam=60=90.0=|Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0,88.0
+U1822838J,SE2005,Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|Exam=60=85.0=|,85.0
+U1822839K,SE2005,Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|Exam=60=85.0=,85.0
+U1822840D,SE2005,Exam=60=85.0=|Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|,85.0
+U1822841A,SE2005,Exam=60=90.0=|Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|,88.0
+U1822842F,SE2005,Exam=60=90.0=|Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|,88.0
+U1822843I,SE2005,Exam=60=90.0=|Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0,88.0
+U1822821E,SE2005,Lab Assignments=40=85.0=Oral Assessment/25/100.0=Lab Report/75/80.0|Exam=60=90.0=,88.0
+U1712312B,SE2005,Exam=60=95.0=|Lab Assignments=40=92.5=Oral Assessment/25/100.0=Lab Report/75/90.0,94.0
+U1812312D,SE2005,Exam=60=95.0=|Lab Assignments=40=92.5=Oral Assessment/25/100.0=Lab Report/75/90.0|,94.0
+U1829392I,SE2005,Exam=60=95.0=|Lab Assignments=40=92.5=Oral Assessment/25/100.0=Lab Report/75/90.0|,94.0
 U1822023E,SE2005,Exam=60=80.0=|Lab Assignments=40=65.0=Oral Assessment/25/80.0=Lab Report/75/60.0,74.0
-U1829393K,SE2005,Lab Assignments=40=65.0=Oral Assessment/25/80.0=Lab Report/75/60.0|Exam=60=80.0=,74.0
-U1722744J,SE2005,Lab Assignments=40=65.0=Oral Assessment/25/80.0=Lab Report/75/60.0|Exam=60=80.0=|,74.0
-U1800001L,SE2005,Lab Assignments=40=75.0=Oral Assessment/25/90.0=Lab Report/75/70.0|Exam=60=75.0=,75.0
-U1800001L,SE2001,Exam=60=95.0=|Coursework=40=100.0=Assignment/70/100.0=ClassPart/30/100.0,97.0
-U1800001L,SE1006,Exam=60=80.0=|Course Work=40=86.0=Assignment/70/80.0=Paticipation/30/100.0,82.4
-U1800001L,SE2007,Exam=60=88.0=|Coursework=40=93.0=Labwork/70/90.0=Presentation/30/100.0|,90.0
-U1822836B,SE1006,Course Work=40=0.0=Assignment/70/0.0=Paticipation/30/0.0|Exam=60=0.0=|,0.0
+U1829393K,SE2005,Exam=60=80.0=|Lab Assignments=40=65.0=Oral Assessment/25/80.0=Lab Report/75/60.0,74.0
+U1722744J,SE2005,Lab Assignments=40=65.0=Oral Assessment/25/80.0=Lab Report/75/60.0|Exam=60=80.0=,74.0
+U1800001L,SE2005,Exam=60=75.0=|Lab Assignments=40=75.0=Oral Assessment/25/90.0=Lab Report/75/70.0,75.0
+U1800001L,SE2001,Coursework=40=100.0=Assignment/70/100.0=ClassPart/30/100.0|Exam=60=95.0=,97.0
+U1800001L,SE1006,Exam=60=80.0=|Course Work=40=86.0=Assignment/70/80.0=Paticipation/30/100.0|,82.4
+U1800001L,SE2007,Coursework=40=93.0=Labwork/70/90.0=Presentation/30/100.0|Exam=60=88.0=,90.0
+U1822836B,SE1006,Exam=60=0.0=|Course Work=40=0.0=Assignment/70/0.0=Paticipation/30/0.0|,0.0
 U1800001L,SE0001,CourseWork=40=0.0=|Exam=60=0.0=,0.0
 U1723456K,SE0001,CourseWork=40=0.0=|Exam=60=0.0=,0.0
 U1234567J,SE0001,Exam=60=0.0=|CourseWork=40=0.0=,0.0
 U1822835D,SE0001,CourseWork=40=0.0=|Exam=60=0.0=,0.0
-U1822836B,SE0001,Exam=60=0.0=|CourseWork=40=0.0=,0.0
-U1822837K,SE0001,Exam=60=0.0=|CourseWork=40=0.0=,0.0
-U1822838J,SE0001,Exam=60=0.0=|CourseWork=40=0.0=,0.0
+U1822836B,SE0001,CourseWork=40=0.0=|Exam=60=0.0=,0.0
+U1822837K,SE0001,CourseWork=40=0.0=|Exam=60=0.0=,0.0
+U1822838J,SE0001,CourseWork=40=0.0=|Exam=60=0.0=,0.0
 U1822839K,SE0001,CourseWork=40=0.0=|Exam=60=0.0=,0.0
-U1822840D,SE0001,Exam=60=0.0=|CourseWork=40=0.0=,0.0
-U1822841A,SE0001,CourseWork=40=0.0=|Exam=60=0.0=,0.0
+U1822840D,SE0001,CourseWork=40=0.0=|Exam=60=0.0=,0.0
+U1822841A,SE0001,Exam=60=0.0=|CourseWork=40=0.0=,0.0
+U1800001L,SE2002,Exam=60=0.0=|Labs=10=85.0=Lab1/50/80.0=Lab2/50/90.0|Assignment=30=75.0=|,31.0
+U1234567L,SE2002,Exam=60=80.0=|Assignment=30=90.0=|Labs=10=47.5=Lab1/50/95.0=Lab2/50/0.0,79.75

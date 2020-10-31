@@ -32,6 +32,11 @@ public class ProfessorFILEMgr extends FILEMgr<Professor> {
      */
     private static final String professorFileName = "data/professorFile.csv";
 
+    /**
+     * This method is intended to load all the information from the Professor file into the system, and correctly
+     * load this information as Professor objects.
+     * @return A list of the generated Professor objects.
+     */
     @Override
     public List<Professor> loadFromFile() {
         BufferedReader fileReader = null;
@@ -58,6 +63,10 @@ public class ProfessorFILEMgr extends FILEMgr<Professor> {
         return professors;
     }
 
+    /**
+     * Professors can not be added during run time, so throw an exception if there is an attempt to access this method.
+     * @param object Professor to add.
+     */
     @Override
     public void writeIntoFile(Professor object) {
         throw new RuntimeException(this.getClass().getSimpleName() + " Cant be added by user");

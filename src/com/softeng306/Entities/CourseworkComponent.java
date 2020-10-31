@@ -1,5 +1,8 @@
 package com.softeng306.Entities;
 
+/**
+ * Interface for implementing a coursework component element.
+ */
 public interface CourseworkComponent {
     /**
      * Gets the component name
