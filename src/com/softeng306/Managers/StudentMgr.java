@@ -253,10 +253,18 @@ public class StudentMgr implements IStudentMgr {
         }
     }
 
+    /**
+     * Retrieves all students in the system
+     * @return List of Student objects
+     */
     public List<Student> getStudents() {
         return students;
     }
 
+    /**
+     * Assign support student manager
+     * @param supportStudentMgr
+     */
     public void setSupportStudentMgr(SupportStudentMgr supportStudentMgr) {
         this.supportStudentMgr = supportStudentMgr;
     }

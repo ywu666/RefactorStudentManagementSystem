@@ -6,6 +6,9 @@ import com.softeng306.Entities.Professor;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class is intended to support the ProfessorMgr with peripheral functions, such as input validation.
+ */
 public class SupportProfessorMgr extends SupportDepartmentMgr {
 
     private IProfessorMgr professorMgr;

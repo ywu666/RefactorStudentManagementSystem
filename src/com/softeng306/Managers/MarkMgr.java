@@ -11,7 +11,6 @@ import java.util.*;
 /**
  * Manages all the mark related operations.
  */
-
 public class MarkMgr implements IMarkMgr{
     private static Scanner scanner = new Scanner(System.in);
     private MarkFILEMgr markFILEMgr = new MarkFILEMgr();
@@ -207,7 +206,10 @@ public class MarkMgr implements IMarkMgr{
         System.out.println("This student haven't registered " + courseID);
     }
 
-    //move to the support class
+    /**
+     * Prints choices for coursework marks
+     * @param mark The Mark being handled
+     */
     private void printChoicesForCourseWorkMark(Mark mark){
         ArrayList<String> availableChoices = new ArrayList<>(0);
         ArrayList<Double> weights = new ArrayList<>(0);
@@ -548,18 +550,34 @@ public class MarkMgr implements IMarkMgr{
 
     }
 
+    /**
+     * Add a new mark
+     * @param mark Mark object to add.
+     */
     public void addMark(Mark mark) {
         marks.add(mark);
     }
 
+    /**
+     * Retrieve all marks in system.
+     * @return List of Mark objects
+     */
     public List<Mark> getMarks() {
         return marks;
     }
 
+    /**
+     * Assign support course manager.
+     * @param supportCourseMgr
+     */
     public void setSupportCourseMgr(SupportCourseMgr supportCourseMgr) {
         this.supportCourseMgr = supportCourseMgr;
     }
 
+    /**
+     * Assign support student manager.
+     * @param supportStudentMgr
+     */
     public void setSupportStudentMgr(SupportStudentMgr supportStudentMgr) {
         this.supportStudentMgr = supportStudentMgr;
     }

@@ -9,6 +9,10 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This class is intended to hold supporting methods related to the Department enum and its use
+ * throughout the code.
+ */
 public abstract class SupportDepartmentMgr {
 
     protected static Scanner scanner = new Scanner(System.in);

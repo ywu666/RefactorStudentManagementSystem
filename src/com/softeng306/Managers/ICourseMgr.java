@@ -5,7 +5,9 @@ import com.softeng306.SupportMgr.SupportCourseMgr;
 import com.softeng306.SupportMgr.SupportProfessorMgr;
 
 import java.util.List;
-
+/**
+ * Interface for implementing a course manager.
+ */
 public interface ICourseMgr {
 
     void addCourse();

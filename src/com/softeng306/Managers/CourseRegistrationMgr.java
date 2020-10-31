@@ -13,7 +13,9 @@ import static com.softeng306.Entities.CourseRegistration.LabComparator;
 import static com.softeng306.Entities.CourseRegistration.LecComparator;
 import static com.softeng306.Entities.CourseRegistration.TutComparator;
 
-
+/**
+ * This class acts as a manager for all the Course Registration objects
+ */
 public class CourseRegistrationMgr implements ICourseRegistrationMgr{
     private static final Scanner scanner = new Scanner(System.in);
     private static final FILEMgr<CourseRegistration> courseRegistrationFILEMgr = new CourseRegistrationFILEMgr();
@@ -251,22 +253,42 @@ public class CourseRegistrationMgr implements ICourseRegistrationMgr{
         return selectedGroupName;
     }
 
+    /**
+     * Assigns the mark manager
+     * @param markMgr
+     */
     public void setMarkMgr(IMarkMgr markMgr) {
         this.markMgr = markMgr;
     }
 
+    /**
+     * Retrieves all course registrations in the system
+     * @return List of Course Registration objects
+     */
     public List<CourseRegistration> getCourseRegistrations() {
         return courseRegistrations;
     }
 
+    /**
+     * Assign Support Course Registration Managers
+     * @param supportCourseRegistrationMgr
+     */
     public void setSupportCourseRegistrationMgr(SupportCourseRegistrationMgr supportCourseRegistrationMgr) {
         this.supportCourseRegistrationMgr = supportCourseRegistrationMgr;
     }
 
+    /**
+     * Assign Support Course manager
+     * @param supportCourseMgr
+     */
     public void setSupportCourseMgr(SupportCourseMgr supportCourseMgr) {
         this.supportCourseMgr = supportCourseMgr;
     }
 
+    /**
+     * Assign Supoort Student manager
+     * @param supportStudentMgr
+     */
     public void setSupportStudentMgr(SupportStudentMgr supportStudentMgr) {
         this.supportStudentMgr = supportStudentMgr;
     }

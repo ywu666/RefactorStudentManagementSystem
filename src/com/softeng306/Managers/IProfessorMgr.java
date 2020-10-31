@@ -5,6 +5,9 @@ import com.softeng306.SupportMgr.SupportProfessorMgr;
 
 import java.util.List;
 
+/**
+ * Interface for implementing a professor manager.
+ */
 public interface IProfessorMgr {
 
     List<String> printProfInDepartment(String department, boolean printOut);
