@@ -4,6 +4,8 @@ Kia ora, we are Team 9 and this is our refactored student management system.
 
 This system provides functionality for managing a school.
 
+We managed our project through a combination of Github, Trello, Google Drive, Zoom, and Facebook Messenger.
+
 
 ## Team
 | GitHub Username | Full Name | UPI |
@@ -37,7 +39,8 @@ When being prompted for the school or gender, you can press '-h' to see a list o
 This allows the user to add a course.
 First, a course ID must be entered - this should have the format of 2 letters followed by 4 numbers.
 Then the user will be prompted to enter a name, course vacancy, number of academic units, 
-department, course type, number of lecture groups, lecture hours, names and capacities for lecture groups,
+department, course type, number of lecture groups, lecture hours,
+names and capacities for lecture groups,
 number of tutorial groups, tutorial hours, names and capacities for tutorial groups,
 number of lab groups, lab hours, names and capacities for lab groups,
 and professor in charge or course.
