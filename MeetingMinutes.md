@@ -100,7 +100,7 @@ Zoom Link: https://us04web.zoom.us/j/79101387494?pwd=UEY3clVBU2lEUFRrMEZoeVh3T2h
 | Before Next Meeting | identify design smells, have them explained in CONTEXT, propose potential solution/s (ideally how fixes could be implemented in UML and/or code) - solutions linked to SOLID principles. |
 | Next Meeting | Saturday 2pm |
 
-##Meeting Ten
+## Meeting Ten
 15/10/20 <br>
 Participants: All <br>
 
@@ -111,7 +111,7 @@ Participants: All <br>
 |Task Allocation| Hana, Kevin, Yujia to work on UML overall structure. Saturday at 3pm meeting. Again Sunday with Anmol to review. Anmol suggests longer to work on UML than one day. Doesn’t have to be 100% finalised at this stage because the project still fluid.<br>Others start working on a report, keep looking for design smells. Start playing around with the code.
 |Next Meeting(s) | Saturday at 3pm - Hana, Kevin, Yujia UML <br> Sunday 3pm - Hana, Kevin, Yujia, Anmol UML <br> Full team 20 October|
 
-##Meeting Eleven
+## Meeting Eleven
 20/10/20 <br>
 Participants: All <br>
 
@@ -122,7 +122,7 @@ Participants: All <br>
 | Next Steps | Continue work on report <br> Start code refactoring: <br> FileMGR split up - Yujia, Kevin <br> Object manager interfaces - Callum <br> Moving the validation & help MGR methods to Object manager classes - Yujia, Kevin <br> Object manager class - Xinyi, Anmol |
 |Next Meeting | 23 Oct 2pm|
 
-##Meeting Twelve 
+## Meeting Twelve 
 23/10/20 <br>
 Participants: All <br>
 
@@ -133,7 +133,7 @@ Participants: All <br>
 | Allocating tasks | <br> Kevin - merge in validation stuff <br> Sarah & Hana - file manager changes <br> Kevin & Yujia & Xinyi - create support managers <br> Anmol - course component manager & group refactoring <br> Hana - Collate changes that have been made <br> Callum - arrays out of main into managers <br> Xinyi - testing functionality <br> Sarah - skim over code for anything missed |
 | Next meeting | 26 Oct 2pm |
 
-##Meeting Thirteen
+## Meeting Thirteen
 26/10/20 <br>
 Participants: All <br>
 
@@ -143,7 +143,7 @@ Participants: All <br>
 | To Do |Code: <br> Package for objects - Sarah <br> Add documentation - Sarah and Hana <br> Often concrete classes are instantiated, but it should be interfaces instead - Hana & Sarah <br> Changing ArrayList to List - Hana & Sarah  <br> Components - Make abstract class an interface and implement in two classes <br> <br> Report: <br> Intro/Conclusion - Anmol <br> Design smells - Sarah <br> SOLID Principles - Callum, Hana, Sarah <br> Metric Analysis - Yujia, Xinyi, Kevin <br> Overall comparison/design analysis - Kevin, Hana <br> Format - Hana <br> Editing - Hana, Anmol<br><br>Metric calculation: <br> Metrics will be split into same groups as they were the first time <br> Metrics will be done after UML<br><br> UML diagram - Anmol |
 | Next Meeting | 28 Oct 2pm|
 
-##Meeting Thirteen
+## Meeting Thirteen
 28/10/20 <br>
 Participants: All <br>
 
@@ -153,7 +153,7 @@ Participants: All <br>
 |To Do| Responsibilities list, continue tasks from last meeting|
 |Next Meeting| Friday 2pm|
 
-##Meeting Fourteen
+## Meeting Fourteen
 30/10/20 <br>
 Participants: All <br>
 
@@ -163,7 +163,7 @@ Participants: All <br>
 | To Do |For everyone to do: (in the report) <br> Have a skim read through <br> Check the design smell you originally investigated <br> Check the parts of the report that are directly related to the code you refactored <br> Check your name in the participation table <br> When you have done all of the above, just send a confirmation message to the chat <br> <br> Double check the functionality of software. |
 | Next Meeting| 31 Oct 2pm|
 
-##Meeting Fifteen
+## Meeting Fifteen
 31/10/20 <br>
 Participants: All <br>
 
