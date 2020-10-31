@@ -6,6 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This abstract class is intended for individual file managers to extend so they can access shared methods.
+ * @param <T>
+ */
 public abstract class FILEMgr<T> {
     /**
      * The string of {@code COMMA_DELIMITER}.
@@ -41,6 +45,13 @@ public abstract class FILEMgr<T> {
 
     public abstract void writeIntoFile(T object);
 
+    /**
+     * Initialises the FileWriter for file managers.
+     * @param fileName String name of the file being accessed.
+     * @param header String header of the file being accessed.
+     * @return FileWriter object
+     * @throws IOException
+     */
     public FileWriter initialiseFileWriter(String fileName, String header) throws IOException {
         File file = new File(fileName);
         //initialize file header if have not done so
@@ -52,6 +63,10 @@ public abstract class FILEMgr<T> {
         return fileWriter;
     }
 
+    /**
+     * Attempt to close the FileWriter
+     * @param fileWriter
+     */
     public void printFinallyBlock(FileWriter fileWriter) {
         if (fileWriter == null) return;
 
@@ -64,6 +79,10 @@ public abstract class FILEMgr<T> {
         }
     }
 
+    /**
+     * Attempt to close the FileReader
+     * @param fileReader
+     */
     public void printFinallyBlock(BufferedReader fileReader) {
         if (fileReader == null) return;
 

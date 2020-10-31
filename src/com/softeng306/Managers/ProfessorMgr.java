@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 
 /**
  * Manages all the professor related operations
- *
-
  */
 public class ProfessorMgr implements IProfessorMgr {
     private SupportProfessorMgr supportProfessorMgr = new SupportProfessorMgr(this);
@@ -40,10 +38,18 @@ public class ProfessorMgr implements IProfessorMgr {
 
     }
 
+    /**
+     * Assign support professor manager
+     * @param supportProfessorMgr
+     */
     public void setSupportProfessorMgr(SupportProfessorMgr supportProfessorMgr) {
         this.supportProfessorMgr = supportProfessorMgr;
     }
 
+    /**
+     * Retrieves all professors in the system
+     * @return List of professor objects.
+     */
     public List<Professor> getProfessors() {
         return professors;
     }

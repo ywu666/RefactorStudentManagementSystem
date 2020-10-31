@@ -8,6 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentFILEMgr extends FILEMgr<Student> {
+
+    /**
+     * This is the starting point for student IDs. 18 is a reference to 2018, while the following digits
+     * are used to create a unique identifier. Generated IDs will start at this base ID.
+     */
+    private static final int BASE_ID = 1800000;
+
     /**
      * The index of the student ID in studentFile.csv.
      */
@@ -47,6 +54,12 @@ public class StudentFILEMgr extends FILEMgr<Student> {
      * The file name of studentFile.csv.
      */
     private static final String studentFileName = "data/studentFile.csv";
+
+
+    /**
+     * This method is intended to write a single student into the student file.
+     * @param student The student object to write.
+     */
     @Override
     public void writeIntoFile(Student student) {
 
@@ -74,6 +87,11 @@ public class StudentFILEMgr extends FILEMgr<Student> {
         }
     }
 
+    /**
+     * This method is intended to load all the information from the Student file into the system, and correctly
+     * load this information as Student objects.
+     * @return A list of the generated Student objects.
+     */
     @Override
     public List<Student> loadFromFile() {
         BufferedReader fileReader = null;
@@ -98,7 +116,7 @@ public class StudentFILEMgr extends FILEMgr<Student> {
             // Set the recent student ID, let the newly added student have the ID onwards.
             // If there is no student in DB, set recentStudentID to 1800000 (2018 into Uni)
 
-            StudentMgr.setLastGeneratedIDNum(recentStudentID > 0 ? recentStudentID : 1800000);
+            StudentMgr.setLastGeneratedIDNum(recentStudentID > 0 ? recentStudentID : BASE_ID);
 
         } catch (Exception e) {
             System.out.println("Error occurs when loading students.");

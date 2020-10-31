@@ -7,6 +7,9 @@ import com.softeng306.Managers.ICourseRegistrationMgr;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class is intended to support the CourseRegistrationMgr with peripheral functions, such as input validation.
+ */
 public class SupportCourseRegistrationMgr extends SupportDepartmentMgr{
 
     private ICourseRegistrationMgr courseRegistrationMgr;

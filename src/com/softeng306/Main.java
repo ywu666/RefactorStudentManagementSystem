@@ -9,22 +9,18 @@ import com.softeng306.SupportMgr.SupportStudentMgr;
 
 import java.util.Scanner;
 
+/**
+ * This is the main class for running the student management system.
+ */
 public class Main {
     public static Scanner scanner = new Scanner(System.in);
 
-    /*
-        Declare Object managers
-     */
+    //Fields store references to all of the manager classes.
     private static final ICourseMgr courseMgr = new CourseMgr();
-
     private static final IMarkMgr markMgr = new MarkMgr();
-
     private static final IStudentMgr studentMgr = new StudentMgr();
-
     private static final ICourseRegistrationMgr courseRegistrationMgr = new CourseRegistrationMgr();
-
     private static final IProfessorMgr professorMgr = new ProfessorMgr();
-
     private static final ICourseComponentMgr courseComponentMgr = new CourseComponentMgr();
 
 

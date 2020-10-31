@@ -9,6 +9,9 @@ import com.softeng306.SupportMgr.SupportCourseMgr;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This class acts as a manager for the Course Component objects.
+ */
 public class CourseComponentMgr implements ICourseComponentMgr{
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -17,6 +20,10 @@ public class CourseComponentMgr implements ICourseComponentMgr{
     // maximum exam weight allowed
     private final double MAX_EXAM_WEIGHT = 80;
 
+    /**
+     * Get user to enter a weightings for course components.
+     * @param currentCourse The course to add weightings for.
+     */
     @Override
     public void enterCourseWorkComponentWeightage(Course currentCourse) {
         // Assume when course is created, no components are added yet
@@ -259,6 +266,10 @@ public class CourseComponentMgr implements ICourseComponentMgr{
         return numberOfMain;
     }
 
+    /**
+     * Set the Support manager for the CourseComponent Manager.
+     * @param supportCourseMgr
+     */
     public void setSupportCourseMgr(SupportCourseMgr supportCourseMgr) {
         this.supportCourseMgr = supportCourseMgr;
     }

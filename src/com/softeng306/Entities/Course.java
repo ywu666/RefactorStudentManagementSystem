@@ -2,7 +2,9 @@ package com.softeng306.Entities;
 
 import java.util.ArrayList;
 
-
+/**
+ * This class represents a Course.
+ */
 public class Course {
     /**
      * The ID of this course.

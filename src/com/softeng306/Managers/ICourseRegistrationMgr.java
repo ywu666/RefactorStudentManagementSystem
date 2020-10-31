@@ -7,6 +7,9 @@ import com.softeng306.SupportMgr.SupportStudentMgr;
 
 import java.util.List;
 
+/**
+ * Interface for implementing a course registration manager.
+ */
 public interface ICourseRegistrationMgr {
 
     void registerCourse();

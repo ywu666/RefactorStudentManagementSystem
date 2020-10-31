@@ -12,7 +12,9 @@ import com.softeng306.SupportMgr.SupportProfessorMgr;
 import java.util.*;
 import java.io.PrintStream;
 import java.io.OutputStream;
-
+/**
+ * This class acts as a manager for Course objects.
+ */
 public class CourseMgr implements ICourseMgr {
     private static final Scanner scanner = new Scanner(System.in);
     private static final PrintStream originalStream = System.out;
@@ -539,19 +541,34 @@ public class CourseMgr implements ICourseMgr {
         courseComponentMgr.enterCourseWorkComponentWeightage(course);
     }
 
+    /**
+     * Retrieves a list of all courses
+     * @return List of all courses in the system.
+     */
     public List<Course> getCourses() {
         return courses;
     }
 
-
+    /**
+     * Sets the professor manager
+     * @param professorMgr ProfessorMgr class
+     */
     public void setProfessorMgr(IProfessorMgr professorMgr) {
         this.professorMgr = professorMgr;
     }
 
+    /**
+     * Set the support professor managers
+     * @param supportProfessorMgr SupportProfessorMgr class
+     */
     public void setSupportProfessorMgr(SupportProfessorMgr supportProfessorMgr) {
         this.supportProfessorMgr = supportProfessorMgr;
     }
 
+    /**
+     * Set the support course manager
+     * @param supportCourseMgr SupportCourseManager object
+     */
     public void setSupportCourseMgr(SupportCourseMgr supportCourseMgr) {
         this.supportCourseMgr = supportCourseMgr;
     }

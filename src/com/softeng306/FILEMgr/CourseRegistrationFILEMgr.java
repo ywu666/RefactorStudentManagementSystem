@@ -7,7 +7,9 @@ import com.softeng306.Entities.Student;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * This class deals with loading information from and writing information to the Course Registration file.
+ */
 public class CourseRegistrationFILEMgr extends FILEMgr<CourseRegistration> {
     /**
      * The index of studentID in courseRegistrationFile.csv.
@@ -44,6 +46,10 @@ public class CourseRegistrationFILEMgr extends FILEMgr<CourseRegistration> {
      */
     private static final String courseRegistration_HEADER = "studentID,courseID,lectureGroup,tutorialGroup,labGroup";
 
+    /**
+     * This method is intended to write a single registration to the course registration file.
+     * @param courseRegistration CourseRegistration object to write to file.
+     */
     @Override
     public void writeIntoFile(CourseRegistration courseRegistration) {
         FileWriter fileWriter = null;
@@ -69,6 +75,11 @@ public class CourseRegistrationFILEMgr extends FILEMgr<CourseRegistration> {
 
     }
 
+    /**
+     * This method is intended to load all the information from the Course Registration file into the system, and correctly
+     * load this information as Course Registration objects.
+     * @return A list of the generated CourseRegistration objects.
+     */
     @Override
     public List<CourseRegistration> loadFromFile() {
         BufferedReader fileReader = null;
@@ -78,9 +89,6 @@ public class CourseRegistrationFILEMgr extends FILEMgr<CourseRegistration> {
             Student currentStudent = null;
             Course currentCourse = null;
 
-            /*
-             * This part is changed due to refactor
-             */
             StudentFILEMgr studentFILEMgr = new StudentFILEMgr();
             List<Student> students = studentFILEMgr.loadFromFile();
 
@@ -100,9 +108,6 @@ public class CourseRegistrationFILEMgr extends FILEMgr<CourseRegistration> {
                     }
                     String courseID = tokens[courseIdInRegistrationIndex];
 
-                    /*
-                     * This part is changed due to refactor
-                     */
                     CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
                     List<Course> courses = courseFILEMgr.loadFromFile();
 

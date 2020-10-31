@@ -77,6 +77,9 @@ public class Mark {
         return totalMark;
     }
 
+    /**
+     * Sets the total mark of this student mark record.
+     */
     public void setTotalMark(double totalMark) {
         this.totalMark = totalMark;
     }

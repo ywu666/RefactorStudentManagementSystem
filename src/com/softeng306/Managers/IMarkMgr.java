@@ -9,6 +9,9 @@ import com.softeng306.SupportMgr.SupportStudentMgr;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Interface for implementing a mark manager.
+ */
 public interface IMarkMgr {
 
     Mark initializeMark(Student student, Course course);

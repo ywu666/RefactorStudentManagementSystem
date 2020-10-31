@@ -12,6 +12,9 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * This class is intended to support the CourseMgr with peripheral functions, such as input validation.
+ */
 public class SupportCourseMgr extends SupportDepartmentMgr {
 
     public SupportCourseMgr(ICourseMgr courseMgr) {

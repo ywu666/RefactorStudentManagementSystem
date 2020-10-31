@@ -8,7 +8,9 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-
+/**
+ * This class is intended to support the StudentMgr with peripheral functions, such as input validation.
+ */
 public class SupportStudentMgr extends SupportDepartmentMgr {
 
     private IStudentMgr studentMgr;

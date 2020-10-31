@@ -1,5 +1,8 @@
 package com.softeng306.Entities;
 
+/**
+ * Interface for implementing an enrolment 'group'.
+ */
 public interface IGroup {
     /**
      * Gets the name of this group.

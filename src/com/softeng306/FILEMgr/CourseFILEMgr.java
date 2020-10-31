@@ -7,7 +7,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * This class deals with loading information from and writing information to the Course file.
+ */
 public class CourseFILEMgr extends FILEMgr<Course> {
+
+    /**
+     * The index of the course ID in courseFile.csv.
+     */
+    private static final int courseIdIndex = 0;
+
+    /**
+     * The index of the course name in courseFile.csv.
+     */
+    private static final int courseNameIndex = 1;
+
+    /**
+     * The index of the professor in charge of this course in courseFile.csv.
+     */
+    private static final int profInChargeIndex = 2;
+
     /**
      * The index of course vacancies in courseFile.csv.
      */
@@ -54,16 +73,6 @@ public class CourseFILEMgr extends FILEMgr<Course> {
     private static final int courseTypeIndex = 11;
 
     /**
-     * The index of the course ID in courseFile.csv.
-     */
-    private static final int courseIdIndex = 0;
-
-    /**
-     * The index of the course name in courseFile.csv.
-     */
-    private static final int courseNameIndex = 1;
-
-    /**
      * The index of course weekly lecture hour in courseFile.csv.
      */
     private static final int lecHrIndex = 12;
@@ -79,11 +88,6 @@ public class CourseFILEMgr extends FILEMgr<Course> {
     private static final int labHrIndex = 14;
 
     /**
-     * The index of the professor in charge of this course in courseFile.csv.
-     */
-    private static final int profInChargeIndex = 2;
-
-    /**
      * The file name of courseFile.csv.
      */
     private static final String courseFileName = "data/courseFile.csv";
@@ -93,6 +97,10 @@ public class CourseFILEMgr extends FILEMgr<Course> {
      */
     private static final String course_HEADER = "courseID,courseName,profInCharge,vacancies,totalSeats,lectureGroups,TutorialGroups,LabGroups,MainComponents,AU,courseDepartment,courseType,lecHr,tutHr,labHr";
 
+    /**
+     * This method is intended to write a single course into the file.
+     * @param course The Course object to write.
+     */
     @Override
     public void writeIntoFile(Course course) {
         FileWriter fileWriter = null;
@@ -109,6 +117,11 @@ public class CourseFILEMgr extends FILEMgr<Course> {
 
     }
 
+    /**
+     * This method is intended to load all the information from the Course file into the system, and correctly
+     * load this information as Course objects.
+     * @return A list of the generated course objects.
+     */
     @Override
     public List<Course> loadFromFile() {
         ArrayList<Course> courses = new ArrayList<Course>(0);
@@ -289,6 +302,11 @@ public class CourseFILEMgr extends FILEMgr<Course> {
         }
     }
 
+    /**
+     * This method writes the main components of the course to it's file.
+     * @param mainComponents List of the MainComponent objects.
+     * @param fileWriter The FileWriter object.
+     */
     private static void appendMainComponentToCourse(List<MainComponent> mainComponents, FileWriter fileWriter){
         try {
             if (mainComponents.size() != 0) {
@@ -323,6 +341,13 @@ public class CourseFILEMgr extends FILEMgr<Course> {
         }
 
     }
+
+    /**
+     * Appends information about a course's groups to the Course file.
+     * @param fileWriter FileWriter object
+     * @param groups List of groups
+     * @throws IOException
+     */
     private static void appendGroupToFile(FileWriter fileWriter, List<IGroup> groups) throws IOException {
         if (groups.size() != 0) {
             int index = 0;

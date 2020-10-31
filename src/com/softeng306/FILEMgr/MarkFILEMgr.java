@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * This class deals with loading information from and writing information to the Mark file.
+ */
 public class MarkFILEMgr extends FILEMgr<Mark> {
     /**
      * The file name of markFile.csv.
@@ -30,15 +33,20 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
     private static final int courseIdIndexInMarks = 1;
 
     /**
+     * The index of courseWorkMark in markFile.csv.
+     */
+    private static final int courseWorkMarksIndex = 2;
+
+    /**
      * The index of totalMark in markFile.csv.
      */
     private static final int totalMarkIndex = 3;
 
-    /**
-     * The index of courseWorkMark in markFile.csv..
-     */
-    private static final int courseWorkMarksIndex = 2;
 
+    /**
+     * This method is intended to write a single mark into the mark file.
+     * @param mark The Mark object to write to file.
+     */
     @Override
     public void writeIntoFile(Mark mark) {
         FileWriter fileWriter = null;
@@ -53,6 +61,11 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
         }
     }
 
+    /**
+     * This method is intended to load all the information from the Mark file into the system, and correctly
+     * load this information as Mark objects.
+     * @return A list of the generated Mark objects.
+     */
     @Override
     public  List<Mark> loadFromFile() {
         BufferedReader fileReader = null;
@@ -60,9 +73,6 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
         try {
             String line;
 
-            /**
-             * This part is changed due to refactor
-             */
             StudentFILEMgr studentFILEMgr = new StudentFILEMgr();
             CourseFILEMgr courseFILEMgr = new CourseFILEMgr();
             List<Student> students = studentFILEMgr.loadFromFile();
@@ -168,7 +178,7 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
     }
 
     /**
-     * Writes the marks for one studnent in a single course to the marks CSV.
+     * Writes the marks for one student in a single course to the marks CSV.
      * @param fileWriter
      * @param mark
      * @throws IOException
@@ -189,6 +199,13 @@ public class MarkFILEMgr extends FILEMgr<Mark> {
         fileWriter.append(NEW_LINE_SEPARATOR);
     }
 
+    /**
+     * Writes the information about a main component to file.
+     * @param fileWriter FileWriter
+     * @param mark the Mark being added
+     * @param courseworkMarks the set of component marks.
+     * @throws IOException
+     */
     public static void appendMainComponent(FileWriter fileWriter, Mark mark, HashMap<CourseworkComponent, Double> courseworkMarks) throws IOException {
         int index = 0;
         for (HashMap.Entry<CourseworkComponent, Double> entry : courseworkMarks.entrySet()) {
